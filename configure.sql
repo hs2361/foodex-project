@@ -1,27 +1,28 @@
 create database if not exists webkriti;
 use webkriti;
 
-create table if not exists users(
-	uid int primary key auto_increment,
-    uname varchar(255),
-    phone char(10),
-    address varchar(255),
-    email varchar(255),
-    passHash char(60),
-    verified bool
+CREATE TABLE IF NOT EXISTS users (
+    uid INT PRIMARY KEY AUTO_INCREMENT,
+    uname VARCHAR(255),
+    phone CHAR(10),
+    address VARCHAR(255),
+    email VARCHAR(255),
+    passHash CHAR(60),
+    verified BOOL
 );
 
-create table if not exists restaurants(
-	rid int primary key auto_increment,
-    rname varchar(255),
-    phone char(10),
-    address varchar(255),
-    email varchar(255),
-    passHash char(60),
-    verified bool
+CREATE TABLE IF NOT EXISTS restaurants (
+    rid INT PRIMARY KEY AUTO_INCREMENT,
+    rname VARCHAR(255),
+    phone CHAR(10),
+    address VARCHAR(255),
+    email VARCHAR(255),
+    passHash CHAR(60),
+    verified BOOL
 );
 
-create table if not exists verify(
-	email varchar(255),
-    code integer
+CREATE TABLE IF NOT EXISTS verify (
+    email VARCHAR(255),
+    code INTEGER
 );
+
