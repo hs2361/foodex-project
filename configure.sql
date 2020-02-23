@@ -1,5 +1,5 @@
-create database if not exists webkriti;
-use webkriti;
+CREATE DATABASE IF NOT EXISTS webkriti;
+USE webkriti;
 
 CREATE TABLE IF NOT EXISTS users (
     uid INT PRIMARY KEY AUTO_INCREMENT,
