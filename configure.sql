@@ -25,3 +25,13 @@ CREATE TABLE IF NOT EXISTS verify (
     email VARCHAR(255),
     code INTEGER
 );
+
+CREATE TABLE IF NOT EXISTS orders (
+    oid INT
+    rid INT,
+    did INT,
+    uid INT,
+    delivered bool,
+    rating INT,
+    feedback VARCHAR(255)
+);
