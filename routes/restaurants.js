@@ -4,7 +4,7 @@ const mySqlConnection = require("../db/database");
 const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
 
-//get request for dashboard, will ask for login if cookie is not found
+// //get request for dashboard, will ask for login if cookie is not found
 // router.get('/dashboard', (req, res) => 
 // {
 //     if (req.session.user) {
@@ -200,7 +200,7 @@ router.post('/login', (req,res) => {
         (err, rows) => {
             if (err) 
                 res.status(500).send(err); 
-            /*shouldn't there be a 'let' here?*/ user = rows[0]
+            const user = rows[0]
             if (user) 
             {
                 const result = bcrypt.compareSync(password, user.passHash);
@@ -213,8 +213,7 @@ router.post('/login', (req,res) => {
                 } 
                 else if(!isVerified)
                 {
-                    console.log(req.headers.host);
-                    res.redirect('/users/verify');
+                    res.redirect('/restaurants/verify');
                 }
                 else
                 {
@@ -241,11 +240,11 @@ router.get('/logout', (req,res) => {
         res.status(400).send("Not logged in");
     }
     //redirect to landing page
-})
+});
 
 router.get('/verify', (req,res) => {
     res.status(200).send('verification page');
-})
+});
 
 router.get('/verify/:email/:code', (req,res) => {
 
@@ -286,7 +285,7 @@ router.get('/verify/:email/:code', (req,res) => {
     else{
         res.status(200).send('verification page');
     }
-})
+});
 
 
 
