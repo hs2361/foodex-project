@@ -5,15 +5,59 @@ const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
 
 //get request for dashboard, will ask for login if cookie is not found
-router.get('/dashboard', (req, res) => 
-{
-    if (req.session.user)
-        res.status(200).send(req.session.user)
-    else
-        res.status(401).send('login for this');
+// router.get('/dashboard', (req, res) => 
+// {
+//     if (req.session.user) {
+//         res.status(200).send(req.session.user);
+//         mySqlConnection.query(
+//             'select * from menu'
+//         )
+//     }
+//     else
+//         res.status(401).send('login for this');
+// });
 
+// //get request for rest menu, will simply display menu to restaurant
+// router.get('/dashboard/menu/:rid', (req, res) => {
+//     mySqlConnection.query(
+//         `select * from menu_${rid}`,
+//         [],
+//         (err, rows) => {
+//             if(err) {
+//                 res.status(500).send(err);
+//             }
+//             else if(!rows) {
+//                 res.status(400).send('no menu for this restaurant');
+//             }
+//             else {
+//                 res.send(rows);
+//             }
+//         }
+//     );
+// });
+
+// //post request for rest menu, for adding new items to menu
+// router.post('/dashboard/menu/:rid', (req, res) => {
+//     const { dname, price } = req.body;
+//     let errors = [];
+//     if(!dname || !price) {
+//         errors.push({ msg : 'Please enter all fields' });
+//     }
     
-});
+//     mySqlConnection.query(
+//         `insert into menu_${rid} (dname, price, rating) values (?)`,
+//         [[dname, price, 0]], //setting initial rating to 0
+//         (err, rows) => {
+//             if(err)
+//                 res.status(500).send(err);
+//             if(errors.length)
+//                 res.status(400).send(errors);
+//             else
+//                 res.send('succesfully added to menu');
+//                 //redirect to menu /dashboard/menu
+//         }
+//     );
+// });
 
 //get request for signup, will inform user 'already logged in' if cookie exists
 router.get('/signup', (req,res) => 
@@ -54,20 +98,20 @@ router.post('/signup', (req,res) =>
     }
     
     mySqlConnection.query(
-        "SELECT * FROM users WHERE email = ?", //sql query to search restaurant data
+        "SELECT * FROM users u, restaurants r WHERE r.email = ? OR r.email = u.email", //sql query to search restaurant data
         [email], //email from request body
         (err, rows) => 
         {
             if (err)
                 res.status(500).send(err); //sets status to internal server error
             else if (rows.length) //checks if sql query returned any rows or not
-                errors.push({ msg: "Email already exists" });
+                errors.push({ msg: `Account with ${email} already exists` });
             if (errors.length) //checks if any errors have been logged
                 res.status(400).send(errors);
             else  
             {
                 let pwdHash = bcrypt.hashSync(password, 10);
-                var sql = `INSERT INTO restaurants (rname, email, phone, passHash, address, verified) VALUES ?`; //sql query to insert data into table
+                var sql = `INSERT INTO restaurants (rname, email, phone, passHash, address, verified) VALUES (?)`; //sql query to insert data into table
                 const values = [[name, email, phone, pwdHash, address, 0]]; 
                 
                 mySqlConnection.query(sql, [values], function(err) 
@@ -77,7 +121,7 @@ router.post('/signup', (req,res) =>
                         const verificationCode = Math.floor(Math.random()*1000000);
                         console.log(verificationCode);
                         mySqlConnection.query(
-                            'select * from verify where (?)',
+                            'insert into verify values (?)',
                             [[email, verificationCode]],
                             (err) => {
                                 if (err) 
@@ -115,6 +159,34 @@ router.post('/signup', (req,res) =>
                             })
                         }
                 });
+                const rid;
+                mySqlConnection.query(
+                    'select rid from restaurants where email = ?',
+                    [email],
+                    (err, rows) => {
+                        if(err)
+                            res.status(500).send(err);
+                        else if(rows.length) {
+                            rid = rows[0].rid;
+                            mySqlConnection.query(
+                                `create table menu_${rid} (
+                                    did int primary key auto_increment,
+                                    dname varchar(255),
+                                    price int,
+                                    rating int
+                                )`,
+                                [],
+                                (err_, rows_) => {
+                                    if(err_)
+                                        res.status(500).send(err_);
+                                    else {
+                                        res.status(200).send('Dashboard'); //redirect to dashboard
+                                    }
+                                }
+                            );
+                        }
+                    }
+                );
             }
         }
     );
@@ -123,12 +195,12 @@ router.post('/signup', (req,res) =>
 router.post('/login', (req,res) => {
     const { email, password } = req.body
     mySqlConnection.query(
-        "SELECT * FROM users WHERE email = ?",
+        "SELECT * FROM restaurants WHERE email = ?",
         [email],
         (err, rows) => {
             if (err) 
-                res.status(500).send(err)
-            user = rows[0]
+                res.status(500).send(err); 
+            /*shouldn't there be a 'let' here?*/ user = rows[0]
             if (user) 
             {
                 const result = bcrypt.compareSync(password, user.passHash);
@@ -136,8 +208,8 @@ router.post('/login', (req,res) => {
                 // console.log(isVerified);
                 if (result && isVerified) 
                 {
-                    req.session.user = user
-                    res.status(200).send(user)
+                    req.session.user = user;
+                    res.status(200).send(user);
                 } 
                 else if(!isVerified)
                 {
@@ -146,13 +218,13 @@ router.post('/login', (req,res) => {
                 }
                 else
                 {
-                    res.status(400).send("pwd incorrect")
+                    res.status(400).send("pwd incorrect");
                 }
             } 
 
             else 
             {
-                res.status(400).send("email doesnot exist")
+                res.status(400).send("email does not exist");
             }
         },
     )
@@ -161,13 +233,14 @@ router.post('/login', (req,res) => {
 router.get('/logout', (req,res) => {
     if(req.session.user){
         req.session.destroy(() => {
-            res.status(200).send("logout success")
+            res.status(200).send("logout success");
         });
     }
 
     else{
         res.status(400).send("Not logged in");
     }
+    //redirect to landing page
 })
 
 router.get('/verify', (req,res) => {
@@ -179,7 +252,7 @@ router.get('/verify/:email/:code', (req,res) => {
     if(req.params)
     {
         mySqlConnection.query(
-            'select *from verify where email = ?',
+            'select * from verify where email = ?',
             [req.params.email],
             (err,rows) => {
                 if(err)
