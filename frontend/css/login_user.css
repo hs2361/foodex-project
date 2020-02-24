@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css?family=Raleway|Rouge+Script&display=swap');
+*{
+    padding:0;
+    margin: 0;
+    box-sizing: border-box;
+    /* border: solid 1px red; */
+    /* font-family: 'Raleway',sans-serif ; */
+
+}
+a{
+    text-decoration: none;
+
+}
+.orange{
+    color: rgba(221,112,23,.7);
+}
+.home{
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    background-color:rgba(221,112,23,.5);
+    position: absolute;
+    z-index: 100;
+    right: 40px;
+    top: 10px;
+}
+.home svg{
+    width: 60%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+.home:hover{
+    transform: scale(1.05);
+}
+.main__body{
+    height: 100vh;
+    /* border: solid 1px red; */
+    display: flex;
+    justify-content: space-between;
+    
+
+}
+.main__body__left{
+    width: 40%;
+
+}
+.main__body__left img{
+    height: 100%;
+}
+.main__body__right{
+    position: relative;
+    /* border: solid black 2px; */
+    width: 50%;
+     
+
+}
+.main__body__right .heading{
+    font-family: "Raleway",sans-serif;
+    position: absolute;
+    top: 12%;
+    left: 16%;
+    font-size: 2em;
+
+}
+.main__body__right .form{
+    font-family: "Raleway",sans-serif;
+    position: absolute;
+    top: 30%;
+    left: 16%;
+    height: 60vh;
+    /* border: solid black 2px; */
+    width: 50%;
+
+}
+.main__body__right form{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    /* border: solid green 4px; */
+}
+.main__body__right form input{
+    width: 250px;
+    height: 50px;
+    border-radius: 5px;
+    margin: 25px 0;
+    padding: 15px;
+    border: solid 1px #DD7017;
+    font-family: "Raleway",sans-serif;
+}
+
+.main__body__right form button{
+    width: 250px;
+    height: 50px;
+    border-radius: 50px;
+    margin: 25px 0 0 0;
+    /* padding: 5px 15px; */
+    border: solid 1px #DD7017;
+    background-color:#EFB319 ;
+    font-family: "Raleway",sans-serif;
+    font-size: 1.5em;
+    display: inline-block;
+    transition: 0.4s ease-in;
+
+
+}
+.main__body__right form button:hover{
+    transform: scale(1.05);
+}
+
+.form__footer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* border: black 2px solid; */
+    width: 250px;
+    height: 100px;
+    justify-content: space-between;
+    padding: 19px;
+}
+.form__footer a{
+    color: #DD7017;
+}
