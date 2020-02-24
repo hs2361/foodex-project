@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css?family=Raleway|Rouge+Script&display=swap');
+*{
+    padding:0;
+    margin: 0;
+    box-sizing: border-box;
+    /* border: solid 1px red; */
+    /* font-family: 'Raleway',sans-serif ; */
+
+}
+a{
+    text-decoration: none;
+
+}
+.orange{
+    color: rgba(221,112,23,.7);
+}
+.home{
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    background-color:rgba(221,112,23,.7);
+    position: absolute;
+    z-index: 100;
+    right: 40px;
+    top: 10px;
+    border: solid 4px rgba(235, 183, 140, 0.7);
+}
+.home svg{
+    width: 60%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+.home:hover{
+    transform: scale(1.05);
+}
+.main{
+    background-image: url('../images/verification.jpg');
+    height: 100vh;
+
+}
+.content{
+    color: #fff;
+    font-family: "Raleway";
+    font-size: 1.5em;
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translateX(-50%);
+
+}
