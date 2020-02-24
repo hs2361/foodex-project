@@ -146,8 +146,11 @@ router.post('/login', (req, res) => { //POST request at /login endpoint
 
 router.get('/logout', (req, res) => { //GET request at /logout endpoint
     if (req.session.user) {
-        req.session.destroy(() => { //destroy the cookie session
-            res.status(200).send("logout success")
+        req.session.destroy((err) => { //destroy the cookie session
+            if(err)
+                res.status(500).send("logout failed"); //internal server error
+            else
+                res.status(200).send("logout success");
         });
     }
 
@@ -158,6 +161,11 @@ router.get('/logout', (req, res) => { //GET request at /logout endpoint
 
 router.get('/verify', (req, res) => { //GET request at /verify endpoint without params
     res.status(200).send('verification page');
+})
+
+router.post('/verify', (req,res) => { //POST request at /verify endpoint with email and code
+    const {email,code} = req.body;
+    res.redirect(`/users/verify/${email}/${code}`); //redirects to /verify endpoint with params
 })
 
 router.get('/verify/:email/:code', (req, res) => { //GET request at /verify endpoint with email and code params

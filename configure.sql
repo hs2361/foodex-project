@@ -25,4 +25,3 @@ CREATE TABLE IF NOT EXISTS verify (
     email VARCHAR(255),
     code INTEGER
 );
-
