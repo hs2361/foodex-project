@@ -2,7 +2,13 @@ const express = require('express');
 const router = express.Router();
 const mySqlConnection = require("../db/database");
 
-router.get('/', (req, res) => res.status(200).send('home-page')); //home page
+router.get('/', (req, res) => 
+{
+    res.sendFile( __dirname.replace("\\routes","") + "/frontend/landing.html",(err) => {
+        if(err)
+            res.send(err);
+    }
+)}); //home page
 
 //get request for dashboard, will ask for login if cookie is not found
 router.get('/rdashboard', (req, res) => 
