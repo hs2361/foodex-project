@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Foood </title>
-    <link rel="stylesheet" href="css/login_user.css">
+    <title>Registration </title>
+    <link rel="stylesheet" href="css/register_rest.css">
 </head>
+
 <body>
     <a href="/landing.html">
         <div class="home">
@@ -30,29 +32,44 @@
         </div>
     </a>
     <div class="main__body">
-        
-            <div class="main__body__left">
-                <img src="images/login_user.jpg" alt="" srcset="">
-            </div>
-        
+
+        <div class="main__body__left">
+            <img src="images/register_rest.jpg" alt="" srcset="">
+        </div>
+
         <div class="main__body__right">
-                <div class="heading">
-                    <p>You don’t need a silver fork</p>
-                    <p>to eat <span class="orange"> good food</span></p>
-                </div>
-                <div class="form">
-                <form action="#" method="get">
+            <div class="heading">
+                <p>Build a brand with <span class="orange">Us </span></p>
+                
+                <!-- <p><span class="orange"> good food</span></p> -->
+            </div>
+            <div class="form">
+                <form action="/verification.html" method="get">
+                    <input type="name" required placeholder="restaurant name" name="name">
+                    
                     <input type="email" required placeholder="username" name="email" id="email_inp">
-                    <input type="password" required placeholder="password" name="password" id="password_inp">
-                    <button type="submit">Login</button>
-                </form>
+                    <input type="password" required placeholder="password" name="password" id="password_inp-1">
+                    <input type="password" required placeholder="confirm password" name="password" id="password_inp-1">
+                    <input type="text" class="input-phone" name="phone" required placeholder="phone" id="phone">
+                    
+                    <input type="text" name="address" required placeholder="address" id="address">
+
+                    
+                    <button type="submit">Sign Up</button>
+                
                 <div class="form__footer">
-                <a id="forgot_pass" href="#">Forgot Password?</a>
-                <a id="create_an_acc" href="./register_user.html">Create an account</a>
+                    <!-- <a id="forgot_pass" href="#">Forgot Password?</a> -->
+                    <a class="create_an_acc" href="/login_rest.html">Already a member?</a>
+                    
                 </div>
-                </div>
+                </form>
+            </div>
 
         </div>
     </div>
+
+
+
 </body>
+
 </html>
