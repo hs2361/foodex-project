@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const mySqlConnection = require("../db/database"); //importing database connection
-const bcrypt = require('bcrypt');
-const nodemailer = require('nodemailer'); //importing modules
+const bcrypt = require("bcrypt");
+const nodemailer = require("nodemailer"); //importing modules
 
 router.get('/dashboard', (req, res) => //GET request at /dashboard endpoint
 {
@@ -26,7 +26,13 @@ router.get('/login', (req, res) => //GET request at /login endpoint
     if (req.session.user)
         res.status(401).send('already logged in') //if user is logged in
     else
-        res.status(200).send('login form');
+        {
+            res.status(200).sendFile( __dirname.replace("\\routes","") + "/frontend/login_user.html", (err) => {
+                if(err)
+                    res.status(400).send(err);
+            });
+        }
+        
 })
 
 router.post('/signup', (req, res) => //POST request at /signup endpoint
@@ -160,7 +166,7 @@ router.get('/logout', (req, res) => { //GET request at /logout endpoint
 })
 
 router.get('/verify', (req, res) => { //GET request at /verify endpoint without params
-    res.status(200).send('verification page');
+    res.status(200).sendFile(__dirname.replace("\\routes","")+'/frontend/verification.html');
 })
 
 router.post('/verify', (req,res) => { //POST request at /verify endpoint with email and code

@@ -71,7 +71,7 @@ a{
 .main__body__right .form{
     font-family: "Raleway",sans-serif;
     position: absolute;
-    top: 30%;
+    top: 25%;
     left: 16%;
     height: 60vh;
     /* border: solid black 2px; */
@@ -86,9 +86,9 @@ a{
 }
 .main__body__right form input{
     width: 250px;
-    height: 50px;
+    height: 40px;
     border-radius: 5px;
-    margin: 25px 0;
+    margin: 15px 0;
     padding: 15px;
     border: solid 1px #DD7017;
     font-family: "Raleway",sans-serif;
@@ -119,7 +119,7 @@ a{
     align-items: center;
     /* border: black 2px solid; */
     width: 250px;
-    height: 100px;
+    height: 50px;
     justify-content: space-between;
     padding: 19px;
 }
