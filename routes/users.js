@@ -108,7 +108,7 @@ router.post('/signup', (req, res) => //POST request at /signup endpoint
                                     });
                                     res.redirect('/users/verify'); //redirect to verify page
                                 }
-                            })
+                            });
                     }
                 });
             }
@@ -213,6 +213,8 @@ router.get('/verify/:email/:code', (req, res) => { //GET request at /verify endp
                     }
 
                     else {
+                        console.log(req.params.code);
+                        console.log(rows[0].code);
                         res.status(400).send("couldn't verify your email") //wrong code
                     }
                 }
