@@ -66,51 +66,67 @@ router.post('/signup', (req, res) => //POST request at /signup endpoint
             if (errors.length)
                 res.status(400).send(errors); //send errors with 'bad request'
             else {
-                pwdHash = bcrypt.hashSync(password, 10); //hashing the password
-                var sql = `INSERT INTO users (uname, email, phone, passHash, address, verified) VALUES ?`; //insertion query
-                const values = [[name, email, phone, pwdHash, address, 0]];
+                mySqlConnection.query(
+                    "SELECT * FROM restaurants WHERE email = ?",
+                    [email],
+                    (err, rows) => {
+                        if(err)
+                            res.status(500).send(err);
+                        else if (rows.length) {
+                            errors.push({ msg : "Cannot register restaurant with user email id" });
+                        }
+                        if (errors.length) {
+                            res.status(400).send(errors);                            
+                        }
+                        else {
+                            pwdHash = bcrypt.hashSync(password, 10); //hashing the password
+                            var sql = `INSERT INTO users (uname, email, phone, passHash, address, verified) VALUES ?`; //insertion query
+                            const values = [[name, email, phone, pwdHash, address, 0]];
 
-                mySqlConnection.query(sql, [values], function (err) //insert into database
-                {
-                    if (err)
-                        res.status(500).send(err); //internal server error
-
-                    else {
-                        const verificationCode = Math.floor(Math.random() * 1000000); //generate random verification code
-                        mySqlConnection.query( //insert code into verify table
-                            'insert into verify values (?)',
-                            [[email, verificationCode]],
-                            (err) => {
+                            mySqlConnection.query(sql, [values], function (err) //insert into database
+                            {
                                 if (err)
                                     res.status(500).send(err); //internal server error
+
                                 else {
-                                    var transporter = nodemailer.createTransport({ //mail authentication
-                                        service: 'gmail',
-                                        auth: {
-                                            user: 'sweetharsh236@gmail.com', //replace with your own credentials
-                                            pass: 'BBitbs!2306'
-                                        }
-                                    });
+                                    const verificationCode = Math.floor(Math.random() * 1000000); //generate random verification code
+                                    mySqlConnection.query( //insert code into verify table
+                                        'insert into verify values (?)',
+                                        [[email, verificationCode]],
+                                        (err) => {
+                                            if (err)
+                                                res.status(500).send(err); //internal server error
+                                            else {
+                                                var transporter = nodemailer.createTransport({ //mail authentication
+                                                    service: 'gmail',
+                                                    auth: {
+                                                        user: 'sweetharsh236@gmail.com', //replace with your own credentials
+                                                        pass: 'BBitbs!2306'
+                                                    }
+                                                });
 
-                                    var mailOptions = {
-                                        from: 'sweetharsh236@gmail.com',
-                                        to: email,
-                                        subject: 'Verify your email',
-                                        text: `localhost:5000/users/verify/${email}/${verificationCode}` //mail body
-                                    };
+                                                var mailOptions = {
+                                                    from: 'sweetharsh236@gmail.com',
+                                                    to: email,
+                                                    subject: 'Verify your email',
+                                                    text: `localhost:5000/users/verify/${email}/${verificationCode}` //mail body
+                                                };
 
-                                    transporter.sendMail(mailOptions, function (error, info) { //send mail
-                                        if (error) {
-                                            res.status(500).send(error); //internal server error
-                                        } else {
-                                            console.log('Verification email sent: ' + info.response); //mail sent
-                                        }
-                                    });
-                                    res.redirect('/users/verify'); //redirect to verify page
+                                                transporter.sendMail(mailOptions, function (error, info) { //send mail
+                                                    if (error) {
+                                                        res.status(500).send(error); //internal server error
+                                                    } else {
+                                                        console.log('Verification email sent: ' + info.response); //mail sent
+                                                    }
+                                                });
+                                                res.redirect('/users/verify'); //redirect to verify page
+                                            }
+                                        });
                                 }
                             });
+                        }
                     }
-                });
+                )
             }
         }
     );
