@@ -26,12 +26,13 @@ CREATE TABLE IF NOT EXISTS verify (
     code INTEGER
 );
 
--- CREATE TABLE IF NOT EXISTS orders (
---     oid INT
---     rid INT,
---     did INT,
---     uid INT,
---     delivered bool,
---     rating INT,
---     feedback VARCHAR(255)
--- );
+CREATE TABLE IF NOT EXISTS orders (
+	oid INT,
+	rid INT,
+	did INT,
+	uid INT,
+	delivered BOOL,
+	rating INT,
+	feedback TEXT,  
+    time TIME DEFAULT NOW()
+);
