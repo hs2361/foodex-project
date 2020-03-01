@@ -159,7 +159,6 @@ router.post('/signup', (req,res) =>
                             })
                         }
                 });
-                const rid;
                 mySqlConnection.query(
                     'select rid from restaurants where email = ?',
                     [email],
@@ -167,7 +166,7 @@ router.post('/signup', (req,res) =>
                         if(err)
                             res.status(500).send(err);
                         else if(rows.length) {
-                            rid = rows[0].rid;
+                            const rid = rows[0].rid;
                             mySqlConnection.query(
                                 `create table menu_${rid} (
                                     did int primary key auto_increment,
@@ -286,7 +285,5 @@ router.get('/verify/:email/:code', (req,res) => {
         res.status(200).send('verification page');
     }
 });
-
-
 
 module.exports = router

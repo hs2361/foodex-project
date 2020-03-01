@@ -3,6 +3,7 @@ const app = express();
 const bodyParser = require("body-parser");
 const session = require('express-session');  //imported modules
 
+app.use(express.static("frontend"));
 app.use(session({
   secret: 'seCReT',
   resave: false,
