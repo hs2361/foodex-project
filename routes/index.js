@@ -16,7 +16,7 @@ router.get('/', (req, res) =>
 //get request for dashboard, will ask for login if cookie is not found
 router.get('/rdashboard', (req, res) => 
 {
-    if (req.session.user.rid) {
+    try {
         mySqlConnection.query(
             `select * from orders where rid = ${req.session.user.rid} and delivered = 0`,
             [],
@@ -30,8 +30,9 @@ router.get('/rdashboard', (req, res) =>
             }
         )
     }
-    else
+    catch {
         res.status(401).send('login as restaurant for this');
+    }
 });
 
 //get request for rest menu, will simply display menu to restaurant
