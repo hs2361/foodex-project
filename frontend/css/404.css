@@ -1,0 +1,121 @@
+@import url('https://fonts.googleapis.com/css?family=Raleway|Rouge+Script&display=swap');
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+body{
+    width: 100vw;
+    height: 100vh;
+    background-image: linear-gradient(125deg,rgba(252, 147, 9, 0.6),#EFB319);
+}
+.home{
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    background-color:rgba(221,112,23,.5);
+    position: absolute;
+    z-index: 100;
+    right: 40px;
+    top: 10px;
+}
+.home svg{
+    width: 60%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+.home:hover{
+    transform: scale(1.05);
+}
+.main{
+    width: 90%;
+    margin: 0 auto;
+
+    display: flex;
+    flex-direction: column;
+    /* border: solid black 4px; */
+    justify-content: center;
+    align-items: center;
+    
+
+
+}
+.main svg{
+    /* border: solid black 4px; */
+    width:"150px";
+    height:"150px";
+   
+}
+.main__top{
+    font-size: 300px;
+    font-family: "Raleway",sans-serif;
+    color: white;
+    /* position: absolute;
+    top: 40%;
+    left: 50%; */
+    /* transform: translate(-50%,-50%); */
+    display: flex;
+    /* border: solid black 4px; */
+    align-items: flex-start;
+    justify-content: space-between;
+    max-width: 530px;
+    padding: 0 auto;
+
+}
+.orange{
+    color: rgba(221,112,23,1);
+}
+.main__cta{
+     font-size: 30px;
+    font-family: "Raleway",sans-serif;
+/* border: solid black 4px; */
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+.main__cta .goback a{
+    font-size: 20px;
+    font-family: "Raleway",sans-serif;
+    color: white;
+    text-decoration: none;
+    /* border: solid black 4px; */
+    padding: 6px;
+    background-color: rgba(221,112,23,.7);
+    border-radius: 50px;
+    margin-top: 14px;
+
+
+
+
+}
+
+@media only screen and (max-width:700px){
+    .main__cta{
+        font-size: 20px;
+        
+    }
+    .main__cta .goback a{
+        font-size: 15px;
+        padding: 2px 8px;
+    }
+}
+
+@media only screen and (max-width:500px){
+    .main__top{
+        font-size: 150px;
+        margin-top: 50px;
+    }
+    .home{
+        right: 20px;
+    }
+    .main svg{
+        /* border: solid red 4px; */
+    }
+    .main__top{
+        padding: 30px 0 0 0;
+    }
+}
