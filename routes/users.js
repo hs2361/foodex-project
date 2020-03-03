@@ -18,7 +18,11 @@ router.get('/signup', (req, res) =>  //GET request at /signup endpoint
     if (req.session.user)
         res.status(401).send('already logged in') //if user is logged in
     else
-        res.status(200).send('sign up form');
+        res.status(200).sendFile(__dirname.replace('\\routes', '/frontend/register_user.html'), (err) => {
+            if(err) {
+                res.status(400).send(err);
+            }
+        });
 })
 
 router.get('/login', (req, res) => //GET request at /login endpoint
@@ -73,7 +77,7 @@ router.post('/signup', (req, res) => //POST request at /signup endpoint
                         if(err)
                             res.status(500).send(err);
                         else if (rows.length) {
-                            errors.push({ msg : "Cannot register restaurant with user email id" });
+                            errors.push({ msg : "Cannot register user with restaurant email id" });
                         }
                         if (errors.length) {
                             res.status(400).send(errors);                            
