@@ -4,6 +4,28 @@ const mySqlConnection = require("../db/database");
 const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
 
+router.get('/', (req, res) => {
+    if(req.session.user.rid) {
+        res.status(200).redirect(`/restaurants/${rid}`);
+    }
+    else {
+        res.status(400).send('Login as restaurant for this');
+    }
+});
+
+router.get('/:rid', (req, res) => {
+    if(req.session.user.rid) {
+        if(req.session.user.rid == req.params.rid) {
+            res.send('profile page');
+        }
+        else {
+            res.status(401).send('Login again');
+        }
+    }
+    else {
+        res.status(400).send('Login as restaurant for this');
+    }
+});
 
 //get request for signup, will inform user 'already logged in' if cookie exists
 router.get('/signup', (req, res) => 
