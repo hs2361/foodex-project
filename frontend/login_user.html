@@ -54,5 +54,21 @@
 
         </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script>
+        var forgotpass = document.getElementById('forgot_pass');
+        forgotpass.addEventListener('click',forgotPassPropmt);
+        function forgotPassPropmt(){
+            var email = document.getElementById('email_inp').value;
+            // will check if email is in our database if not then wil prompt that email not registered
+            // if email in database then
+            Swal.fire(
+                'Reset link generated!',
+                'Please check your registered email!',
+                'success'
+            )
+        }
+    </script>
 </body>
 </html>

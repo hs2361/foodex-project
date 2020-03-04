@@ -17,6 +17,10 @@ a{
 .orange{
     color: rgba(221,112,23,.7);
 }
+.container{
+    position: relative;
+    margin: 0 auto;
+}
 .home{
     height: 40px;
     width: 40px;
