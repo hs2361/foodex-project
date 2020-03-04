@@ -16,15 +16,17 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:rid', (req, res) => {
-    if(req.session.user.rid) {
-        if(req.session.user.rid == req.params.rid) {
-            res.send('profile page');
-        }
-        else {
-            res.status(401).send('Login again');
+    try {
+        if(req.session.user.rid) {
+            if(req.session.user.rid == req.params.rid) {
+                res.send('profile page');
+            }
+            else {
+                res.status(401).send('Login again');
+            }
         }
     }
-    else {
+    catch {
         res.status(400).send('Login as restaurant for this');
     }
 });
@@ -32,27 +34,33 @@ router.get('/:rid', (req, res) => {
 //get request for signup, will inform user 'already logged in' if cookie exists
 router.get('/signup', (req, res) => 
 {
-    if (req.session.user)
-        res.status(401).send('already logged in')
-    else
-    res.status(200).sendFile(__dirname.replace('\\routes', '/frontend/register_rest.html'), (err) => {
-        if(err) {
-            res.status(400).send(err);
-        }
-    });
+    try {
+        if (req.session.user)
+            res.status(401).send('already logged in')
+    }
+    catch {
+        res.status(200).sendFile(__dirname.replace('\\routes', '/frontend/register_rest.html'), (err) => {
+            if(err) {
+                res.status(400).send(err);
+            }
+        });
+    }
 });
 
 //get request for login, will inform user 'already logged in' if cookie exists
 router.get('/login', (req,res) => 
 {
-    if (req.session.user)
-        res.status(401).send('already logged in')
-    else
-    res.status(200).sendFile(__dirname.replace('\\routes', '/frontend/login_rest.html'), (err) => {
-        if(err) {
-            res.status(400).send(err);
-        }
-    });
+    try {
+        if (req.session.user)
+            res.status(400).send('already logged in');
+    }
+    catch {
+        res.status(200).sendFile(__dirname.replace('\\routes', '/frontend/login_rest.html'), (err) => {
+            if(err) {
+                res.status(400).send(err);
+            }
+        });
+    }
 });
 
 //post request for signup, also sends verification email
@@ -191,21 +199,24 @@ router.post('/login', (req,res) => {
     )
 })
 
-router.get('/logout', (req,res) => {
-    if(req.session.user){
-        req.session.destroy(() => {
-            res.status(200).send("logout success");
-        });
+router.get('/logout', (req, res) => { //GET request at /logout endpoint
+    try {
+        if (req.session.user) {
+            req.session.destroy((err) => { //destroy the cookie session
+                if(err)
+                    res.status(500).send("logout failed"); //internal server error
+                else
+                    res.redirect('/');
+            });
+        }
     }
-
-    else{
-        res.status(400).send("Not logged in");
+    catch {
+        res.status(400).send("Not logged in"); //bad request
     }
-    //redirect to landing page
 });
 
 router.get('/verify', (req,res) => {
-    res.status(200).sendFile('/webkriti-project/frontend/verification.html');
+    res.status(200).sendFile(__dirname.replace("\\routes","/frontend/verification.html"));
 });
 
 router.get('/verify/:email/:code', (req,res) => {

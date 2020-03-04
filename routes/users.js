@@ -2,40 +2,35 @@ const express = require('express');
 const router = express.Router();
 const mySqlConnection = require("../db/database"); //importing database connection
 const bcrypt = require("bcrypt");
-const nodemailer = require("nodemailer"); //importing modules
-
-router.get('/dashboard', (req, res) => //GET request at /dashboard endpoint
-{
-    if (req.session.user)
-        res.status(200).send(req.session.user) //if user is logged in
-    else
-        res.status(401).send('login for this');
-});
-
+const nodemailer = require("nodemailer"); //importing module
 
 router.get('/signup', (req, res) =>  //GET request at /signup endpoint
 {
-    if (req.session.user)
-        res.status(401).send('already logged in') //if user is logged in
-    else
+    try {
+        if (req.session.user)
+            res.status(401).send('already logged in'); //if user is logged in
+    }
+    catch {
         res.status(200).sendFile(__dirname.replace('\\routes', '/frontend/register_user.html'), (err) => {
             if(err) {
                 res.status(400).send(err);
             }
         });
+    }
 })
 
 router.get('/login', (req, res) => //GET request at /login endpoint
 {
-    if (req.session.user)
-        res.status(401).send('already logged in') //if user is logged in
-    else
-        {
-            res.status(200).sendFile( __dirname.replace("\\routes","") + "/frontend/login_user.html", (err) => {
-                if(err)
-                    res.status(400).send(err);
-            });
-        }
+    try { 
+        if (req.session.user)
+            res.status(401).send('already logged in'); //if user is logged in
+    }
+    catch {
+        res.status(200).sendFile( __dirname.replace("\\routes","") + "/frontend/login_user.html", (err) => {
+            if(err)
+                res.status(400).send(err);
+        });
+    }
         
 })
 
@@ -171,28 +166,24 @@ router.post('/login', (req, res) => { //POST request at /login endpoint
 })
 
 router.get('/logout', (req, res) => { //GET request at /logout endpoint
-    if (req.session.user) {
-        req.session.destroy((err) => { //destroy the cookie session
-            if(err)
-                res.status(500).send("logout failed"); //internal server error
-            else
-                res.status(200).send("logout success");
-        });
+    try {
+        if (req.session.user) {
+            req.session.destroy((err) => { //destroy the cookie session
+                if(err)
+                    res.status(500).send("logout failed"); //internal server error
+                else
+                    res.status(200).redirect('/');
+            });
+        }
     }
-
-    else {
+    catch {
         res.status(400).send("Not logged in"); //bad request
     }
-})
+});
 
 router.get('/verify', (req, res) => { //GET request at /verify endpoint without params
     res.status(200).sendFile(__dirname.replace("\\routes","")+'/frontend/verification.html');
-})
-
-// router.post('/verify', (req,res) => { //POST request at /verify endpoint with email and code
-//     const {email,code} = req.body;
-//     res.redirect(`/users/verify/${email}/${code}`); //redirects to /verify endpoint with params
-// })
+});
 
 router.get('/verify/:email/:code', (req, res) => { //GET request at /verify endpoint with email and code params
 
@@ -243,7 +234,7 @@ router.get('/verify/:email/:code', (req, res) => { //GET request at /verify endp
     }
 
     else {
-        res.status(200).send('verification page'); //for empty params
+        res.redirect('/users/verify'); //for empty params
     }
 })
 
