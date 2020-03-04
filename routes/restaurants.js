@@ -5,10 +5,12 @@ const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
 
 router.get('/', (req, res) => {
-    if(req.session.user.rid) {
-        res.status(200).redirect(`/restaurants/${rid}`);
+    try {
+        if(req.session.user.rid) {
+            res.status(200).redirect(`/restaurants/${rid}`);
+        }
     }
-    else {
+    catch {
         res.status(400).send('Login as restaurant for this');
     }
 });
@@ -153,7 +155,7 @@ router.post('/signup', (req, res) => //POST request at /signup endpoint
 });
 
 router.post('/login', (req,res) => {
-    const { email, password } = req.body
+    const { email, password } = req.body;
     mySqlConnection.query(
         "SELECT * FROM restaurants WHERE email = ?",
         [email],

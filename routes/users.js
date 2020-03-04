@@ -189,10 +189,10 @@ router.get('/verify', (req, res) => { //GET request at /verify endpoint without 
     res.status(200).sendFile(__dirname.replace("\\routes","")+'/frontend/verification.html');
 })
 
-router.post('/verify', (req,res) => { //POST request at /verify endpoint with email and code
-    const {email,code} = req.body;
-    res.redirect(`/users/verify/${email}/${code}`); //redirects to /verify endpoint with params
-})
+// router.post('/verify', (req,res) => { //POST request at /verify endpoint with email and code
+//     const {email,code} = req.body;
+//     res.redirect(`/users/verify/${email}/${code}`); //redirects to /verify endpoint with params
+// })
 
 router.get('/verify/:email/:code', (req, res) => { //GET request at /verify endpoint with email and code params
 
