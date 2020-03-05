@@ -34,5 +34,5 @@ CREATE TABLE IF NOT EXISTS orders (
 	delivered BOOL,
 	rating INT,
 	feedback TEXT,  
-    time TIME DEFAULT NOW()
+    otime DATETIME DEFAULT NOW()
 );
