@@ -37,7 +37,9 @@ router.get('/login', (req, res) => //GET request at /login endpoint
             });
         }
         
-})
+});
+
+
 
 router.post('/signup', (req, res) => //POST request at /signup endpoint
 {

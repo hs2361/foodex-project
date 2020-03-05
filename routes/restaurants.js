@@ -15,31 +15,34 @@ router.get('/', (req, res) => {
     }
 });
 
-router.get('/:rid', (req, res) => {
-    if(req.session.user.rid) {
-        if(req.session.user.rid == req.params.rid) {
-            res.send('profile page');
-        }
-        else {
-            res.status(401).send('Login again');
-        }
-    }
-    else {
-        res.status(400).send('Login as restaurant for this');
-    }
-});
+// router.get('/:rid', (req, res) => {
+//     try{
+//         if (req.session.user.rid) {
+//             if(req.session.user.rid == req.params.rid) {
+//                 res.send('profile page');
+//             }
+//             else {
+//                 res.status(401).send('Login again');
+//             }
+//         }
+//     }
+//     catch {
+//         res.status(400).send('Login as restaurant for this');
+//     }
+// });
 
 //get request for signup, will inform user 'already logged in' if cookie exists
 router.get('/signup', (req, res) => 
 {
     if (req.session.user)
         res.status(401).send('already logged in')
-    else
-    res.status(200).sendFile(__dirname.replace('\\routes', '/frontend/register_rest.html'), (err) => {
-        if(err) {
-            res.status(400).send(err);
-        }
-    });
+    else {
+        res.status(200).sendFile(__dirname.replace('\\routes', '/frontend/register_rest.html'), (err) => {
+            if(err) {
+                res.status(400).send(err);
+            }
+        });
+    }
 });
 
 //get request for login, will inform user 'already logged in' if cookie exists
@@ -47,13 +50,17 @@ router.get('/login', (req,res) =>
 {
     if (req.session.user)
         res.status(401).send('already logged in')
-    else
-    res.status(200).sendFile(__dirname.replace('\\routes', '/frontend/login_rest.html'), (err) => {
-        if(err) {
-            res.status(400).send(err);
-        }
-    });
+    else {
+        res.status(200).sendFile(__dirname.replace('\\routes', '/frontend/login_rest.html'), (err) => {
+            if(err) {
+                res.status(400).send(err);
+            }
+        });
+    }
 });
+
+
+
 
 //post request for signup, also sends verification email
 router.post('/signup', (req, res) => //POST request at /signup endpoint
@@ -160,18 +167,33 @@ router.post('/login', (req,res) => {
         "SELECT * FROM restaurants WHERE email = ?",
         [email],
         (err, rows) => {
+            const user = rows[0];
             if (err) 
                 res.status(500).send(err); 
-            const user = rows[0]
-            if (user) 
+            else if (user) 
             {
                 const result = bcrypt.compareSync(password, user.passHash);
                 const isVerified = user.verified;
-                // console.log(isVerified);
                 if (result && isVerified) 
                 {
                     req.session.user = user;
-                    res.status(200).send(user);
+                    mySqlConnection.query(
+                        `CREATE TABLE IF NOT EXISTS menu_${user.rid} (
+                            did INT PRIMARY KEY AUTO_INCREMENT,
+                            dname VARCHAR(255),
+                            price INT,
+                            rating INT
+                        );`,
+                        [],
+                        (err, rows) => {
+                            if(err) {
+                                res.status(500).send(err);
+                            }
+                            else {
+                                res.send(user); 
+                            }
+                        }
+                    )
                 } 
                 else if(!isVerified)
                 {
@@ -229,8 +251,9 @@ router.get('/verify/:email/:code', (req,res) => {
                             (err) => {
                                 if(err)
                                     res.status(500).send(err);
-                                else
+                                else {
                                     res.status(200).send('email successfully verified');
+                                }
                             }
                         )
                         

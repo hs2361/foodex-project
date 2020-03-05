@@ -17,18 +17,20 @@ router.get('/', (req, res) =>
 router.get('/rdashboard', (req, res) => 
 {
     try {
-        mySqlConnection.query(
-            `select * from orders where rid = ${req.session.user.rid} and delivered = 0`,
-            [],
-            (err, rows) => {
-                if(err)
-                    res.status(500).send(err);
-                else if(!rows) 
-                    res.send("No running orders ");
-                else 
-                    res.send(rows);
-            }
-        )
+        if (req.session.user.rid) {
+            mySqlConnection.query(
+                `select oid, uid, did, count(did) as qty from orders where rid = ${req.session.user.rid} and delivered = 0 group by did`,
+                [],
+                (err, rows) => {
+                    if(err)
+                        res.status(500).send(err);
+                    else if(!rows) 
+                        res.send("No running orders ");
+                    else 
+                        res.send(rows);
+                }
+            );
+        }
     }
     catch {
         res.status(401).send('login as restaurant for this');
@@ -74,10 +76,10 @@ router.post('/rdashboard/menu', (req, res) => {
             (err, rows) => {
                 if(err)
                     res.status(500).send(err);
-                if(errors.length)
+                else if(errors.length)
                     res.status(400).send(errors);
                 else
-                    res.send('succesfully added to menu');
+                    res.status(200).send('succesfully added to menu');
                     //redirect to menu /dashboard/menu
             }
         );
