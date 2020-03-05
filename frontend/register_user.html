@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration </title>
+    <link rel="stylesheet" href="./css/register_user.css">
+</head>
+
+<body>
+    <a href="/landing.html">
+        <div class="home">
+            <?xml version="1.0" encoding="UTF-8"?>
+            <svg version="1.1" viewBox="0 0 301.55 310.33" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <filter id="a" color-interpolation-filters="sRGB">
+                        <feGaussianBlur stdDeviation="17.075079" />
+                    </filter>
+                </defs>
+                <g transform="translate(.49848 -17.892)">
+                    <g>
+                        <path transform="matrix(.5369 0 0 .5369 6.1744 10.907)"
+                            d="m358.83 53.99-21.094 0.09375 2.0625 65.281-68.625-45.875 1.2188 36.344 220.06 146.03 15.781-23.844-146.91-98.219-2.5-79.812zm-94.125 19.062-236.16 159.41 15.781 23.812 220.94-146-0.5625-37.219zm-158.34 152.59-26.562 20.25v261.19h25.656l0.90625-281.44zm324.06 0 0.875 281.44h25.688v-261.19l-26.562-20.25zm-365.22 286.31v13.281h406.38v-13.281h-406.38zm126.16 24.781v13.281h154.06v-13.281h-154.06z"
+                            filter="url(#a)" opacity=".83333" />
+                        <path
+                            d="m198.82 39.882-11.312 0.0625 1.0938 35.062-36.844-24.656 0.65625 19.531 118.16 78.375 8.4688-12.781-78.875-52.75-1.3438-42.844zm-50.531 10.25-126.78 85.594 8.4688 12.781 118.63-78.406-0.3125-19.969zm-85.031 81.906-14.25 10.906v140.22h13.781l0.46875-151.12zm174 0 0.46875 151.12h13.781v-140.22l-14.25-10.906zm-196.09 153.75v7.125h218.19v-7.125h-218.19zm67.75 13.312v7.125h82.719v-7.125h-82.719z" />
+                    </g>
+                </g>
+            </svg>
+
+        </div>
+    </a>
+    <div class="main__body">
+
+        <div class="main__body__left">
+            <img src="images/register_user.html.jpg" alt="" srcset="">
+        </div>
+
+        <div class="main__body__right">
+            <div class="heading">
+                <p>You don’t need a silver fork</p>
+                <p>to eat <span class="orange"> good food</span></p>
+            </div>
+            <div class="form">
+                <form action="/verification.html" method="get">
+                    <input type="name" required placeholder="name" name="name">
+                    
+                    <input type="email" required placeholder="username" name="email" id="email_inp">
+                    <input type="password" required placeholder="password" name="password" id="password_inp-1">
+                    <input type="password" required placeholder="confirm password" name="password" id="password_inp-1">
+                    <input type="text" class="input-phone" name="phone" required placeholder="phone" id="phone">
+                    <select name="" id="countrycode">
+                        <option value="US">US</option>
+                        <option value="TW">TW</option>
+                        
+                    </select>
+                    <input type="text" name="address" required placeholder="address" id="address">
+
+                    
+                    <button id="signup" type="submit">Sign Up</button>
+                
+                <div class="form__footer">
+                    <!-- <a id="forgot_pass" href="#">Forgot Password?</a> -->
+                    <a id="create_an_acc" href="/users/login">Already a member?</a>
+                </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <script src="./js/cleave.min.js"></script>
+    <script src="./js/cleave-phone.i18n.js"></script>
+    <!-- <script src="./js/cleave.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script>
+        var code = { BD: "880", BE: "32", BF: "226", BG: "359", BA: "387", BB: "1", WF: "681", BL: "590", BM: "1", BN: "673", BO: "591", BH: "973", BI: "257", BJ: "229", BT: "975", JM: "1", BW: "267", WS: "685", BQ: "599", BR: "55", BS: "1", JE: "44", BY: "375", BZ: "501", RU: "7", RW: "250", RS: "381", TL: "670", RE: "262", TM: "993", TJ: "992", RO: "40", TK: "690", GW: "245", GU: "1", GT: "502", GR: "30", GQ: "240", GP: "590", JP: "81", GY: "592", GG: "44", GF: "594", GE: "995", GD: "1", GB: "44", GA: "241", SV: "503", GN: "224", GM: "220", GL: "299", GI: "350", GH: "233", OM: "968", TN: "216", JO: "962", HR: "385", HT: "509", HU: "36", HK: "852", HN: "504", VE: "58", PR: "1", PS: "970", PW: "680", PT: "351", SJ: "47", PY: "595", IQ: "964", PA: "507", PF: "689", PG: "675", PE: "51", PK: "92", PH: "63", PN: "870", PL: "48", PM: "508", ZM: "260", EH: "212", EE: "372", EG: "20", ZA: "27", EC: "593", IT: "39", VN: "84", SB: "677", ET: "251", SO: "252", ZW: "263", SA: "966", ES: "34", ER: "291", ME: "382", MD: "373", MG: "261", MF: "590", MA: "212", MC: "377", UZ: "998", MM: "95", ML: "223", MO: "853", MN: "976", MH: "692", MK: "389", MU: "230", MT: "356", MW: "265", MV: "960", MQ: "596", MP: "1", MS: "1", MR: "222", IM: "44", UG: "256", TZ: "255", MY: "60", MX: "52", IL: "972", FR: "33", IO: "246", SH: "290", FI: "358", FJ: "679", FK: "500", FM: "691", FO: "298", NI: "505", NL: "31", NO: "47", NA: "264", VU: "678", NC: "687", NE: "227", NF: "672", NG: "234", NZ: "64", NP: "977", NR: "674", NU: "683", CK: "682", CI: "225", CH: "41", CO: "57", CN: "86", CM: "237", CL: "56", CC: "61", CA: "1", CG: "242", CF: "236", CD: "243", CZ: "420", CY: "357", CX: "61", CR: "506", CW: "599", CV: "238", CU: "53", SZ: "268", SY: "963", SX: "599", KG: "996", KE: "254", SS: "211", SR: "597", KI: "686", KH: "855", KN: "1", KM: "269", ST: "239", SK: "421", KR: "82", SI: "386", KP: "850", KW: "965", SN: "221", SM: "378", SL: "232", SC: "248", KZ: "7", KY: "1", SG: "65", SE: "46", SD: "249", DO: "1", DM: "1", DJ: "253", DK: "45", VG: "1", DE: "49", YE: "967", DZ: "213", US: "1", UY: "598", YT: "262", UM: "1", LB: "961", LC: "1", LA: "856", TV: "688", TW: "886", TT: "1", TR: "90", LK: "94", LI: "423", LV: "371", TO: "676", LT: "370", LU: "352", LR: "231", LS: "266", TH: "66", TG: "228", TD: "235", TC: "1", LY: "218", VA: "379", VC: "1", AE: "971", AD: "376", AG: "1", AF: "93", AI: "1", VI: "1", IS: "354", IR: "98", AM: "374", AL: "355", AO: "244", AS: "1", AR: "54", AU: "61", AT: "43", AW: "297", IN: "91", AX: "358", AZ: "994", IE: "353", ID: "62", UA: "380", QA: "974", MZ: "258" };
+        
+        var cleave = new Cleave('.input-phone', {
+                phone: true,
+                phoneRegionCode: 'US'
+            });
+        var updateCountryCode = document.getElementById('countrycode').addEventListener('change',function(){
+            cleave.setPhoneRegionCode(this.value);
+            // cleavePhone.setRawValue(this.value);
+            document.getElementById('phone').innerText = code[this.value];
+
+
+        });
+
+        var signupbtn = document.getElementById('signup');
+        signupbtn.addEventListener('click',function(){
+            
+
+Swal.fire({
+  title: '<strong>HTML <u>example</u></strong>',
+  icon: 'info',
+  html:
+    'You can use <b>bold text</b>, ' +
+    '<a href="//sweetalert2.github.io">links</a> ' +
+    'and other HTML tags',
+  showCloseButton: true,
+  showCancelButton: true,
+  focusConfirm: false,
+  confirmButtonText:"hellohi",
+    // '<i class="fa fa-thumbs-up"></i> Great!',
+  confirmButtonAriaLabel: 'Thumbs up, great!',
+  cancelButtonText:"byebye",
+    // '<i class="fa fa-thumbs-down"></i>',
+  cancelButtonAriaLabel: 'Thumbs down'
+})
+        })
+        
+        
+    
+    </script>
+</body>
+
+</html>

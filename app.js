@@ -20,7 +20,7 @@ app.use("/order", require("./routes/order")); //routing for /order endpoint of A
 app.use("/restaurants", require("./routes/restaurants")); //routing for /restaurants endpoint of API
 
 app.get("*", (req, res) => {
-  res.status(404).send("Page 404'd");
+  res.status(404).sendFile(__dirname + '/frontend/404.html');
 }); //default 404 response
 
 const PORT = 5000;

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Foood </title>
-    <link rel="stylesheet" href="../css/login_user.css">
+    <link rel="stylesheet" href="./css/login_user.css">
 </head>
 <body>
     <a href="../landing.html">
@@ -32,7 +32,7 @@
     <div class="main__body">
         
             <div class="main__body__left">
-                <img src="../images/login_user.jpg" alt="" srcset="">
+                <img src="./images/login_user.jpg" alt="" srcset="">
             </div>
         
         <div class="main__body__right">
@@ -41,7 +41,7 @@
                     <p>to eat <span class="orange"> good food</span></p>
                 </div>
                 <div class="form">
-                <form action="/users/login" method="POST">
+                <form action="#" method="get">
                     <input type="email" required placeholder="username" name="email" id="email_inp">
                     <input type="password" required placeholder="password" name="password" id="password_inp">
                     <button type="submit">Login</button>
@@ -54,5 +54,21 @@
 
         </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script>
+        var forgotpass = document.getElementById('forgot_pass');
+        forgotpass.addEventListener('click',forgotPassPropmt);
+        function forgotPassPropmt(){
+            var email = document.getElementById('email_inp').value;
+            // will check if email is in our database if not then wil prompt that email not registered
+            // if email in database then
+            Swal.fire(
+                'Reset link generated!',
+                'Please check your registered email!',
+                'success'
+            )
+        }
+    </script>
 </body>
 </html>

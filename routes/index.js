@@ -10,12 +10,15 @@ router.get('/', (req, res) =>
     }
 )}); //home page
 
+/*-----------------------------------------------------------------------------------*/
+//restaurant dashboard backend:
+
 //get request for dashboard, will ask for login if cookie is not found
 router.get('/rdashboard', (req, res) => 
 {
-    if (req.session.user) {
+    try {
         mySqlConnection.query(
-            `select * from orders where rid = ${req.session.user.rid} and status = "nd"`,
+            `select * from orders where rid = ${req.session.user.rid} and delivered = 0`,
             [],
             (err, rows) => {
                 if(err)
@@ -27,15 +30,16 @@ router.get('/rdashboard', (req, res) =>
             }
         )
     }
-    else
-        res.status(401).send('login for this');
+    catch {
+        res.status(401).send('login as restaurant for this');
+    }
 });
 
 //get request for rest menu, will simply display menu to restaurant
-router.get('/rdashboard/menu/:rid', (req, res) => {
+router.get('/rdashboard/menu', (req, res) => {
     if(req.session.user.rid) {
         mySqlConnection.query(
-            `select * from menu_${rid}`,
+            `select * from menu_${req.session.user.rid}`,
             [],
             (err, rows) => {
                 if(err) {
@@ -56,7 +60,7 @@ router.get('/rdashboard/menu/:rid', (req, res) => {
 });
 
 //post request for rest menu, for adding new items to menu
-router.post('/rdashboard/menu/:rid', (req, res) => {
+router.post('/rdashboard/menu', (req, res) => {
     if(req.session.user.rid) {
         const { dname, price } = req.body;
         let errors = [];
@@ -65,7 +69,7 @@ router.post('/rdashboard/menu/:rid', (req, res) => {
         }
         
         mySqlConnection.query(
-            `insert into menu_${rid} (dname, price, rating) values (?)`,
+            `insert into menu_${req.session.user.rid} (dname, price, rating) values (?)`,
             [[dname, price, 0]], //setting initial rating to 0
             (err, rows) => {
                 if(err)
@@ -79,7 +83,7 @@ router.post('/rdashboard/menu/:rid', (req, res) => {
         );
     }
     else {
-        res.status(400).send('not a restaurant');
+        res.status(401).send('login as restaurant for this');
     }
 });
 
@@ -96,7 +100,7 @@ router.get('/rdashboard/feedback/:rid', (req, res) => {
                     res.send("No orders yet");
                 }
                 else {
-
+                    res.send(rows);
                 }
             }
         )
@@ -105,5 +109,10 @@ router.get('/rdashboard/feedback/:rid', (req, res) => {
         res.status(401).send('login as restaurant for this');
     }
 })
+
+
+/*-----------------------------------------------------------------------------------*/
+//user dashboard backend:
+
 
 module.exports = router

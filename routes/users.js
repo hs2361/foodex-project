@@ -18,7 +18,11 @@ router.get('/signup', (req, res) =>  //GET request at /signup endpoint
     if (req.session.user)
         res.status(401).send('already logged in') //if user is logged in
     else
-        res.status(200).send('sign up form');
+        res.status(200).sendFile(__dirname.replace('\\routes', '/frontend/register_user.html'), (err) => {
+            if(err) {
+                res.status(400).send(err);
+            }
+        });
 })
 
 router.get('/login', (req, res) => //GET request at /login endpoint
@@ -66,51 +70,67 @@ router.post('/signup', (req, res) => //POST request at /signup endpoint
             if (errors.length)
                 res.status(400).send(errors); //send errors with 'bad request'
             else {
-                pwdHash = bcrypt.hashSync(password, 10); //hashing the password
-                var sql = `INSERT INTO users (uname, email, phone, passHash, address, verified) VALUES ?`; //insertion query
-                const values = [[name, email, phone, pwdHash, address, 0]];
+                mySqlConnection.query(
+                    "SELECT * FROM restaurants WHERE email = ?",
+                    [email],
+                    (err, rows) => {
+                        if(err)
+                            res.status(500).send(err);
+                        else if (rows.length) {
+                            errors.push({ msg : "Cannot register user with restaurant email id" });
+                        }
+                        if (errors.length) {
+                            res.status(400).send(errors);                            
+                        }
+                        else {
+                            pwdHash = bcrypt.hashSync(password, 10); //hashing the password
+                            var sql = `INSERT INTO users (uname, email, phone, passHash, address, verified) VALUES ?`; //insertion query
+                            const values = [[name, email, phone, pwdHash, address, 0]];
 
-                mySqlConnection.query(sql, [values], function (err) //insert into database
-                {
-                    if (err)
-                        res.status(500).send(err); //internal server error
-
-                    else {
-                        const verificationCode = Math.floor(Math.random() * 1000000); //generate random verification code
-                        mySqlConnection.query( //insert code into verify table
-                            'insert into verify values (?)',
-                            [[email, verificationCode]],
-                            (err) => {
+                            mySqlConnection.query(sql, [values], function (err) //insert into database
+                            {
                                 if (err)
                                     res.status(500).send(err); //internal server error
+
                                 else {
-                                    var transporter = nodemailer.createTransport({ //mail authentication
-                                        service: 'gmail',
-                                        auth: {
-                                            user: 'sweetharsh236@gmail.com', //replace with your own credentials
-                                            pass: 'BBitbs!2306'
-                                        }
-                                    });
+                                    const verificationCode = Math.floor(Math.random() * 1000000); //generate random verification code
+                                    mySqlConnection.query( //insert code into verify table
+                                        'insert into verify values (?)',
+                                        [[email, verificationCode]],
+                                        (err) => {
+                                            if (err)
+                                                res.status(500).send(err); //internal server error
+                                            else {
+                                                var transporter = nodemailer.createTransport({ //mail authentication
+                                                    service: 'gmail',
+                                                    auth: {
+                                                        user: 'sweetharsh236@gmail.com', //replace with your own credentials
+                                                        pass: 'BBitbs!2306'
+                                                    }
+                                                });
 
-                                    var mailOptions = {
-                                        from: 'sweetharsh236@gmail.com',
-                                        to: email,
-                                        subject: 'Verify your email',
-                                        text: `localhost:5000/users/verify/${email}/${verificationCode}` //mail body
-                                    };
+                                                var mailOptions = {
+                                                    from: 'sweetharsh236@gmail.com',
+                                                    to: email,
+                                                    subject: 'Verify your email',
+                                                    text: `localhost:5000/users/verify/${email}/${verificationCode}` //mail body
+                                                };
 
-                                    transporter.sendMail(mailOptions, function (error, info) { //send mail
-                                        if (error) {
-                                            res.status(500).send(error); //internal server error
-                                        } else {
-                                            console.log('Verification email sent: ' + info.response); //mail sent
-                                        }
-                                    });
-                                    res.redirect('/users/verify'); //redirect to verify page
+                                                transporter.sendMail(mailOptions, function (error, info) { //send mail
+                                                    if (error) {
+                                                        res.status(500).send(error); //internal server error
+                                                    } else {
+                                                        console.log('Verification email sent: ' + info.response); //mail sent
+                                                    }
+                                                });
+                                                res.redirect('/users/verify'); //redirect to verify page
+                                            }
+                                        });
                                 }
-                            })
+                            });
+                        }
                     }
-                });
+                )
             }
         }
     );
@@ -169,10 +189,10 @@ router.get('/verify', (req, res) => { //GET request at /verify endpoint without 
     res.status(200).sendFile(__dirname.replace("\\routes","")+'/frontend/verification.html');
 })
 
-router.post('/verify', (req,res) => { //POST request at /verify endpoint with email and code
-    const {email,code} = req.body;
-    res.redirect(`/users/verify/${email}/${code}`); //redirects to /verify endpoint with params
-})
+// router.post('/verify', (req,res) => { //POST request at /verify endpoint with email and code
+//     const {email,code} = req.body;
+//     res.redirect(`/users/verify/${email}/${code}`); //redirects to /verify endpoint with params
+// })
 
 router.get('/verify/:email/:code', (req, res) => { //GET request at /verify endpoint with email and code params
 
@@ -213,6 +233,8 @@ router.get('/verify/:email/:code', (req, res) => { //GET request at /verify endp
                     }
 
                     else {
+                        console.log(req.params.code);
+                        console.log(rows[0].code);
                         res.status(400).send("couldn't verify your email") //wrong code
                     }
                 }

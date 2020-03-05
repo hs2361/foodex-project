@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verify your email !</title>
-    <link rel="stylesheet" href="./css/verification.css">
+    <title>Registration </title>
+    <link rel="stylesheet" href="./css/register_rest.css">
 </head>
+
 <body>
-    <a href="../landing.html">
+    <a href="/landing.html">
         <div class="home">
             <?xml version="1.0" encoding="UTF-8"?>
             <svg version="1.1" viewBox="0 0 301.55 310.33" xmlns="http://www.w3.org/2000/svg">
@@ -26,14 +28,48 @@
                     </g>
                 </g>
             </svg>
-    
+
         </div>
     </a>
-    <div class="main">
-        <div class="content">
-           <p> We have just sent you an e-mail</p>
-           <p><span class="orange">Verify your email</span> before logging In <span class="orange">!</span></p>
+    <div class="main__body">
+
+        <div class="main__body__left">
+            <img src="images/register_rest.jpg" alt="" srcset="">
+        </div>
+
+        <div class="main__body__right">
+            <div class="heading">
+                <p>Build a brand with <span class="orange">Us </span></p>
+                
+                <!-- <p><span class="orange"> good food</span></p> -->
+            </div>
+            <div class="form">
+                <form action="/verification.html" method="get">
+                    <input type="name" required placeholder="restaurant name" name="name">
+                    
+                    <input type="email" required placeholder="username" name="email" id="email_inp">
+                    <input type="password" required placeholder="password" name="password" id="password_inp-1">
+                    <input type="password" required placeholder="confirm password" name="password" id="password_inp-1">
+                    <input type="text" class="input-phone" name="phone" required placeholder="phone" id="phone">
+                    
+                    <input type="text" name="address" required placeholder="address" id="address">
+
+                    
+                    <button type="submit">Sign Up</button>
+                
+                <div class="form__footer">
+                    <!-- <a id="forgot_pass" href="#">Forgot Password?</a> -->
+                    <a class="create_an_acc" href="/restaurants/login">Already a member?</a>
+                    
+                </div>
+                </form>
+            </div>
+
         </div>
     </div>
+
+
+
 </body>
+
 </html>

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verify your email !</title>
-    <link rel="stylesheet" href="./css/verification.css">
+    <title>Foood </title>
+    <link rel="stylesheet" href="./css/login_rest.css">
 </head>
 <body>
-    <a href="../landing.html">
+    <a href="/landing.html">
         <div class="home">
             <?xml version="1.0" encoding="UTF-8"?>
             <svg version="1.1" viewBox="0 0 301.55 310.33" xmlns="http://www.w3.org/2000/svg">
@@ -26,13 +26,32 @@
                     </g>
                 </g>
             </svg>
-    
+
         </div>
     </a>
-    <div class="main">
-        <div class="content">
-           <p> We have just sent you an e-mail</p>
-           <p><span class="orange">Verify your email</span> before logging In <span class="orange">!</span></p>
+    <div class="main__body">
+        
+            <div class="main__body__left">
+                <img src="images/login_rest.jpg" alt="" srcset="">
+            </div>
+        
+        <div class="main__body__right">
+                <div class="heading">
+                    <p>You don’t need a silver fork</p>
+                    <p>to eat <span class="orange"> good food</span></p>
+                </div>
+                <div class="form">
+                <form action="#" method="get">
+                    <input type="email" required placeholder="username" name="email" id="email_inp">
+                    <input type="password" required placeholder="password" name="password" id="password_inp">
+                    <button type="submit">Login</button>
+                </form>
+                <div class="form__footer">
+                <a id="forgot_pass" href="#">Forgot Password?</a>
+                <a id="create_an_acc" href="/restaurants/signup">Create an account</a>
+                </div>
+                </div>
+
         </div>
     </div>
 </body>
