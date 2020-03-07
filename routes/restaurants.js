@@ -4,32 +4,89 @@ const mySqlConnection = require("../db/database");
 const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
 
+//get request handling /restaurants. redirects to profile if logged in, else to login page
 router.get('/', (req, res) => {
-    try {
+    if(req.session.user) {
         if(req.session.user.rid) {
-            res.status(200).redirect(`/restaurants/${rid}`);
+            res.redirect('/restaurants/profile');
+        }
+        else {
+            res.status(401).send('Login as restaurant for this');
         }
     }
-    catch {
-        res.status(400).send('Login as restaurant for this');
+    else {
+        res.redirect('/restaurants/login');
     }
 });
 
-// router.get('/:rid', (req, res) => {
-//     try{
-//         if (req.session.user.rid) {
-//             if(req.session.user.rid == req.params.rid) {
-//                 res.send('profile page');
-//             }
-//             else {
-//                 res.status(401).send('Login again');
-//             }
-//         }
-//     }
-//     catch {
-//         res.status(400).send('Login as restaurant for this');
-//     }
-// });
+//get request for profile
+router.get('/profile', (req, res) => {
+    if(req.session.user) {
+        if(req.session.user.rid) {
+            mySqlConnection.query(
+                `select * from restaurants where rid = ${req.session.user.rid}`,
+                [],
+                (err, rows) => {
+                    if(err) {
+                        res.status(500).send(err);
+                    }
+                    else if(!rows) {
+                        res.status(500).send('login again');
+                    }
+                    else {
+                        res.send(rows);
+                    }
+                }
+            );
+        }
+        else {
+            res.status(401).send('Login as restaurant for this');
+        }
+    }
+    else {
+        res.redirect('/restaurants/login');
+    }
+});
+
+router.get('/profile/edit', (req, res) => {
+    if(req.session.user) {
+        if(req.session.user.rid) {
+            res.status(200).send('profile edit form');
+        }
+        else {
+            res.status(401).send('Login as restaurant for this');
+        }
+    }
+    else {
+        res.redirect('/restaurants/login');
+    }
+});
+
+router.post('/profile/edit', (req, res) => {
+    if(req.session.user) {
+        if(req.session.user.rid) {
+            const { name, email, phone, address } = req.body;
+            mySqlConnection.query(
+                `UPDATE TABLE restaurants SET name = ${name}, email = ${email}, phone = ${phone}, address = ${address} WHERE rid = ${req.session.user.rid}`,
+                [],
+                (err, rows) => {
+                    if(err) {
+                        res.status(500).send(err);
+                    }
+                    else {
+                        res.status(200).send('Profile updated');
+                    }
+                }
+            );
+        }
+        else {
+            res.status(401).send('Login as restaurant for this');
+        }
+    }
+    else {
+        res.redirect('/restaurants/login');
+    }
+});
 
 //get request for signup, will inform user 'already logged in' if cookie exists
 router.get('/signup', (req, res) => 
@@ -58,9 +115,6 @@ router.get('/login', (req,res) =>
         });
     }
 });
-
-
-
 
 //post request for signup, also sends verification email
 router.post('/signup', (req, res) => //POST request at /signup endpoint
