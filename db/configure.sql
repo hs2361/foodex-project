@@ -18,7 +18,8 @@ CREATE TABLE IF NOT EXISTS restaurants (
     address VARCHAR(255),
     email VARCHAR(255),
     passHash CHAR(60),
-    verified BOOL
+    verified BOOL,
+    rating FLOAT DEFAULT 0
 );
 
 CREATE TABLE IF NOT EXISTS verify (

@@ -19,7 +19,7 @@ router.get('/rdashboard', (req, res) =>
     try {
         if (req.session.user.rid) {
             mySqlConnection.query(
-                `select oid, uid, did, count(did) as qty from orders where rid = ${req.session.user.rid} and delivered = 0 group by did`,
+                `select oid, uid, did, count(did) as qty from orders where rid = ${req.session.user.rid} and delivered = 0 group by oid, did`,
                 [],
                 (err, rows) => {
                     if(err)

@@ -106,20 +106,28 @@ a{
     /* border: solid; */
 }
 .profile__tab__content{
-    z-index: 1000000;
+    z-index: 1000;
     position: absolute;
     display: flex;
     flex-direction: column;
 position: fixed;
     /* border: solid; */
     font-family: 'Raleway', sans-serif;
-    height: 70%;
+    height: 100%;
     width: 280px;
-    top: 10%;
+    top: 0;
     left: 0;
+    background-color:#171A29;
     /* left: 2%; */
     align-items: center;
-    justify-content: space-around;
+    justify-content: center;
+}
+.profile__tab__content_arng{
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    height: 40%;
+    justify-content: space-evenly;
 }
 .pro_tab{
     border: solid orange 3px;
@@ -129,13 +137,15 @@ position: fixed;
 }
 .profile__tab__pastOrder{
     color: ivory;
-    background-color: black;
-    border: none;
+    background-color: orange;
+    border: solid 4px white;
+    text-align: center;
+    /* border: none; */
 }
 #profile__tab__close{
     position: fixed;
     z-index: 10000;
-    left: 255px;
+    left: 235px;
     top: 10px;
     fill: #fff;
     transition: 0.3s ease-in;
