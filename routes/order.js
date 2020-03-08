@@ -5,31 +5,42 @@ var order_id = 1;
 
 router.get('/', (req,res) => {
     if(req.session.user)
+    {
+        if(req.session.user.rid) //check whether is restaurant
         {
-            if(req.session.user.rid) //check whether is restaurant
-            {
-                res.status(400).send('you must be a user to order'); //bad request
-            }
-
-            else
-            {
-                const uid = req.session.user.uid;
-                mySqlConnection.query( //create cart for user
-                    `create table if not exists cart_${uid} (
-                        rid int,
-                        did int
-                    );`,
-                    [],
-                    (err) => 
-                    {
-                        if(err)
-                            res.status(500).send(err); //internal server error
-                        else
-                            res.status(200).send('browse restaurants');
-                    }
-                )
-            }
+            res.status(400).send('you must be a user to order'); //bad request
         }
+        else
+        {
+            const uid = req.session.user.uid;
+            mySqlConnection.query( //create cart for user
+                `create table if not exists cart_${uid} (
+                    rid int,
+                    did int
+                );`,
+                [],
+                (err) => 
+                {
+                    if(err)
+                        res.status(500).send(err); //internal server error
+                    else {
+                        mySqlConnection.query( //shows user a list of restaurants ordered by name
+                            `select rid, rname, phone, address from restaurants where verified = true order by rname`,
+                            [],
+                            (err, rows) => {
+                                if(err)
+                                    res.status(500).send(err); // internal server error
+                                else if(!rows)
+                                    res.send('no restaurants to browse'); // no restaurants in catalogue
+                                else 
+                                    res.status(200).send(rows); // sends list of restaurants for user to browse
+                            }
+                        );
+                    }
+                }
+            )
+        }
+    }
     else
         res.status(400).send("login to order"); //bad request
 });
@@ -114,7 +125,7 @@ router.get("/checkout", (req,res) => {
                             {
                                 rows.forEach((e) => { //iterate over every item in the cart
                                     mySqlConnection.query(
-                                        "insert into orders(oid,rid,did,uid,delivered) values (?)", //insert into the orders table
+                                        "insert into orders (oid,rid,did,uid,delivered) values (?)", //insert into the orders table
                                         [[order_id,e["rid"],e["did"],uid,0]],
                                         (err) => {
                                             if(err)

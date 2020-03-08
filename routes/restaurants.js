@@ -91,12 +91,18 @@ router.post('/profile/edit', (req, res) => {
 //get request for signup, will inform user 'already logged in' if cookie exists
 router.get('/signup', (req, res) => 
 {
-    if (req.session.user)
-        res.status(401).send('already logged in')
+    if (req.session.user) {
+        if (req.session.user.rid) {
+            res.status(400).send('already logged in');
+        }
+        else {
+            res.status(401).send('not a restaurant');
+        }
+    }
     else {
         res.status(200).sendFile(__dirname.replace('\\routes', '/frontend/register_rest.html'), (err) => {
             if(err) {
-                res.status(400).send(err);
+                res.status(500).send(err);
             }
         });
     }
@@ -105,12 +111,18 @@ router.get('/signup', (req, res) =>
 //get request for login, will inform user 'already logged in' if cookie exists
 router.get('/login', (req,res) => 
 {
-    if (req.session.user)
-        res.status(401).send('already logged in')
+    if (req.session.user) {
+        if(req.session.user.rid) {
+            res.status(400).send('already logged in');
+        }
+        else {
+            res.status(401).send('not a restaurant');
+        }
+    }
     else {
         res.status(200).sendFile(__dirname.replace('\\routes', '/frontend/login_rest.html'), (err) => {
             if(err) {
-                res.status(400).send(err);
+                res.status(500).send(err);
             }
         });
     }
@@ -203,13 +215,12 @@ router.post('/signup', (req, res) => //POST request at /signup endpoint
                                                 });
                                                 res.redirect('/restaurants/verify'); //redirect to verify page
                                             }
-                                        })
+                                        });
                                 }
                             });
                         }
                     }
-                )
-                
+                );
             }
         }
     );
@@ -312,7 +323,6 @@ router.get('/verify/:email/:code', (req,res) => {
                         )
                         
                     }
-
                     else{
                         res.status(400).send("couldn't verify your email")
                     }
