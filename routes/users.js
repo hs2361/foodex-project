@@ -13,33 +13,43 @@ router.get('/dashboard', (req, res) => //GET request at /dashboard endpoint
 });
 
 
-router.get('/signup', (req, res) =>  //GET request at /signup endpoint
+router.get('/signup', (req, res) => 
 {
-    if (req.session.user)
-        res.status(401).send('already logged in') //if user is logged in
-    else
+    if (req.session.user) {
+        if (req.session.user.uid) {
+            res.status(400).send('already logged in');
+        }
+        else {
+            res.status(401).send('not a user');
+        }
+    }
+    else {
         res.status(200).sendFile(__dirname.replace('\\routes', '/frontend/register_user.html'), (err) => {
             if(err) {
-                res.status(400).send(err);
+                res.status(500).send(err);
             }
         });
-})
-
-router.get('/login', (req, res) => //GET request at /login endpoint
-{
-    if (req.session.user)
-        res.status(401).send('already logged in') //if user is logged in
-    else
-        {
-            res.status(200).sendFile( __dirname.replace("\\routes","") + "/frontend/login_user.html", (err) => {
-                if(err)
-                    res.status(400).send(err);
-            });
-        }
-        
+    }
 });
 
-
+router.get('/login', (req,res) => 
+{
+    if (req.session.user) {
+        if(req.session.user.uid) {
+            res.status(400).send('already logged in');
+        }
+        else {
+            res.status(401).send('not a user');
+        }
+    }
+    else {
+        res.status(200).sendFile(__dirname.replace('\\routes', '/frontend/login_user.html'), (err) => {
+            if(err) {
+                res.status(500).send(err);
+            }
+        });
+    }
+});
 
 router.post('/signup', (req, res) => //POST request at /signup endpoint
 {
