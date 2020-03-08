@@ -292,7 +292,7 @@ router.get('/logout', (req,res) => {
 });
 
 router.get('/verify', (req,res) => {
-    res.status(200).sendFile('/webkriti-project/frontend/verification.html');
+    res.status(200).sendFile(__dirname.replace('\\routes', '/frontend/verification.html'));
 });
 
 router.get('/verify/:email/:code', (req,res) => {
