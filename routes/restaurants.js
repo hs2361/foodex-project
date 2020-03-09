@@ -131,9 +131,9 @@ router.get('/login', (req,res) =>
 //post request for signup, also sends verification email
 router.post('/signup', (req, res) => //POST request at /signup endpoint
 {
-    const { name, email, password, password2, phone, address } = req.body; //destructuring req.body object received from form
+    const { name, email, password, password2, phone, address, category } = req.body; //destructuring req.body object received from form
     let errors = []; //errors array
-    if (!name || !email || !password || !password2 || !phone || !address) //empty fields
+    if (!name || !email || !password || !password2 || !phone || !address || !category) //empty fields
     {
         errors.push({ msg: "Please enter all fields" });
     }
@@ -174,8 +174,8 @@ router.post('/signup', (req, res) => //POST request at /signup endpoint
                         }
                         else {
                             pwdHash = bcrypt.hashSync(password, 10); //hashing the password
-                            var sql = `INSERT INTO restaurants (rname, email, phone, passHash, address, verified) VALUES ?`; //insertion query
-                            const values = [[name, email, phone, pwdHash, address, 0]];
+                            var sql = `INSERT INTO restaurants (rname, email, phone, passHash, address, verified, category) VALUES ?`; //insertion query
+                            const values = [[name, email, phone, pwdHash, address, 0, category]];
 
                             mySqlConnection.query(sql, [values], function (err) //insert into database
                             {
