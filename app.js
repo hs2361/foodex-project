@@ -18,6 +18,7 @@ app.use("/", require("./routes/index")); //routing for home page
 app.use("/users", require("./routes/users")); //routing for /users endpoint of API
 app.use("/order", require("./routes/order")); //routing for /order endpoint of API
 app.use("/restaurants", require("./routes/restaurants")); //routing for /restaurants endpoint of API
+app.use("/browse", require("./routes/browse"));
 
 app.get("*", (req, res) => {
   res.status(404).sendFile(__dirname + '/frontend/404.html');

@@ -3,6 +3,7 @@ const router = express.Router();
 const mySqlConnection = require("../db/database"); //importing database connection
 var order_id = 1;
 
+
 router.get('/', (req,res) => {
     if(req.session.user)
     {
@@ -24,18 +25,7 @@ router.get('/', (req,res) => {
                     if(err)
                         res.status(500).send(err); //internal server error
                     else {
-                        mySqlConnection.query( //shows user a list of restaurants ordered by name
-                            `select rid, rname, phone, address from restaurants where verified = true order by rname`,
-                            [],
-                            (err, rows) => {
-                                if(err)
-                                    res.status(500).send(err); // internal server error
-                                else if(!rows)
-                                    res.send('no restaurants to browse'); // no restaurants in catalogue
-                                else 
-                                    res.status(200).send(rows); // sends list of restaurants for user to browse
-                            }
-                        );
+                        res.redirect('/browse');
                     }
                 }
             )
