@@ -4,6 +4,7 @@
  padding:0; 
  box-sizing: border-box; 
  /* border: solid; */
+ font-family: "Raleway";
 }
 body{
     height: 100vh;
@@ -234,29 +235,141 @@ display: none;
 .orange{
     color: orange;
 }
-.left__fixed {
-    position: fixed;
-    width: 350px;
-    /* border: solid; */
-    height: 1000px;
+.top__fixed {
     
+    margin: 2% 0 0 0;
+    /* border: solid; */
+    display: flex;
+    justify-content: center;
     background-color: #F8CE38;
-    /* transform: translateY(50%); */
+    min-width: 100%;
+    margin: 2% auto;
+ 
 }
-.left__fixed img{
-    width: 100%;
-    position: absolute;
-   
-    transform: translateY(50%);
-    /* height: 100%; */
+.top__fixed img{
+    
+    
+    max-width: 400px;
+    margin: 0 auto;
+    /* transform: translateX(90%); */
+    /* border: solid; */
+  
 }
 .main__body{
     /* border: solid; */
+    /* border:solid; */
+    width: 100%;
+    
+    
 
 }
+.main__body__feed{
+    width: 100%;
+    border: solid;
+    
+}
+.main__body p{
+    line-height: 40px;
+    font-size: 1.4em;
+}
+
+.card{
+    border:solid 1px orange;
+    margin: 30px auto;
+    padding: 6px;
+    min-height: 180px;
+    display: flex;
+    max-width: 1000px;
+
+    
+}
+.card__left{
+    /* border: solid; */
+    display: flex;
+    align-items: center;
+}
+.card__right{
+    /* border: solid; */
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin: 0 8px ;
+
+}
+.rest__name{
+    font-size: 1.5em;
+    font-weight: 900;
+
+}
+.rest__category{
+    color: grey;
+
+}
+.rest__dish__items {
+    font-size: 0.9em;
+    padding: 0;
+    margin-top: 6px;
+    line-height: 20px;
+    /* border: slategray solid; */
+
+}
+.rest__dish{
+    display: flex;
+    justify-content: space-between;
+
+}
+.rest__total__price{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 4px;
+    padding-top: 4px;
+    border-top: 1px orange solid;
+
+
+}
+.rest__rating__tab{
+    direction: rtl;
+    
+}
+.rest__rating__tab input{
+    display: none;
+}
+.rest__rating__tab label{
+    position: relative;
+   width: 20px;
+}
+.rest__rating__tab label::before{
+    content: "\2606";
+    width: 20px;
+
+  font-size: 28px;
+    
+}
+.rest__rating__tab label::after{
+    content: "\2605";
+    position: absolute;
+    top: -15px;
+    left: 0;
+    opacity: 0;
+    font-size: 28px;
+    
+    
+}
+.rest__rating__tab label:hover::after,
+
+.rest__rating__tab label:hover ~ label::after,
+.rest__rating__tab input:checked~ label::after{
+    opacity: 1;
+    cursor: pointer;
+}
+
+
+
+
+
 
 footer{
-    display: block;
+    display: none;
     background-color: black;
     color: #fff;
     font-family: "Raleway",sans-serif;
@@ -265,7 +378,7 @@ footer{
     bottom: 0;
     height: 30px;
     width: 100%;
-    display: flex;
+    /* display: flex; */
     align-items: flex-end;
     /* margin-top:20% ; */
     filter: opacity(1);
@@ -290,53 +403,55 @@ footer{
     }
 }
 @media only screen and (max-width:900px){
-    .user__feed{
-        grid-gap: 5%;
-    }
+  
+    
+}
+@media only screen and (max-width:850px){
+ .card{
+     width: 700px;
+     
+ }
+ .rest__rating__tab label::after{
+     top: -18px;
+ }
 }
 @media only screen and (max-width:840px){
-    .user__feed{
-        grid-gap: 3%;
-    }
+ 
     .main__body{
         font-size: .8em;
     }
 }
 @media only screen and (max-width:780px){
-    .user__feed{
-        grid-gap: 2px;
-
-    }
-    .rest__card{
-        /* border: solid; */
-        margin-bottom: 50px;
-    }
+  .card{
+     width: 650px;
+   
+     
+ }
+ 
 }
-@media only screen and (max-width:740px){
-    .user__feed{
-        grid-template-columns: 1fr 1fr;
-        max-width: 550px;
+@media only screen and (max-width:750px){
+   .card{
+     width: 550px;
 
-    }
-    .main__body{
-        flex-direction: column;
-    }
-    footer{
-        position: relative;
-        margin: 0;
-        padding: 0;
-    }
+     
+ }
+  
 }
-
+@media only screen and (max-width:590px){
+   .card{
+     flex-direction: column;
+     padding: 8px;
+     width: 400px;
+        
+ }
+ .card__left{
+     justify-content: center;
+ }
+  
+}
 @media only screen and (max-width:500px){
-    .user__feed{
-        grid-template-columns: 1fr;
-        max-width: 250px;
-
-    }
-    .header__image__right{
-        font-size: 2em;
-    }
+   
+   
     nav .nav__right{
         display: none;
         /* border: solid; */
@@ -353,6 +468,13 @@ footer{
     .main__body__left img{
         width: 300px;
     }
+}
+
+@media only screen and (max-width:420px){
+    .card{
+        width: 300px;
+    }
+    
 }
 @media only screen and (max-width:350px){
     
