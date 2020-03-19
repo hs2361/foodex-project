@@ -59,15 +59,25 @@
     <script>
         var forgotpass = document.getElementById('forgot_pass');
         forgotpass.addEventListener('click',forgotPassPropmt);
-        function forgotPassPropmt(){
+        function forgotPassPropmt(){  //forgot pass function 
             var email = document.getElementById('email_inp').value;
+            console.log(email);
             // will check if email is in our database if not then wil prompt that email not registered
             // if email in database then
+            if(email==""){
+                Swal.fire(
+                    
+                    'Please enter your email!'
+                    
+                )
+            }
+            else{
             Swal.fire(
                 'Reset link generated!',
                 'Please check your registered email!',
                 'success'
             )
+            }
         }
     </script>
 </body>

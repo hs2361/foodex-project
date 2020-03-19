@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Foood </title>
-    <link rel="stylesheet" href="./css/login_rest.css">
+    <link rel="stylesheet" href="./css/login_user.css">
 </head>
 <body>
-    <a href="/landing.html">
+    <a href="../landing.html">
         <div class="home">
             <?xml version="1.0" encoding="UTF-8"?>
             <svg version="1.1" viewBox="0 0 301.55 310.33" xmlns="http://www.w3.org/2000/svg">
@@ -32,7 +32,7 @@
     <div class="main__body">
         
             <div class="main__body__left">
-                <img src="images/login_rest.jpg" alt="" srcset="">
+                <img src="./images/login_user.jpg" alt="" srcset="">
             </div>
         
         <div class="main__body__right">
@@ -47,12 +47,69 @@
                     <button type="submit">Login</button>
                 </form>
                 <div class="form__footer">
-                <a id="forgot_pass" href="#">Forgot Password?</a>
-                <a id="create_an_acc" href="/restaurants/signup">Create an account</a>
+                    <a id="forgot_pass" href="#">Forgot Password?</a>
+                    <a id="create_an_acc" href="/users/signup">Create an account</a>
                 </div>
                 </div>
 
         </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script>
+            Swal.fire({
+        title: '<strong>Confirmation</strong>',
+        icon: 'info',
+        html:
+            'This page is for restaurant owners to login. ' +
+            
+            '<p> Please confirm your identity</p>',
+        showCloseButton: true,
+        showCancelButton: true,
+        focusConfirm: false,
+        confirmButtonText:
+            '<i class="fa fa-thumbs-up"></i> Restaurant Owner!',
+        confirmButtonAriaLabel: '',
+        cancelButtonText:
+            ' <a href="./login_user.html"><i class="fa fa-thumbs-down"></i>User</a>',
+        cancelButtonAriaLabel: ' <a href="./login_user.html"></i>User</a>',
+        
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        var forgotpass = document.getElementById('forgot_pass');
+        forgotpass.addEventListener('click',forgotPassPropmt);
+        function forgotPassPropmt(){  //forgot pass function 
+            var email = document.getElementById('email_inp').value;
+            console.log(email);
+            // will check if email is in our database if not then wil prompt that email not registered
+            // if email in database then
+            if(email==""){
+                Swal.fire(
+                    'Please enter your email!'
+                    
+                )
+            }
+            else{
+            Swal.fire(
+                'Reset link generated!',
+                'Please check your registered email!',
+                'success'
+            )
+            }
+        }
+    </script>
 </body>
 </html>
