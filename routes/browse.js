@@ -44,35 +44,6 @@ router.get('/', (req, res) => {
         res.status(400).send("login to order"); //bad request
 });
 
-router.post('/', (req, res) => {
-    if(req.session.user) {
-        if(req.session.user.uid) {
-            const { rid } = req.body.rid;
-            mySqlConnection.query(
-                `SELECT * FROM restaurants WHERE rid = ${rid} AND verified = TRUE`,
-                [],
-                (err, rows) => {
-                    if(err) {
-                        res.status(500).send(err);
-                    }
-                    else if(!rows) {
-                        res.status(400).send('No such restaurant');
-                    }
-                    else {
-                        res.redirect(`/browse/${rid}`);
-                    }
-                }
-            )
-        }
-        else {
-            res.status(401).send('Not a user');
-        }
-    }
-    else {
-        res.redirect('/users/login'); 
-    }
-});
-
 router.get('/:rid', (req, res) => {
     mySqlConnection.query(
         `SELECT * FROM restaurants WHERE rid = ${req.params.rid} AND verified = TRUE`,
