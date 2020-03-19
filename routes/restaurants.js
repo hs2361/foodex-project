@@ -100,11 +100,7 @@ router.get('/signup', (req, res) =>
         }
     }
     else {
-        res.status(200).sendFile(__dirname.replace('\\routes', '/frontend/register_rest.html'), (err) => {
-            if(err) {
-                res.status(500).send(err);
-            }
-        });
+        res.render('register_rest');
     }
 });
 
@@ -120,11 +116,7 @@ router.get('/login', (req,res) =>
         }
     }
     else {
-        res.status(200).sendFile(__dirname.replace('\\routes', '/frontend/login_rest.html'), (err) => {
-            if(err) {
-                res.status(500).send(err);
-            }
-        });
+        res.render('login_rest');
     }
 });
 

@@ -4,14 +4,89 @@ const mySqlConnection = require("../db/database"); //importing database connecti
 const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer"); //importing modules
 
-router.get('/dashboard', (req, res) => //GET request at /dashboard endpoint
-{
-    if (req.session.user)
-        res.status(200).send(req.session.user) //if user is logged in
-    else
-        res.status(401).send('login for this');
+//get request handling /restaurants. redirects to profile if logged in, else to login page
+router.get('/', (req, res) => {
+    if(req.session.user) {
+        if(req.session.user.uid) {
+            res.redirect('/users/profile');
+        }
+        else {
+            res.status(401).send('Login as user for this');
+        }
+    }
+    else {
+        res.redirect('/users/login');
+    }
 });
 
+//get request for profile
+router.get('/profile', (req, res) => {
+    if(req.session.user) {
+        if(req.session.user.uid) {
+            mySqlConnection.query(
+                `select * from users where uid = ${req.session.user.uid}`,
+                [],
+                (err, rows) => {
+                    if(err) {
+                        res.status(500).send(err);
+                    }
+                    else if(!rows) {
+                        res.status(500).send('login again');
+                    }
+                    else {
+                        res.send(rows);
+                    }
+                }
+            );
+        }
+        else {
+            res.status(401).send('Login as user for this');
+        }
+    }
+    else {
+        res.redirect('/users/login');
+    }
+});
+
+router.get('/profile/edit', (req, res) => {
+    if(req.session.user) {
+        if(req.session.user.uid) {
+            res.status(200).send('profile edit form');
+        }
+        else {
+            res.status(401).send('Login as user for this');
+        }
+    }
+    else {
+        res.redirect('/users/login');
+    }
+});
+
+router.post('/profile/edit', (req, res) => {
+    if(req.session.user) {
+        if(req.session.user.uid) {
+            const { name, email, phone, address } = req.body;
+            mySqlConnection.query(
+                `UPDATE TABLE users SET name = ${name}, email = ${email}, phone = ${phone}, address = ${address} WHERE uid = ${req.session.user.uid}`,
+                [],
+                (err, rows) => {
+                    if(err) {
+                        res.status(500).send(err);
+                    }
+                    else {
+                        res.status(200).send('Profile updated');
+                    }
+                }
+            );
+        }
+        else {
+            res.status(401).send('Login as user for this');
+        }
+    }
+    else {
+        res.redirect('/users/login');
+    }
+});
 
 router.get('/signup', (req, res) => 
 {
