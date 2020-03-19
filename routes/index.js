@@ -4,11 +4,8 @@ const mySqlConnection = require("../db/database");
 
 router.get('/', (req, res) => 
 {
-    res.sendFile( __dirname.replace("\\routes","") + "/frontend/landing.html",(err) => {
-        if(err)
-            res.send(err);
-    }
-)}); //home page
+    res.render("landing");
+}); //home page
 
 /*-----------------------------------------------------------------------------------*/
 //restaurant dashboard backend:
