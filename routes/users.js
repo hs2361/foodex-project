@@ -24,11 +24,7 @@ router.get('/signup', (req, res) =>
         }
     }
     else {
-        res.status(200).sendFile(__dirname.replace('\\routes', '/frontend/register_user.html'), (err) => {
-            if(err) {
-                res.status(500).send(err);
-            }
-        });
+        res.render('register_user');
     }
 });
 
@@ -43,11 +39,7 @@ router.get('/login', (req,res) =>
         }
     }
     else {
-        res.status(200).sendFile(__dirname.replace('\\routes', '/frontend/login_user.html'), (err) => {
-            if(err) {
-                res.status(500).send(err);
-            }
-        });
+        res.render('login_user');
     }
 });
 
