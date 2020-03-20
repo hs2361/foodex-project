@@ -76,7 +76,7 @@ router.get('/:rid/:did', (req,res) => {
                                 if(err)
                                     res.status(500).send(err); //internal server error
                                 else
-                                    res.status(200).send('added to cart');
+                                    res.redirect(`/browse/${req.params.rid}`);
                             }
                         )
                     }

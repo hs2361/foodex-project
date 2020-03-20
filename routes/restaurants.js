@@ -100,11 +100,7 @@ router.get('/signup', (req, res) =>
         }
     }
     else {
-        res.status(200).sendFile(__dirname.replace('\\routes', '/frontend/register_rest.html'), (err) => {
-            if(err) {
-                res.status(500).send(err);
-            }
-        });
+        res.render('register_rest');
     }
 });
 
@@ -120,11 +116,7 @@ router.get('/login', (req,res) =>
         }
     }
     else {
-        res.status(200).sendFile(__dirname.replace('\\routes', '/frontend/login_rest.html'), (err) => {
-            if(err) {
-                res.status(500).send(err);
-            }
-        });
+        res.render('login_rest');
     }
 });
 
@@ -292,7 +284,7 @@ router.get('/logout', (req,res) => {
 });
 
 router.get('/verify', (req,res) => {
-    res.status(200).sendFile(__dirname.replace('\\routes', '/frontend/verification.html'));
+    res.render('verification');
 });
 
 router.get('/verify/:email/:code', (req,res) => {
@@ -332,7 +324,7 @@ router.get('/verify/:email/:code', (req,res) => {
     }
 
     else{
-        res.status(200).send('verification page');
+    res.render('verification');
     }
 });
 
