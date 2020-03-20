@@ -6,6 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registration </title>
     <link rel="stylesheet" href="../frontend/css/register_rest.css">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        if('<%= alert %>' == 'true') {
+            swal('<%= msg %>');
+        }
+    </script>
 </head>
 
 <body>
@@ -48,8 +54,8 @@
                     <input type="name" required placeholder="restaurant name" name="name">
                     
                     <input type="email" required placeholder="username" name="email" id="email_inp">
-                    <input type="password" required placeholder="password" name="pass1" id="password_inp-1">
-                    <input type="password" required placeholder="confirm password" name="pass2" id="password_inp-1">
+                    <input type="password" required placeholder="password" name="password" id="password_inp-1">
+                    <input type="password" required placeholder="confirm password" name="password2" id="password_inp-1">
                     <input type="text" class="input-phone" name="phone" required placeholder="phone" id="phone">
                     
                     <input type="text" name="address" required placeholder="address" id="address">

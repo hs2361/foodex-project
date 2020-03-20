@@ -3,13 +3,12 @@ const router = express.Router();
 const mySqlConnection = require("../db/database"); //importing database connection
 var order_id = 1;
 
-
 router.get('/', (req,res) => {
     if(req.session.user)
     {
         if(req.session.user.rid) //check whether is restaurant
         {
-            res.status(400).send('you must be a user to order'); //bad request
+            res.status(401).send('you must be a user to order'); //unauthorised user
         }
         else
         {
