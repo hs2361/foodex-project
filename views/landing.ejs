@@ -29,11 +29,18 @@
         <div class="head__left">
             <nav>
                 <img class="brand_icon" height="40px" src="../frontend/images/brand-icon.png" alt="" srcset="">
+                <span><a class="nav__items" href="/users/login">Login</a></span>
+                <span><a class="nav__items" href="/users/signup">Register</a></span>
+                <span><a class="nav__items" href="#about">About</a></span>
                 
-                    <span><a href="#">Home</a></span>
-                    <span><a href="#about">About</a></span>
-                    <span><a href="/users/login">Login</a></span>
-                    <span><a href="/users/signup">Register</a></span>
+                <span id="rest__auth"> 
+                       <p>Restaurants</p>
+                       <div class="nav__dropdown hide">
+                            <a href="#">Login</a>
+                            <a href="#">Register</a>
+                       </div>
+                
+                     </span>
                 
             </nav>
               <div class="head__left__content">
@@ -121,10 +128,33 @@
   <p>© 2020-2020 - Food Captain Pvt Ltd. All rights reserved.</p>
 </footer>
 
-
+<script src="../frontend/js/jquery.min.js"></script>
 <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
 <script>
     AOS.init();
+    
+    $('#rest__auth').hover(
+
+    function () {
+            
+            
+             $('.nav__dropdown').addClass('nav__dropdown__unhide');
+             
+        },
+    function () {
+        console.log("out");
+      
+      
+         
+          $('.nav__dropdown').removeClass('nav__dropdown__unhide');
+    }
+    )
+    
+    
+
+
+
+
 </script>
 </body>
 </html>

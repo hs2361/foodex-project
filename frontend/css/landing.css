@@ -50,7 +50,9 @@ a{
 
     
 }
-
+.hide{
+    display: none;
+}
 .head__left{
     width: 50%;
     /* border: solid 1px red; */
@@ -64,14 +66,51 @@ a{
     align-items: center;
     width: 80%;
 }
-.head__left nav span a{
+.head__left nav span .rest__auth{
+    z-index: 10000000;
+}
+.head__left nav span .nav__items{
     color: black;
     font-family: 'Raleway',sans-serif ;
     position: relative;
     padding: 4%;
 
 }
-.head__left nav span a:after,.head__left nav span a:before{
+.head__left nav span p{
+    text-decoration: none;
+    border: none;
+      color: black;
+    font-family: 'Raleway',sans-serif ;
+    position: relative;
+    padding: 4%;
+
+}
+.head__left nav span p{
+    border-bottom:solid 3px #D3C5C5 ;
+    position: relative;
+}
+.head__left nav span p:hover{
+    cursor: pointer;
+}
+
+.head__left nav span .nav__dropdown a{
+    color: #12151A;
+}
+.nav__dropdown__unhide{
+display: flex;
+flex-direction: column;
+justify-content:space-around;
+align-items: center;
+color: #12151A;
+font-family: "Raleway",sans-serif;
+width: 100px;
+height: 100px;
+padding-top: 10px;
+/* border: solid; */
+position: absolute;
+transition: all 0.3s ease;
+}
+.head__left nav span a:after,.head__left nav span .nav__items:before{
      content: '';
       display: block;
       position: absolute;
@@ -84,12 +123,12 @@ a{
       transform: scale(1);
 }
 
-.head__left nav span a:hover:before{
+.head__left nav span .nav__items:hover:before{
     top: 0;
     
       transform: scale(1);
 }
-.head__left nav span a:hover:after{
+.head__left nav span .nav__items:hover:after{
     transform: scale(1);
 }
 
