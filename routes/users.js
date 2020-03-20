@@ -92,14 +92,14 @@ router.get('/signup', (req, res) =>
 {
     if (req.session.user) {
         if (req.session.user.uid) {
-            res.status(400).send('already logged in');
+            res.render('register_user', { alert : 'true', msg : 'already logged in' });
         }
         else {
-            res.status(401).send('not a user');
+            res.render('register_user', { alert : 'true', msg : 'not a user' });
         }
     }
-    else {
-        res.render('register_user');
+    else {  
+        res.render('register_user', { alert : 'false', msg : '' });
     }
 });
 
@@ -107,14 +107,14 @@ router.get('/login', (req,res) =>
 {
     if (req.session.user) {
         if(req.session.user.uid) {
-            res.status(400).send('already logged in');
+            res.render('login_user', { alert : 'true', msg : 'already logged in' });
         }
         else {
-            res.status(401).send('not a user');
+            res.render('login_user', { alert : 'true', msg : 'not a user' });
         }
     }
     else {
-        res.render('login_user');
+        res.render('login_user', { alert : 'false', msg : '' });
     }
 });
 

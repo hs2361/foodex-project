@@ -45,35 +45,45 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:rid', (req, res) => {
-    mySqlConnection.query(
-        `SELECT * FROM restaurants WHERE rid = ${req.params.rid} AND verified = TRUE`,
-        [],
-        (err, rows) => {
-            if(err) {
-                res.status(500).send(err);
-            }
-            else if(!rows) {
-                res.status(400).send('Restaurant not found');
-            }
-            else {
-                mySqlConnection.query(
-                    `SELECT * FROM menu_${req.params.rid}`,
-                    [],
-                    (err, rows) => {
-                        if(err) {
-                            res.status(500).send(err);
-                        }
-                        else if (!rows) {
-                            res.status(400).send('Restaurant has no dishes');
-                        }
-                        else {
-                            res.status(200).send(rows);
-                        }
+    if(req.session.user) {
+        if(req.session.user.uid) {
+            mySqlConnection.query(
+                `SELECT * FROM restaurants WHERE rid = ${req.params.rid} AND verified = TRUE`,
+                [],
+                (err, rows) => {
+                    if(err) {
+                        res.status(500).send(err);
                     }
-                )
-            }
+                    else if(!rows) {
+                        res.status(400).send('Restaurant not found');
+                    }
+                    else {
+                        mySqlConnection.query(
+                            `SELECT * FROM menu_${req.params.rid}`,
+                            [],
+                            (err, rows) => {
+                                if(err) {
+                                    res.status(500).send(err);
+                                }
+                                else if (!rows) {
+                                    res.status(400).send('Restaurant has no dishes');
+                                }
+                                else {
+                                    res.status(200).send(rows);
+                                }
+                            }
+                        )
+                    }
+                }
+            )
         }
-    )
+        else {
+            res.status(401).send("not a user");
+        }
+    }
+    else {
+        res.redirect('/users/login');
+    }
 });
 
 module.exports = router;
