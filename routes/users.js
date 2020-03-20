@@ -122,21 +122,7 @@ router.post('/signup', (req, res) => //POST request at /signup endpoint
 {
     const { name, email, password, password2, phone, address } = req.body; //destructuring req.body object received from form
     let errors = []; //errors array
-    if (!name || !email || !password || !password2 || !phone || !address) //empty fields
-    {
-        errors.push({ msg: "Please enter all fields" });
-    }
-
-    if (password != password2) //confirm password
-    {
-        errors.push({ msg: "Passwords do not match" });
-    }
-
-
-    if (password.length < 8) //password length
-    {
-        errors.push({ msg: "Password must be at least 8 characters" });
-    }
+  
 
     mySqlConnection.query(
         "SELECT * FROM users WHERE email = ?", //check for existing users

@@ -77,6 +77,8 @@
             var pass1 = document.forms['userregister']['pass1'].value;
             var pass2 = document.forms['userregister']['pass2'].value;
             var phone = document.forms['userregister']['phone'].value;
+            console.log(phone.length);
+            console.log(typeof(phone));
             // actionattr = document.forms['reset']
             // atleast 1 lowercase, 1 uppercase, 8<length<60 and atleast 1 numeric digit
             var passw = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,60}$/;
