@@ -81,10 +81,16 @@ router.get('/:rid', (req, res) => {
                             });
                         }
                     }
-                )
-            }
+                }
+            )
         }
-    )
+        else {
+            res.status(401).send("not a user");
+        }
+    }
+    else {
+        res.redirect('/users/login');
+    }
 });
 
 module.exports = router;
