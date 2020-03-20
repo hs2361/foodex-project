@@ -265,7 +265,7 @@ router.get('/logout', (req, res) => { //GET request at /logout endpoint
 })
 
 router.get('/verify', (req, res) => { //GET request at /verify endpoint without params
-    res.status(200).sendFile(__dirname.replace("\\routes","")+'/frontend/verification.html');
+    res.render('verification');
 })
 
 // router.post('/verify', (req,res) => { //POST request at /verify endpoint with email and code
@@ -322,7 +322,7 @@ router.get('/verify/:email/:code', (req, res) => { //GET request at /verify endp
     }
 
     else {
-        res.status(200).send('verification page'); //for empty params
+        res.render('verification');    //for empty params
     }
 })
 

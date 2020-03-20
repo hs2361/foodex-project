@@ -50,7 +50,7 @@
                 <!-- <p><span class="orange"> good food</span></p> -->
             </div>
             <div class="form">
-                <form action="/restaurants/signup" method="POST">
+                <form action="/restaurants/signup" onsubmit="return validate()" name="restregister" method="POST">
                     <input type="name" required placeholder="restaurant name" name="name">
                     
                     <input type="email" required placeholder="username" name="email" id="email_inp">
@@ -65,7 +65,7 @@
                 
                 <div class="form__footer">
                     <!-- <a id="forgot_pass" href="#">Forgot Password?</a> -->
-                    <a class="create_an_acc" href="/restaurants/login">Already a member?</a>
+                    <a class="already_mem" href="/restaurants/login">Already a member?</a>
                     
                 </div>
                 </form>
@@ -75,6 +75,62 @@
     </div>
 
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script>
+        function validate() {
+            console.log("submit");
+            var pass1 = document.forms['restregister']['pass1'].value;
+            var pass2 = document.forms['restregister']['pass2'].value;
+            var phone = document.forms['restregister']['phone'].value;
+            // actionattr = document.forms['reset']
+            // atleast 1 lowercase, 1 uppercase, 8<length<60 and atleast 1 numeric digit
+            var passw = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,60}$/;
+            if (pass1 != pass2) {
+                erroralertLengthChecker();
+                return false;
+            }
+            if (!pass1.match(passw)) {
+                // window.alert("Password should be between 8 to 60 characters and should contain at least one numeric digit, one uppercase and one lowercase letter");
+                erroralertPassChecker();
+                return false;
+            }
+            if (phone.length != 10) {
+                errorPhoneInvalid();
+                return false;
+            }
+            return true;
+        }
+
+
+        function erroralertPassChecker() {
+            Swal.fire({
+                icon: 'error',
+                title: 'Password invalid..',
+                text: 'Password should be between 8 to 60 characters and should contain atleast one numeric digit, one uppercase and one lowercase character',
+                // footer: '<a href>Why do I have this issue?</a>'
+            })
+        }
+        function errorPhoneInvalid() {
+            Swal.fire({
+                icon: 'error',
+                title: 'Phone number invalid..',
+                text: 'Please check your phone number..',
+                // footer: '<a href>Why do I have this issue?</a>'
+            })
+        }
+        function erroralertLengthChecker() {
+            Swal.fire({
+                icon: 'error',
+                title: 'Wrong Password!',
+                text: 'Make sure password in both fields is same..',
+
+            })
+        }
+
+
+
+
+    </script>
 
 </body>
 

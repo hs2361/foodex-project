@@ -284,7 +284,7 @@ router.get('/logout', (req,res) => {
 });
 
 router.get('/verify', (req,res) => {
-    res.status(200).sendFile(__dirname.replace('\\routes', '/frontend/verification.html'));
+    res.render('verification');
 });
 
 router.get('/verify/:email/:code', (req,res) => {
@@ -324,7 +324,7 @@ router.get('/verify/:email/:code', (req,res) => {
     }
 
     else{
-        res.status(200).send('verification page');
+    res.render('verification');
     }
 });
 
