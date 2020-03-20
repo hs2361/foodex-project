@@ -24,7 +24,7 @@ router.get('/', (req, res) => {
                         res.status(500).send(err); //internal server error
                     else {
                         mySqlConnection.query( //shows user a list of restaurants ordered by name
-                            `select rid, rname, phone, address from restaurants where verified = true order by rname`,
+                            `select rid, rname, phone, address,rating from restaurants where verified = true order by rname`,
                             [],
                             (err, rows) => {
                                 if(err)
@@ -32,7 +32,14 @@ router.get('/', (req, res) => {
                                 else if(!rows)
                                     res.send('no restaurants to browse'); // no restaurants in catalogue
                                 else 
-                                    res.status(200).send(rows); // sends list of restaurants for user to browse
+                                    res.status(200).render("browse", {
+                                        profile: {
+                                            name: req.session.user.uname,
+                                            phone: req.session.user.phone,
+                                            email: req.session.user.email
+                                        },
+                                        data: {rows}
+                                    }); // dynamically renders list of restaurants for user to browse
                             }
                         );
                     }
@@ -59,15 +66,19 @@ router.get('/:rid', (req, res) => {
                 mySqlConnection.query(
                     `SELECT * FROM menu_${req.params.rid}`,
                     [],
-                    (err, rows) => {
-                        if(err) {
-                            res.status(500).send(err);
-                        }
-                        else if (!rows) {
-                            res.status(400).send('Restaurant has no dishes');
+                    (e, r) => {
+                        if(e) {
+                            res.status(500).send(e);
                         }
                         else {
-                            res.status(200).send(rows);
+                            res.status(200).render("restaurant", {
+                                profile: {
+                                    name: req.session.user.uname,
+                                    phone: req.session.user.phone,
+                                    email: req.session.user.email
+                                },
+                                data: {rows,r}
+                            });
                         }
                     }
                 )
