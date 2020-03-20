@@ -26,7 +26,7 @@ app.use("/feedback", require("./routes/feedback")) //routing for /feedback endpo
 app.use("/browse", require("./routes/browse"));
 
 app.get("*", (req, res) => {
-  res.status(404).sendFile(__dirname + '/frontend/404.html');
+  res.status(404).render("404");
 }); //default 404 response
 
 const PORT = 5000;
