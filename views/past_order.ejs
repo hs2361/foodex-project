@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>App name</title>
-    <link rel="stylesheet" href="./css/past_order.css">
+    <link rel="stylesheet" href="../frontend/css/past_order.css">
 </head>
 
 <body>
@@ -166,7 +166,7 @@
 
         <nav>
             <div class="brand">
-                <img width="35px" src="/images/brand-icon.png" alt="" srcset="">
+                <img width="35px" src="../frontend/images/brand-icon.png" alt="" srcset="">
                 <p>Food<span class="orange">Captain</span></p>
 
             </div>
@@ -220,57 +220,51 @@
             </div>
         </nav>
         <div class="top__fixed">
-            <img src="./images/rating.gif" alt="">
+            <img src="../frontend/images/rating.gif" alt="">
         </div>
        <div class="main__body">
         <div class="main__body__feed">
            
 
             
-
-            <div class="card">
-                <div class="card__left">
-                    <img src="./images/rest_card_1.jpg" width="280px" alt="">
-                </div>
-                <div class="card__right">
-                    <div class="rest__name">
-                        Icy Spicy
+            <% o.forEach(order => { %>
+                <div class="card">
+                    <div class="card__left">
+                        <img src="../frontend/images/rest_card_1.jpg" width="280px" alt="">
                     </div>
-                    <div class="rest__category">
-                        Fast food
-                    </div>
-                    <div class="rest__dish__items">
-            
-                        <div class="rest__dish">
-                            <span class="dish__name">allo paratha</span>
-                            <div class="dish__price">₹800</div>
+                    <div class="card__right">
+                        <div class="rest__name">
+                            <%= order.rname %>
                         </div>
-            
-                        <div class="rest__dish">
-                            <span class="dish__name">allo paratha</span>
-                            <div class="dish__price">₹800</div>
+                        <div class="rest__category">
+                            <%= order.category %>
                         </div>
-                        <div class="rest__dish">
-                            <span class="dish__name">allo paratha</span>
-                            <div class="dish__price">₹800</div>
+                        <% Object.entries(order.items).forEach(dish => { %>
+                            <div class="rest__dish__items">
+                    
+                                <div class="rest__dish">
+                                    <span class="dish__name"><%= dish[0] %> x<%= dish[1] %></span>
+                                    <!-- <div class="dish__price">₹<%= dish.price %></div> -->
+                                </div>
+                            </div>
+                        <% }); %>
+                        <div class="rest__total__price">
+                            <span class="total__price__label">Total</span>
+                            <div class="total__price">₹<%= order.amount %></div>
                         </div>
-                    </div>
-                    <div class="rest__total__price">
-                        <span class="total__price__label">Total</span>
-                        <div class="total__price">₹1600</div>
-                    </div>
-                    <div class=" rest__rating__tab">
-                        <input class="rating_btn star1" type="radio" name="" id="star1-1"> <label class="star1" for="star1-1"></label>
-                        <input class="rating_btn star1" type="radio" name="" id="star1-2"> <label class="star1" for="star1-2"></label>
-                        <input class="rating_btn star1" type="radio" name="" id="star1-3"> <label class="star1" for="star1-3"></label>
-                        <input class="rating_btn star1" type="radio" name="" id="star1-4"> <label class="star1" for="star1-4"></label>
-                        <input class="rating_btn star1" type="radio" name="" id="star1-5"> <label class="star1" for="star1-5"></label>
+                        <!-- <div class=" rest__rating__tab">
+                            <input class="rating_btn star1" type="radio" name="" id="star1-1"> <label class="star1" for="star1-1"></label>
+                            <input class="rating_btn star1" type="radio" name="" id="star1-2"> <label class="star1" for="star1-2"></label>
+                            <input class="rating_btn star1" type="radio" name="" id="star1-3"> <label class="star1" for="star1-3"></label>
+                            <input class="rating_btn star1" type="radio" name="" id="star1-4"> <label class="star1" for="star1-4"></label>
+                            <input class="rating_btn star1" type="radio" name="" id="star1-5"> <label class="star1" for="star1-5"></label>
+                            <button><a href="/feedback/<%= order.oid %>"></a></button>
+                        </div> -->
                     </div>
                 </div>
-            </div>
+            <% }); %>
 
-
-            <div class="card">
+            <!-- <div class="card">
                 <div class="card__left">
                     <img src="./images/rest_card_1.jpg" width="280px" alt="">
                 </div>
@@ -314,7 +308,7 @@
 
             <div class="card">
                 <div class="card__left">
-                    <img src="../frontend/images/rest_card_1.jpg" width="280px" alt="">
+                    <img src="./images/rest_card_1.jpg" width="280px" alt="">
                 </div>
                 <div class="card__right">
                     <div class="rest__name">
@@ -351,7 +345,7 @@
                         <input class="rating_btn star3" type="radio" name="" id="star3-5"> <label class="star3" for="star3-5"></label>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
 
        </div>

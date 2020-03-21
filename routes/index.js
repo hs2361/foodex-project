@@ -86,26 +86,28 @@ router.post('/rdashboard/menu', (req, res) => {
     }
 });
 
-router.get('/rdashboard/feedback/:rid', (req, res) => {
-    if(req.session.user.rid) {
-        mySqlConnection.query(
-            `select * from orders where rid = ${rid} and delivered = 1`,
-            [],
-            (err, rows) => {
-                if(err) {
-                    res.status(500).send(err);
+router.get('/rdashboard/feedback/', (req, res) => {
+    if(req.user.user) {
+        if(req.session.user.rid) {
+            mySqlConnection.query(
+                `select * from orders where rid = ${req.session.user.rid} and delivered = 1`,
+                [],
+                (err, rows) => {
+                    if(err) {
+                        res.status(500).send(err);
+                    }
+                    else if(!rows) {
+                        res.send("No orders yet");
+                    }
+                    else {
+                        res.send(rows);
+                    }
                 }
-                else if(!rows) {
-                    res.send("No orders yet");
-                }
-                else {
-                    res.send(rows);
-                }
-            }
-        )
-    }
-    else {
-        res.status(401).send('login as restaurant for this');
+            )
+        }
+        else {
+            res.status(401).send('login as restaurant for this');
+        }
     }
 })
 
