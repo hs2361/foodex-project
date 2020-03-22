@@ -256,6 +256,8 @@ background-color:#12151A ;
     padding: 0 8px 0;
     transition: .3s ease-in;
     margin-bottom: 8px;
+    text-transform: capitalize;
+    color: black;
     /* border: solid ; */
 }
 .rest__card .rest__category{
@@ -266,7 +268,7 @@ background-color:#12151A ;
 
 .rest__card .rest__rating{
     background-color:#48C479 ;
-    width: 50px;
+    width: 40px;
     color: #fff;
     font-weight: 700;
     display: flex;
@@ -278,6 +280,7 @@ background-color:#12151A ;
 .rest__card .rest__location{
      background-image: linear-gradient(125deg,rgba(252, 147, 9, 0.6),#EFB319);
      padding: 5px;
+     
 }
 .rest__card:hover{
     transform: scale(1.05);

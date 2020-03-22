@@ -282,8 +282,153 @@
                    <div class="card__response__tab">
                        <button class="card__response__tab__accept">Accept Order</button>
                        <button class="card__response__tab__delivered">Delivered</button>
-                       <button class="card__response__tab__reject">Reject Order</button>
+                     
                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card__left">
+                    <img src="./images/rest_card_1.jpg" width="280px" alt="">
+                </div>
+                <div class="card__right">
+                    <div class="rest__name">
+                        Icy Spicy
+                    </div>
+                    <div class="rest__category">
+                        Fast food
+                    </div>
+                    <div class="rest__dish__items">
+            
+                        <div class="rest__dish">
+                            <span class="dish__name">allo paratha</span>
+                            <div class="dish__price">₹800</div>
+                        </div>
+            
+                        <div class="rest__dish">
+                            <span class="dish__name">allo paratha</span>
+                            <div class="dish__price">₹800</div>
+                        </div>
+                        <div class="rest__dish">
+                            <span class="dish__name">allo paratha</span>
+                            <div class="dish__price">₹800</div>
+                        </div>
+                    </div>
+                    <div class="rest__total__price">
+                        <span class="total__price__label">Total</span>
+                        <div class="total__price">₹1600</div>
+                    </div>
+                    <div class="card__response__tab">
+                        <button class="card__response__tab__accept">Accept Order</button>
+                        <button class="card__response__tab__delivered">Delivered</button>
+            
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card__left">
+                    <img src="./images/rest_card_1.jpg" width="280px" alt="">
+                </div>
+                <div class="card__right">
+                    <div class="rest__name">
+                        Icy Spicy
+                    </div>
+                    <div class="rest__category">
+                        Fast food
+                    </div>
+                    <div class="rest__dish__items">
+            
+                        <div class="rest__dish">
+                            <span class="dish__name">allo paratha</span>
+                            <div class="dish__price">₹800</div>
+                        </div>
+            
+                        <div class="rest__dish">
+                            <span class="dish__name">allo paratha</span>
+                            <div class="dish__price">₹800</div>
+                        </div>
+                        <div class="rest__dish">
+                            <span class="dish__name">allo paratha</span>
+                            <div class="dish__price">₹800</div>
+                        </div>
+                    </div>
+                    <div class="rest__total__price">
+                        <span class="total__price__label">Total</span>
+                        <div class="total__price">₹1600</div>
+                    </div>
+                    <div class="card__response__tab">
+                        <button class="card__response__tab__accept">Accept Order</button>
+                        <button class="card__response__tab__delivered">Delivered</button>
+            
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card__left">
+                    <img src="./images/rest_card_1.jpg"  alt="">
+                </div>
+                <div class="card__right">
+                    <div class="rest__name">
+                        Icy Spicy
+                    </div>
+                    <div class="rest__category">
+                        Fast food
+                    </div>
+                    <div class="rest__dish__items">
+            
+                        <div class="rest__dish">
+                            <span class="dish__name">allo paratha</span>
+                            <div class="dish__price">₹800</div>
+                        </div>
+                        <div class="rest__dish">
+                            <span class="dish__name">allo paratha</span>
+                            <div class="dish__price">₹800</div>
+                        </div>
+                        <div class="rest__dish">
+                            <span class="dish__name">allo paratha</span>
+                            <div class="dish__price">₹800</div>
+                        </div>
+                        <div class="rest__dish">
+                            <span class="dish__name">allo paratha</span>
+                            <div class="dish__price">₹800</div>
+                        </div>
+                        <div class="rest__dish">
+                            <span class="dish__name">allo paratha</span>
+                            <div class="dish__price">₹800</div>
+                        </div>
+                        <div class="rest__dish">
+                            <span class="dish__name">allo paratha</span>
+                            <div class="dish__price">₹800</div>
+                        </div>
+                        <div class="rest__dish">
+                            <span class="dish__name">allo paratha</span>
+                            <div class="dish__price">₹800</div>
+                        </div>
+                        <div class="rest__dish">
+                            <span class="dish__name">allo paratha</span>
+                            <div class="dish__price">₹800</div>
+                        </div>
+                        <div class="rest__dish">
+                            <span class="dish__name">allo paratha</span>
+                            <div class="dish__price">₹800</div>
+                        </div>
+                        <div class="rest__dish">
+                            <span class="dish__name">allo paratha</span>
+                            <div class="dish__price">₹800</div>
+                        </div>
+                        <div class="rest__dish">
+                            <span class="dish__name">allo paratha</span>
+                            <div class="dish__price">₹800</div>
+                        </div>
+                    </div>
+                    <div class="rest__total__price">
+                        <span class="total__price__label">Total</span>
+                        <div class="total__price">₹1600</div>
+                    </div>
+                    <div class="card__response__tab">
+                        <button class="card__response__tab__accept">Accept Order</button>
+                        <button class="card__response__tab__delivered">Delivered</button>
+            
+                    </div>
                 </div>
             </div>
 
@@ -333,14 +478,22 @@
         $('.ham').click(hamburg);
         $('#close').click(hamburg);
 
-        function cart_show_hide() {
-            $('.cart__2').toggleClass('unhide');
+        $('.card__response__tab__accept').click(
+            function (){
+                $(this).css('display','none');
+                
+            }
+        )
+        
+            $('.card__response__tab__delivered').click(
+                function () {
+                    console.log("eg");
+                    $(this).text("✔ Delivered ");
+                    $(this).attr("disabled","disabled");
 
-            $('.cart__2').toggleClass('cart__small');
-
-        }
-        $('.cart__icon').click(cart_show_hide);
-        $('.cart__2__close').click(cart_show_hide);
+                }
+            )
+      
 
 
     </script>

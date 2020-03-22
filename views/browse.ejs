@@ -183,7 +183,7 @@
             </div>
         </nav>
 
-        <!-- <div class="header__image"> -->
+        <!--  -->
             <!-- <div class="header__balls">
                 <svg  id="ball__1" width="33" height="32" viewBox="0 0 33 32" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
@@ -233,6 +233,7 @@
             </div>
             -->
 <!-- if we get some time will beautify this part using food vectors and balls -->
+<div class="header__image">
             <img src="../frontend/images/cheese-pizza.jpg" alt="" srcset="">
             
             <div class="header__image__right">
@@ -246,9 +247,11 @@
         </div>
         <div class="user__feed">
             <% data.rows.forEach(e => { %>
+                <a href="/browse/<%= e.rid %>">
                 <div class="rest__card">
                     <img width="229px" src="../frontend/images/rest_card_1.jpg" alt="">
-                    <div class="rest__name"><a href="/browse/<%= e.rid %>"><%= e.rname %></a></div>
+                    <!-- <div class="rest__name"><a href="/browse/<%= e.rid %>"><%= e.rname %></a></div> -->
+                    <div class="rest__name"><%= e.rname %></div>
                     <div class="rest__rating">
                         <svg width="15px" fill="white" id="Capa_1" enable-background="new 0 0 448.941 448.941"
                             viewBox="0 0 448.941 448.941" xmlns="http://www.w3.org/2000/svg">
@@ -260,6 +263,7 @@
                     </div>
                     <div class="rest__location"><%= e.address %></div>
                 </div>
+                </a>
             <% }); %>
     </div>
 
