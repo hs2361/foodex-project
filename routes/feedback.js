@@ -7,8 +7,8 @@ router.get("/", (req, res) => { //GET request to get details of all past and cur
         if (req.session.user.uid) { //if is a user, not restaurant
             var orders = []; //orders array to be sent to user
 
-            mySqlConnection.query(
-                `select oid,orders.rid,rname,did,delivered,rating,feedback,otime,count(did) as qty
+            mySqlConnection.query(//temp removed rating
+                `select oid,orders.rid,rname,did,delivered,feedback,otime,count(did) as qty
                  from orders, restaurants where uid = ${req.session.user.uid} and orders.rid = restaurants.rid
                   group by oid,did`, // query to get dishes and quantity of dishes for each order ID made by user
                 [],
@@ -73,7 +73,8 @@ router.get("/", (req, res) => { //GET request to get details of all past and cur
 
                                                 if(i == rows.length - 1) //last row of orders
                                                 {
-                                                    res.send(orders); //send orders array to user
+                                                    // res.send(orders); //send orders array to user
+                                                    res.render('past_order', {o: orders});
                                                 }
                                                 return;
                                             }
@@ -108,7 +109,8 @@ router.get("/", (req, res) => { //GET request to get details of all past and cur
 
                                                 if(i == rows.length - 1) //last row of orders
                                                 {
-                                                    res.send(orders); //send orders array to user
+                                                    // res.send(orders); //send orders array to user
+                                                    res.render('past_order', {o: orders}); //send orders array to user
                                                 }
                                                 return;
                                             }
@@ -175,7 +177,7 @@ router.post("/:oid", (req,res) => { //POST request to submit feedback and rating
     }
     else
     {
-        res.status(401).send("Login as user to submit feedback"); //unauthorised user
+        res.status(400).send("Login as user to submit feedback"); //unauthorised user
     }
 })
 

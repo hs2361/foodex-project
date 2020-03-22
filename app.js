@@ -18,12 +18,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(expressLayouts);
 app.set("view engine", "ejs");
 
-app.use("/", require("./routes/index")); //routing for home page
+app.use("/", require("./routes/index")); //routing for root
 app.use("/users", require("./routes/users")); //routing for /users endpoint of API
 app.use("/order", require("./routes/order")); //routing for /order endpoint of API
 app.use("/restaurants", require("./routes/restaurants")); //routing for /restaurants endpoint of API
 app.use("/feedback", require("./routes/feedback")) //routing for /feedback endpoint of API
-app.use("/browse", require("./routes/browse"));
+app.use("/browse", require("./routes/browse")); //routing for /browse endpoint of API
 
 app.get("*", (req, res) => {
   res.status(404).render("404");
