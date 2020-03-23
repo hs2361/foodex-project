@@ -38,49 +38,75 @@ router.get('/:rid/:did', (req,res) => {
     if(req.session.user)
     {
         if(req.session.user.rid) //check whether is restaurant
-            {
-                res.status(400).send('you must be a user to order'); //bad request
-            }
-
+        {
+            res.status(400).send('you must be a user to order'); //bad request
+        }
         else
         {
             const uid = req.session.user.uid;
-            var mul = false;
-            mySqlConnection.query(
-                `select *from cart_${uid}`,
-                [],
-                (err,rows) => {
-                    if(err)
-                        res.status(500).send(err); //internal server error
-                    else
-                    {
-                        rows.some((e) => { //iterate over items in cart
-                            if(e["rid"] != req.params.rid)
-                            {
-                                res.status(400).send("cannot order simultaneously from multiple restaurants") //bad request
-                                mul = true;
-                            }
+            if(req.query.action === 'add') {
+                var mul = false;
+                mySqlConnection.query(
+                    `select *from cart_${uid}`,
+                    [],
+                    (err,rows) => {
+                        if(err)
+                            res.status(500).send(err); //internal server error
+                        else
+                        {
+                            rows.some((e) => { //iterate over items in cart
+                                if(e["rid"] != req.params.rid)
+                                {
+                                    res.status(400).send("cannot order simultaneously from multiple restaurants") //bad request
+                                    mul = true;
+                                }
 
-                            return mul;
-                        })
-                    }
+                                return mul;
+                            })
+                        }
 
-                    if(!mul) //not trying to order from multiple restaurants
-                    {
-                        mySqlConnection.query( //add dish to cart
-                            `insert into cart_${uid} values (?)`,
-                            [[req.params.rid, req.params.did]],
-                            (err) => 
-                            {
-                                if(err)
-                                    res.status(500).send(err); //internal server error
-                                else
-                                    res.redirect(`/browse/${req.params.rid}`);
-                            }
-                        )
+                        if(!mul) //not trying to order from multiple restaurants
+                        {
+                            mySqlConnection.query( //add dish to cart
+                                `insert into cart_${uid} values (?)`,
+                                [[req.params.rid, req.params.did]],
+                                (err) => 
+                                {
+                                    if(err)
+                                        res.status(500).send(err); //internal server error
+                                    else
+                                        res.redirect(`/browse/${req.params.rid}`);
+                                }
+                            )
+                        }
                     }
-                }
-            )
+                );
+            }
+            else if(req.query.action === 'remove') {
+                mySqlConnection.query(
+                    `select * from cart_${uid} where rid = ${req.params.rid} and did = ${req.params.did}`,
+                    [],
+                    (err, rows) => {
+                        if(err) {
+                            res.status(500).send(err);
+                        }
+                        else if(rows[0]) {
+                            mySqlConnection.query(
+                                `delete from cart_${uid} where did = ${req.params.did} limit 1`,
+                                [],
+                                (err) => {
+                                    if(err) {
+                                        res.status(500).send(err);
+                                    }
+                                    else {
+                                        res.redirect(`/browse/${req.params.rid}`);
+                                    }
+                                }
+                            )
+                        }
+                    }
+                )
+            }
         }
     }
 
