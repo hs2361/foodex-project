@@ -88,10 +88,9 @@ router.get('/:rid', (req, res) => {
                                                             if (e3)
                                                                 res.status(500).send(e3);
                                                             else {
-                                                                dishes[r3[0].dname] = [el.qty, r3[0].price * el.qty];
+                                                                dishes[r3[0].dname] = [el.qty, r3[0].price * el.qty, el.did];
                                                                 totalPrice += r3[0].price * el.qty;
                                                                 if (i == r2.length - 1) {
-                                                                    console.log(dishes);
                                                                     res.status(200).render("restaurant", {
                                                                         profile: {
                                                                             name: req.session.user.uname,

@@ -253,7 +253,7 @@
                     <div class="dish__price">₹<%= e.price %></div>
                 </div>
                 <div class="menu__dish__right">
-                    <a href="/order/<%= data.rows[0].rid %>/<%= e.did %>">
+                    <a href="/order/<%= data.rows[0].rid %>/<%= e.did %>/?action=add">
                         <span class="add__btn"><svg width="25" height="29" viewBox="0 0 40 39" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -311,9 +311,13 @@
                         <div class="cart__item__price">₹<%= data.dishes[dish][1] %></div>
                     </div>
                     <div class="cart__item__right">
-                        <div class="sub">-</div>
+                        <a href="/order/<%= data.rows[0].rid %>/<%= data.dishes[dish][2] %>/?action=remove">
+                            <div class="add">-</div>
+                        </a>
                         <div class="quantity"><%= data.dishes[dish][0] %></div>
-                        <div class="add">+</div>
+                        <a href="/order/<%= data.rows[0].rid %>/<%= data.dishes[dish][2] %>/?action=add">
+                            <div class="add">+</div>
+                        </a>
                     </div>
                 </li>
                 <% }; %>
@@ -321,7 +325,7 @@
 
             <div class="cart__checkout">
                 <div class="cart__checkout__left">
-                    <a href="./checkout.html">CHECKOUT</a>
+                    <a href="/order/checkout">CHECKOUT</a>
                 </div>
                 <span class="totalPrice">
                     ₹<%= data.totalPrice %>
