@@ -5,6 +5,90 @@
  box-sizing: border-box; 
  /* border: solid; */
 }
+.add__dishes__popup{
+    width: 400px;
+    height: 300px;
+    background-color: white;
+    position: fixed;
+    z-index: 100000;
+    top: 50%;
+    left: 50%;
+    /* border-radius: 30px; */
+    border-bottom: solid orange 1px;
+    transform: translate(-50%,-50%);
+    
+
+}
+.add__dishes__popup #add__dishes__popup__close{
+    position: absolute;
+    z-index: 10;
+    right: 14px;
+    top:4px;
+    fill: white;
+    
+
+}
+.add__dishes__popup #add__dishes__popup__close:hover{
+    transform: scale(1.1);
+    cursor: pointer;
+    transition: ease-in-out 0.3s;
+}
+.add__dishes__popup form{
+    display: flex;
+    flex-direction: column;
+    
+    
+    /* border: solid; */
+    width: 100%;
+    transform: translateY(100%);
+}
+.add__dishes__popup .image{
+    background-image: url("../images/pizaalert.jpg");
+    width: 100%;
+    height: 150px;
+    filter: blur(2px);
+    position: absolute;
+    background-attachment: fixed;
+    background-position: center;
+    /* border-top-left-radius: 30px;
+    border-top-right-radius: 30px; */
+
+}
+.add__dishes__popup input,button{
+    /* border-radius: 8px; */
+    margin: 8px auto;
+    border: solid ORANGE 1PX;
+    padding: 4px;
+    width: 250px;
+
+    font-family: "Raleway",sans-serif;
+
+}
+.add__dishes__popup button{
+    background-color: chartreuse;
+    color: white;
+    font-weight: 800;
+    font-size: larger;
+    border: solid 1px green;
+    transition: ease-in-out 0.3s;
+}
+.add__dishes__popup button:hover{
+    cursor: pointer;
+    transform: scale(1.05);
+}
+.add__dishes__popup input::before{
+    content: "12";
+}
+.add__dishes__popup input[type=number]::-webkit-inner-spin-button, 
+ .add__dishes__popup input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  
+  margin: 0; 
+}
+input[type=number] {
+  -moz-appearance: textfield;
+  
+}
 .unhide{
     border: solid 1px orange;
     padding: 4px;
@@ -31,7 +115,7 @@
     transform: scale(1.05);
 }
 .blur{
-    filter: blur(3px);
+    filter: blur(2px);
 }
 a{
     text-decoration: none;
@@ -67,6 +151,8 @@ a{
     top: 13px;
     fill: white;
    filter: brightness(2);
+   z-index: 100000000;
+
 }
 .ham__items #close:hover{
     cursor: pointer;
@@ -161,7 +247,7 @@ position: fixed;
     background-color: ivory;
     border-radius: 50px;
 }
-.profile__tab__pastOrder{
+.profile__tab__dashboard{
     color: ivory;
     background-color: orange;
     border: solid 4px white;
@@ -261,7 +347,7 @@ nav .nav__right .profile__btn:hover{
     color: orange;
 }
 
-.profile__tab__pastOrder:hover{
+.profile__tab__dashboard:hover{
     cursor: pointer ;
     transform: scale(1.05);
     background-color: orange;
@@ -304,7 +390,7 @@ display: none;
 }
 .menu{
     border-top: solid 1px;
-    width: 700px;
+    width: 900px;
     position: absolute;
     left: 350px;
     top: 100px;
@@ -318,14 +404,38 @@ display: none;
     display: flex;
     justify-content: space-between;
     margin: 10px 0;
+   
     font-family: "Raleway", sans-serif;
     border-bottom: solid rgb(224, 221, 221) 1px ;
     padding-bottom: 12px;
+    font-size: 18px;
+    color: black;
     
 
 }
-.menu__dish__right{
-    /* border: 1px rgba(0, 0, 0, 0.5) solid; */
+.menu__add__dishes{
+    
+    display: flex;
+    justify-content: center;
+}
+.menu__add__dishes button{
+    border: solid rgb(51, 245, 51) 1px;
+    padding: 5px;
+    font-family: "Raleway",sans-serif;
+    font-size: 1em;
+    font-weight: 600;
+    color: white;
+    border-radius: 8px;
+    background-color: #48C479;
+    transition: 0.3s ease;
+}
+.menu__add__dishes button:hover{
+    cursor: pointer;
+    transform: scale(1.02);
+
+}
+/* .menu__dish__right{
+    border: 1px rgba(0, 0, 0, 0.5) solid;
     height: 30px;
     width: 30px;
     border-radius: 50%;
@@ -336,16 +446,8 @@ display: none;
     padding-top: 3px;
     /* padding: 2px; */
 
-}
 
-.menu__dish__right:hover{
-    cursor: pointer;
-    transform: scale(1.05);
-    filter: drop-shadow(25px);
-    /* box-shadow: rgba(104, 255, 4, 0.5) 2px 2px 2px inset; */
-    /* border: solid 1px orange; */
-    padding: 1px;
-}
+
 .dish__price{
     color: rgb(138, 136, 133);
     
@@ -454,39 +556,27 @@ footer:hover{
     display: block;
 }
 
-@media only screen and (min-width:1350px){
-    .cart{
-        top: 25%;
-    }
-}
 @media only screen and (max-width:1350px){
   .menu{
-      width: 600px;
+      width: 800px;
   }
-   .cart{
-      top:20%;
-  }
+   
 }
 @media only screen and (max-width:1250px){
   .menu{
-      width: 500px;
+      width: 700px;
   }
  
 }
 @media only screen and (max-width:1150px){
   .menu{
-      width: 400px;
+      width: 600px;
   }
 }
 @media only screen and (max-width:1030px){
-    .header__image img{
-        display: none;
-    }
-    .header__balls{
-        display: inline-block;
-    }
+   
     .menu{
-        width: 300px;
+        width: 500px;
         
     }
 }
@@ -500,29 +590,25 @@ footer:hover{
     .menu{
         width: 500px;
     }
-    .cart__icon{
-        display: block;
-    }
+   
+  
 }
 
 
 @media only screen and (max-width:840px){
-    .user__feed{
-        grid-gap: 3%;
-    }
+    
     .menu{
         width: 400px;
-    }
-}
-@media only screen and (max-width:780px){
-    .user__feed{
-        grid-gap: 2px;
+       
 
     }
-    .rest__card{
-        /* border: solid; */
-        margin-bottom: 50px;
+    .dish__name{
+        font-size: 14px;
     }
+    
+}
+@media only screen and (max-width:780px){
+  
 }
 
 @media only screen and (max-width:740px){
@@ -532,7 +618,7 @@ footer:hover{
 
     }
     .menu{
-        width: 300px;
+        width: 360px;
     }
 }
 @media only screen and (max-width:700px){
@@ -542,6 +628,7 @@ footer:hover{
     }
     .rest__dis{
         width: 100%;
+        position: relative;
     }
     .menu{
         position: absolute;
@@ -592,6 +679,10 @@ footer:hover{
        top: 650px;
        width: 400px;
    }
+   .add__dishes__popup{
+       width: 300px;
+       
+   }
 }
 @media only screen and (max-width:400px){
 .menu{
@@ -600,17 +691,20 @@ footer:hover{
 }
 @media only screen and (max-width:350px){
     
-    .header__image__right{
-        font-size: 1.5em;
-    }
+    
     .rest__display__image{
         margin-top: 50px;
     }
     .rest__display__content{
         margin-top: 120px;
     }
-    .cart__icon{
-        /* border: solid red; */
-        transform: translateY(-50%);
+    .menu{
+        
+        width: 320px;
+        transform: translateY();
     }
+    .dish__name{
+        font-size: 12px;
+    }
+  
 }
