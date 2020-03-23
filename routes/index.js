@@ -4,7 +4,7 @@ const mySqlConnection = require("../db/database");
 
 router.get('/', (req, res) => 
 {
-    res.render("landing", { alert : 'false', msg : '' });
+    res.render("landing", { alert : 'false', msg : '' , user: req.session.user});
 }); //home page
 
 /*-----------------------------------------------------------------------------------*/
