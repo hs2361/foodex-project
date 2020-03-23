@@ -133,6 +133,39 @@ router.get("/", (req, res) => { //GET request to get details of all past and cur
     }
 });
 
+router.get("/:oid", (req, res) => {
+    if(req.session.user) {
+        if(req.session.user.uid) {
+            mySqlConnection.query(
+                `select * from orders where oid = ${req.params.oid} and uid = ${req.session.user.uid} and delivered = 1`,
+                [],
+                (err, rows) => {
+                    if(err) {
+                        res.status(500).send(err);
+                    }
+                    else if(!rows) {
+                        res.send("no such order");
+                    }
+                    else {
+                        if(rows[0].feedback) {
+                            res.send(rows[0].feedback);
+                        }
+                        else {
+                            res.send("feedback form");
+                        }
+                    }
+                }
+            )
+        }
+        else {
+            res.status(401).send("login as user");
+        }
+    }
+    else {
+        res.status(400).redirect("/users/login");
+    }
+});
+
 router.post("/:oid", (req,res) => { //POST request to submit feedback and rating for order ID oid
     if(req.session.user) //if is logged in
     {
