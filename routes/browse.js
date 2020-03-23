@@ -80,30 +80,43 @@ router.get('/:rid', (req, res) => {
                                                 var dishes = {};
                                                 var totalPrice = 0;
 
-                                                r2.forEach((el, i) => {
-                                                    mySqlConnection.query(
-                                                        `select *from menu_${req.params.rid} where did = ${el.did}`,
-                                                        [],
-                                                        (e3, r3) => {
-                                                            if (e3)
-                                                                res.status(500).send(e3);
-                                                            else {
-                                                                dishes[r3[0].dname] = [el.qty, r3[0].price * el.qty, el.did];
-                                                                totalPrice += r3[0].price * el.qty;
-                                                                if (i == r2.length - 1) {
-                                                                    res.status(200).render("restaurant", {
-                                                                        profile: {
-                                                                            name: req.session.user.uname,
-                                                                            phone: req.session.user.phone,
-                                                                            email: req.session.user.email
-                                                                        },
-                                                                        data: { rows, r, dishes, totalPrice }
-                                                                    })
+                                                if (r2.length) {
+                                                    r2.forEach((el, i) => {
+                                                        mySqlConnection.query(
+                                                            `select *from menu_${req.params.rid} where did = ${el.did}`,
+                                                            [],
+                                                            (e3, r3) => {
+                                                                if (e3)
+                                                                    res.status(500).send(e3);
+                                                                else {
+                                                                    dishes[r3[0].dname] = [el.qty, r3[0].price * el.qty, el.did];
+                                                                    totalPrice += r3[0].price * el.qty;
+                                                                    if (i == r2.length - 1) {
+                                                                        res.status(200).render("restaurant", {
+                                                                            profile: {
+                                                                                name: req.session.user.uname,
+                                                                                phone: req.session.user.phone,
+                                                                                email: req.session.user.email
+                                                                            },
+                                                                            data: { rows, r, cart: true, dishes, totalPrice }
+                                                                        })
+                                                                    }
                                                                 }
                                                             }
-                                                        }
-                                                    );
-                                                })
+                                                        );
+                                                    })
+                                                }
+
+                                                else {
+                                                    res.status(200).render("restaurant", {
+                                                        profile: {
+                                                            name: req.session.user.uname,
+                                                            phone: req.session.user.phone,
+                                                            email: req.session.user.email
+                                                        },
+                                                        data: { rows, r, cart: false, dishes, totalPrice }
+                                                    })
+                                                }
                                             }
                                         }
                                     )

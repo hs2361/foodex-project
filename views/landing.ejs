@@ -29,19 +29,22 @@
         <div class="head__left">
             <nav>
                 <img class="brand_icon" height="40px" src="../frontend/images/brand-icon.png" alt="" srcset="">
-                <span><a class="nav__items" href="/users/login">Login</a></span>
-                <span><a class="nav__items" href="/users/signup">Register</a></span>
+                <% if(!user) { %>
+                    <span><a class="nav__items" href="/users/login">Login</a></span>
+                    <span><a class="nav__items" href="/users/signup">Register</a></span>
+                    <span id="rest__auth"> 
+                        <p>Restaurants</p>
+                        <div class="nav__dropdown hide">
+                             <a href="/restaurants/login">Login</a>
+                             <a href="/restaurants/signup">Register</a>
+                        </div>
+                    </span>
+                <% } %>
+                
+                <% if (user){ %>
+                    <span><a class="nav__items" href="/users/logout">Logout</a></span>
+                <% } %>
                 <span><a class="nav__items" href="#about">About</a></span>
-                
-                <span id="rest__auth"> 
-                       <p>Restaurants</p>
-                       <div class="nav__dropdown hide">
-                            <a href="/restaurants/login">Login</a>
-                            <a href="/restaurants/signup">Register</a>
-                       </div>
-                
-                     </span>
-                
             </nav>
               <div class="head__left__content">
                 <strong><p id="head__left__content--1">Tasty</p>  </strong>
