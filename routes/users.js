@@ -121,8 +121,6 @@ router.get('/login', (req,res) =>
 router.post('/signup', (req, res) => //POST request at /signup endpoint
 {
     const { name, email, password, password2, phone, address } = req.body; //destructuring req.body object received from form
-    let errors = []; //errors array
-  
 
     mySqlConnection.query(
         "SELECT * FROM users WHERE email = ?", //check for existing users
@@ -131,9 +129,7 @@ router.post('/signup', (req, res) => //POST request at /signup endpoint
             if (err)
                 res.status(500).send(err); //internal server error
             else if (rows.length)
-                errors.push({ msg: "Email already exists" });
-            if (errors.length)
-                res.status(400).send(errors); //send errors with 'bad request'
+                res.render('register_user', {alert: 'true', msg: 'Email already exists'}); //send errors as alert
             else {
                 mySqlConnection.query(
                     "SELECT * FROM restaurants WHERE email = ?",
@@ -142,10 +138,7 @@ router.post('/signup', (req, res) => //POST request at /signup endpoint
                         if(err)
                             res.status(500).send(err);
                         else if (rows.length) {
-                            errors.push({ msg : "Cannot register user with restaurant email id" });
-                        }
-                        if (errors.length) {
-                            res.status(400).send(errors);                            
+                            res.render('register_user', {alert: 'true', msg: 'Cannot register user with restaurant email id'}); //send errors as alert
                         }
                         else {
                             pwdHash = bcrypt.hashSync(password, 10); //hashing the password
@@ -215,7 +208,7 @@ router.post('/login', (req, res) => { //POST request at /login endpoint
                 if (result && isVerified) // if password is correct and user is verified
                 {
                     req.session.user = user //assign a session using a cookie
-                    res.status(200).send(user) //send user details
+                    res.status(200).redirect('/') //returns to landing page
                 }
                 else if (!isVerified) //if not verified
                 {
@@ -252,12 +245,12 @@ router.post('/login', (req, res) => { //POST request at /login endpoint
                     });
                 }
                 else {
-                    res.status(400).send("pwd incorrect") //wrong password
+                    res.render('login_user', {alert: 'true', msg: 'incorrect password'}) //wrong password
                 }
             }
 
             else {
-                res.status(400).send("email doesnot exist") //bad request
+                res.render('login_user', {alert: 'true', msg: 'account with this email does not exist'}) //bad request
             }
         },
     )
