@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const events = require("events");
+const eventEmitter = new events.EventEmitter();
 const mySqlConnection = require("../db/database"); //importing database connection
 
 var order_id;
@@ -176,6 +178,7 @@ router.get("/checkout", (req,res) => {
 
                             else
                             {
+                                let rid;
                                 rows.forEach((e) => { //iterate over every item in the cart
                                     mySqlConnection.query(
                                         "insert into orders (oid,rid,did,uid,delivered) values (?)", //insert into the orders table
@@ -185,6 +188,7 @@ router.get("/checkout", (req,res) => {
                                                 res.status(500).send(err); //internal server error
                                         }
                                     )
+                                    rid = e.rid;
                                 });
 
                                 mySqlConnection.query(
@@ -198,6 +202,7 @@ router.get("/checkout", (req,res) => {
                                 );
                                 order_id++;
                                 res.status(200).send("checked out");
+                                eventEmitter.emit(`newOrder_${rid}`);
                             }
                         }
                 }
@@ -209,4 +214,4 @@ router.get("/checkout", (req,res) => {
         res.status(400).send("login to checkout"); //bad request
 });
 
-module.exports = router;
+module.exports = {eventEmitter: eventEmitter, router: router};
