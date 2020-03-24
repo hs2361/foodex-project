@@ -44,7 +44,7 @@ router.get('/rdashboard', (req, res) =>
                     if (err)
                         res.status(500).send(err);
                     else if(!rows) 
-                        res.render('rest_dashboard', {check: 'false', o: {}});
+                        res.render('rest_dashboard', {check: 'false', o: {}, profile: {name: req.session.user.rname, phone: req.session.user.phone, email:req.session.user.email}});
                     else {
                         let o = {};
                         o.items = {};
@@ -100,7 +100,7 @@ router.get('/rdashboard', (req, res) =>
                                                 if(i == rows.length - 1) //last row of orders
                                                 {
                                                     // res.send(orders); //send orders array to user
-                                                    res.render('rest_dashboard', {check: 'true', o: orders});
+                                                    res.render('rest_dashboard', {check: 'true', o: orders, profile: {name: req.session.user.rname, phone: req.session.user.phone, email:req.session.user.email}});
                                                 }
                                                 return;
                                             }
@@ -137,7 +137,7 @@ router.get('/rdashboard', (req, res) =>
                                                 if(i == rows.length - 1) //last row of orders
                                                 {
                                                     // res.send(orders); //send orders array to user
-                                                    res.render('rest_dashboard', {check: 'true', o: orders}); //send orders array to user
+                                                    res.render('rest_dashboard', {check: 'true', o: orders, profile: {name: req.session.user.rname, phone: req.session.user.phone, email:req.session.user.email}}); //send orders array to user
                                                 }
                                                 return;
                                             }
