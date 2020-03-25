@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>App name</title>
     <link rel="stylesheet" href="../frontend/css/dashboard_user.css">
+    <script src = "/socket.io/socket.io.js"></script>
+   
+   <script>
+      var socket = io("/order");
+   </script>
 </head>
 <body>
 <div class="ham__items">
@@ -249,7 +254,7 @@
             <% data.rows.forEach(e => { %>
                 <a href="/browse/<%= e.rid %>">
                 <div class="rest__card">
-                    <img width="229px" src="../frontend/images/rest_card_1.jpg" alt="">
+                    <img width="229px" src="../frontend/images/rest_img_<%= e.rid %>.jpg" alt="">
                     <!-- <div class="rest__name"><a href="/browse/<%= e.rid %>"><%= e.rname %></a></div> -->
                     <div class="rest__name"><%= e.rname %></div>
                     <div class="rest__rating">

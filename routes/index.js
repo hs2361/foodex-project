@@ -1,17 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const eventEmitter = require("./order").eventEmitter;
+const http = require('http').createServer(router);
+const io = require('socket.io').listen(http);
 const mySqlConnection = require("../db/database");
-
-eventEmitter.on(`newOrder_${req.session.user.rid}`, () => {
-    res.redirect("/rdashboard");
-})
 
 router.get('/', (req, res) => {
     res.render("landing", { alert: 'false', msg: '', user: req.session.user });
-    eventEmitter.on(`newOrder_${req.session.user.rid}`, () => {
-        res.redirect("/rdashboard");
-    })
 }); //home page
 
 /*-----------------------------------------------------------------------------------*/
@@ -19,32 +13,27 @@ router.get('/', (req, res) => {
 
 //get request for dashboard, will ask for login if cookie is not found
 
-// order: {
-//     "oid": 1,
-//     "rid": 1,
-//     "rname": "icy spicy",
-//     "otime": "12:00",
-//     "items": {
-//         "d1": 2,
-//         "d2": 1
-//     }
-// }
-
 router.get('/rdashboard', (req, res) => 
 {
     if(req.session.user) {
         if (req.session.user.rid) {
+            // io.on('connection', function(socket) {
+                
+            // })
             let orders = [];
             mySqlConnection.query(
                 `select oid, orders.rid, rname, category, did, delivered, otime, count(did) as qty
-                 from orders, restaurants where orders.rid = ${req.session.user.rid} and orders.rid = restaurants.rid
+                 from orders, restaurants where orders.rid = ${req.session.user.rid} and orders.rid = restaurants.rid and delivered = 0
                  group by oid,did`,
                 [],
                 (err, rows) => {
                     if (err)
                         res.status(500).send(err);
-                    else if(!rows) 
-                        res.render('rest_dashboard', {check: 'false', o: {}, profile: {name: req.session.user.rname, phone: req.session.user.phone, email:req.session.user.email}});
+                    else if(!rows) {
+                        // res.render('rest_dashboard', {check: 'false', o: {}, profile: {name: req.session.user.rname, phone: req.session.user.phone, email:req.session.user.email}});
+                        res.send({check: 'false', o: {}, profile: {name: req.session.user.rname, phone: req.session.user.phone, email:req.session.user.email}});
+                        console.log("{check: 'false', o: {}, profile: {name: req.session.user.rname, phone: req.session.user.phone, email:req.session.user.email}}");
+                    }
                     else {
                         let o = {};
                         o.items = {};
@@ -100,7 +89,7 @@ router.get('/rdashboard', (req, res) =>
                                                 if(i == rows.length - 1) //last row of orders
                                                 {
                                                     // res.send(orders); //send orders array to user
-                                                    res.render('rest_dashboard', {check: 'true', o: orders, profile: {name: req.session.user.rname, phone: req.session.user.phone, email:req.session.user.email}});
+                                                    res.render('rest_dashboard', {check: 'true', o: orders, profile: {name: req.session.user.rname, phone: req.session.user.phone, email:req.session.user.email, rid: req.session.user.rid}});
                                                 }
                                                 return;
                                             }
@@ -137,7 +126,7 @@ router.get('/rdashboard', (req, res) =>
                                                 if(i == rows.length - 1) //last row of orders
                                                 {
                                                     // res.send(orders); //send orders array to user
-                                                    res.render('rest_dashboard', {check: 'true', o: orders, profile: {name: req.session.user.rname, phone: req.session.user.phone, email:req.session.user.email}}); //send orders array to user
+                                                    res.render('rest_dashboard', {check: 'true', o: orders, profile: {name: req.session.user.rname, phone: req.session.user.phone, email:req.session.user.email, rid: req.session.user.rid}}); //send orders array to user
                                                 }
                                                 return;
                                             }
