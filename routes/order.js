@@ -1,8 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const events = require("events");
-const eventEmitter = new events.EventEmitter();
+const io = require("../app");
+// const socket = io("/order");
 const mySqlConnection = require("../db/database"); //importing database connection
+
+// io.on('connection', function(socket) {
+//     console.log('A user connected');
+//     //Whenever someone disconnects this piece of code executed
+//     socket.on('disconnect', function () {
+//        console.log('A user disconnected');
+//     });
+//  });
 
 var order_id;
 mySqlConnection.query(
@@ -214,4 +222,4 @@ router.get("/checkout", (req,res) => {
         res.status(400).send("login to checkout"); //bad request
 });
 
-module.exports = {eventEmitter: eventEmitter, router: router};
+module.exports = router;

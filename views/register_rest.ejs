@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="../frontend/css/register_rest.css">
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
-        if('<%= alert %>' == 'true') {
+        if ('<%= alert %>' == 'true') {
             swal('<%= msg %>');
         }
     </script>
@@ -46,28 +46,30 @@
         <div class="main__body__right">
             <div class="heading">
                 <p>Build a brand with <span class="orange">Us </span></p>
-                
+
                 <!-- <p><span class="orange"> good food</span></p> -->
             </div>
             <div class="form">
-                <form action="/restaurants/signup" onsubmit="return validate()" name="restregister" method="POST">
+                <form action="/restaurants/signup" enctype="multipart/form-data" onsubmit="return validate()"
+                    name="restregister" method="POST">
                     <input type="name" required placeholder="restaurant name" name="name">
-                    
+                    <input type="text" required placeholder="restaurant category" name="category">
+
                     <input type="email" required placeholder="username" name="email" id="email_inp">
                     <input type="password" required placeholder="password" name="password" id="password_inp-1">
                     <input type="password" required placeholder="confirm password" name="password2" id="password_inp-1">
                     <input type="text" class="input-phone" name="phone" required placeholder="phone" id="phone">
-                    
-                    <input type="text" name="address" required placeholder="address" id="address">
 
-                    
+                    <input type="text" name="address" required placeholder="address" id="address">
+                    <input type="file" name="rest_img" id="image">
+
                     <button type="submit">Sign Up</button>
-                
-                <div class="form__footer">
-                    <!-- <a id="forgot_pass" href="#">Forgot Password?</a> -->
-                    <a class="already_mem" href="/restaurants/login">Already a member?</a>
-                    
-                </div>
+
+                    <div class="form__footer">
+                        <!-- <a id="forgot_pass" href="#">Forgot Password?</a> -->
+                        <a class="already_mem" href="/restaurants/login">Already a member?</a>
+
+                    </div>
                 </form>
             </div>
 

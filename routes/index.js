@@ -1,17 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const eventEmitter = require("./order").eventEmitter;
 const mySqlConnection = require("../db/database");
-
-eventEmitter.on(`newOrder_${req.session.user.rid}`, () => {
-    res.redirect("/rdashboard");
-})
 
 router.get('/', (req, res) => {
     res.render("landing", { alert: 'false', msg: '', user: req.session.user });
-    eventEmitter.on(`newOrder_${req.session.user.rid}`, () => {
-        res.redirect("/rdashboard");
-    })
 }); //home page
 
 /*-----------------------------------------------------------------------------------*/
