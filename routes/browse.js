@@ -1,6 +1,16 @@
 const express = require('express');
 const router = express.Router();
+const http = require("../app");
+var io = require('socket.io')(http);
 const mySqlConnection = require("../db/database"); //importing database connection
+
+io.on('connection', function(socket) {
+    console.log('A user connected');
+    //Whenever someone disconnects this piece of code executed
+    socket.on('disconnect', function () {
+       console.log('A user disconnected');
+    });
+ });
 
 router.get('/', (req, res) => {
     if (req.session.user) {
