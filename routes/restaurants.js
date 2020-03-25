@@ -9,7 +9,7 @@ const path = require("path");
 var r = 0;
 
 const imgUploader = multer({
-    dest: __dirname.replace("\\routes", "") + "\\frontend\\images"
+    dest: __dirname.replace("\\routes", "\\temp") + "\\images"
 });
 
 //get request handling /restaurants. redirects to profile if logged in, else to login page
