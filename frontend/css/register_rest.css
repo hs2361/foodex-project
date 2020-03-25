@@ -72,7 +72,7 @@ a{
 .main__body__right .form{
     font-family: "Raleway",sans-serif;
     position: absolute;
-    top: 20%;
+    top: 15%;
     left: 16%;
     height: 400px;
     /* border: solid black 2px; */
@@ -97,12 +97,20 @@ a{
     border: solid 1px #DD7017;
     font-family: "Raleway",sans-serif;
 }
+.main__body__right form #rest_image{
+ display: flex;
+ align-items: center;
+ padding-bottom: 24px;
+ padding-top: 0;
+ border: none;
 
+
+}
 .main__body__right form button{
     width: 250px;
-    height: 50px;
+    height: 30px;
     border-radius: 50px;
-    margin: 25px 0 0 0;
+    margin: 0;
     /* padding: 5px 15px; */
     border: solid 1px #DD7017;
     background-color:#EFB319 ;
@@ -110,8 +118,6 @@ a{
     font-size: 1.5em;
     display: inline-block;
     transition: 0.4s ease-in;
-
-
 }
 .main__body__right form button:hover{
     transform: scale(1.05);
@@ -123,7 +129,7 @@ a{
     align-items: center;
     /* border: black 2px solid; */
     width: 250px;
-    height: 100px;
+    height: 80px;
     justify-content: space-between;
     padding: 19px;
 }

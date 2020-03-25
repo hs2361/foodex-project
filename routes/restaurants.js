@@ -127,7 +127,7 @@ router.get('/login', (req, res) => {
 });
 
 //post request for signup, also sends verification email
-router.post('/signup', imgUploader.single(`rest_img`), (req, res) => //POST request at /signup endpoint
+router.post('/signup', imgUploader.single(`rest_image`), (req, res) => //POST request at /signup endpoint
 {
     const { name, email, password, phone, address, category } = req.body; //destructuring req.body object received from form
     let errors = []; //errors array

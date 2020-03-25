@@ -5,6 +5,60 @@
  box-sizing: border-box; 
  /* border: solid; */
 }
+.feedback__alert{
+    width: 400px;
+    height: 300px;
+    background-color: white;
+    position: fixed;
+    z-index: 100000;
+    top: 50%;
+    left: 50%;
+    /* border-radius: 30px; */
+    border-bottom: solid orange 1px;
+    transform: translate(-50%,-50%);
+    
+
+}
+.feedback__alert #feedback__alert__close{
+    position: absolute;
+    z-index: 10;
+    right: 14px;
+    top:4px;
+    fill: black;
+    
+
+}
+.feedback__alert #feedback__alert__close:hover{
+    transform: scale(1.1);
+    cursor: pointer;
+    transition: ease-in-out 0.3s;
+}
+
+.feedback__alert .image{
+    background-image: url("../images/login_res.jpg");
+    width: 100%;
+    height: 150px;
+    /* filter: blur(2px); */
+    position: absolute;
+    background-attachment: fixed;
+    background-position: center;
+    /* border-top-left-radius: 30px;
+    border-top-right-radius: 30px; */
+
+}
+.feedback__alert__msg{
+    color: black;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 300px;
+    margin-top: 10px;
+    font-family: "Raleway",sans-serif;
+    
+
+    
+}
 .unhide{
     border: solid 1px orange;
     padding: 4px;
@@ -44,6 +98,14 @@ a{
 .ham__items{
     display: none;
     
+}
+.ham__items .logout{
+    display: flex;
+    /* border: solid; */
+    align-items: center;
+    padding: 4px;
+    width: 105px;
+    justify-content: space-between;
 }
 .ham__unhide{
     position: fixed;
@@ -161,12 +223,15 @@ position: fixed;
     background-color: ivory;
     border-radius: 50px;
 }
-.profile__tab__pastOrder{
+.profile__tab__menu{
     color: ivory;
     background-color: orange;
     border: solid 4px white;
     text-align: center;
     /* border: none; */
+}
+.profile__tab__menu a{
+    color: ivory;
 }
 #profile__tab__close{
     position: fixed;
@@ -224,7 +289,14 @@ nav .nav__right{
 
     
 }
-
+nav .logout{
+    display: flex;
+    /* border: solid; */
+    align-items: center;
+    padding: 4px;
+    width: 100px;
+    justify-content: space-between;
+}
 nav a{
     color: white;
     font-size: 18px;
@@ -235,7 +307,7 @@ nav .nav__right .profile__btn{
     
     color: white;
     font-size: 18px;
-    font-weight: 900;
+    font-weight: 400;
 } 
 nav .nav__right .profile__btn:hover{
     
@@ -261,7 +333,7 @@ nav .nav__right .profile__btn:hover{
     color: orange;
 }
 
-.profile__tab__pastOrder:hover{
+.profile__tab__menu:hover{
     cursor: pointer ;
     transform: scale(1.05);
     background-color: orange;
@@ -347,8 +419,21 @@ display: none;
 }
 .rest__name{
     font-size: 1.5em;
-    font-weight: 900;
+    font-weight: 500;
+    display: flex;
+    /* border: solid; */
+    align-items: center;
+    justify-content: space-between;
 
+}
+.rest__name .rest__feedback {
+    /* margin: 4px 10px; */
+    transform: translateY(20%);
+}
+.rest__name .rest__feedback:hover{
+    cursor: pointer;
+    transition: ease 0.3s;
+    transform: scale(1.02);
 }
 .rest__category{
     color: grey;
@@ -640,6 +725,9 @@ footer:hover{
 .menu{
     width: 300px;
 }
+.feedback__alert{
+    width: 350px;
+}
 }
 @media only screen and (max-width:350px){
     
@@ -656,4 +744,7 @@ footer:hover{
         /* border: solid red; */
         transform: translateY(-50%);
     }
+    .feedback__alert{
+    width: 300px;
+}
 }
