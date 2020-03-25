@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
+const http = require('http').createServer(router);
 const events = require("events");
-const eventEmitter = new events.EventEmitter();
+const io = require('socket.io').listen(http);
 const mySqlConnection = require("../db/database"); //importing database connection
 
 var order_id;
@@ -164,49 +165,52 @@ router.get("/checkout", (req,res) => {
 
         else
         {
-            const uid = req.session.user.uid;
-            mySqlConnection.query( //get dishes from cart
-                `select *from cart_${uid}`,
-                [],
-                (err,rows) => {
-                    if(err)
-                        res.status(500).send(err); //internal server error
-                    else
-                        {
-                            if(!rows.length)
-                                res.status(400).send("empty cart") //bad request
-
-                            else
+            io.on('connection', function(socket) {
+                const uid = req.session.user.uid;
+                mySqlConnection.query( //get dishes from cart
+                    `select *from cart_${uid}`,
+                    [],
+                    (err,rows) => {
+                        if(err)
+                            res.status(500).send(err); //internal server error
+                        else
                             {
-                                let rid;
-                                rows.forEach((e) => { //iterate over every item in the cart
+                                if(!rows.length)
+                                    res.status(400).send("empty cart") //bad request
+
+                                else
+                                {
+                                    let rid;
+                                    rows.forEach((e) => { //iterate over every item in the cart
+                                        mySqlConnection.query(
+                                            "insert into orders (oid,rid,did,uid,delivered) values (?)", //insert into the orders table
+                                            [[order_id,e["rid"],e["did"],uid,0]],
+                                            (err) => {
+                                                if(err)
+                                                    res.status(500).send(err); //internal server error
+                                            }
+                                        )
+                                        rid = e.rid;
+                                    });
+
                                     mySqlConnection.query(
-                                        "insert into orders (oid,rid,did,uid,delivered) values (?)", //insert into the orders table
-                                        [[order_id,e["rid"],e["did"],uid,0]],
-                                        (err) => {
+                                        `delete from cart_${uid}`, //empty the cart
+                                        [],
+                                        (err) =>
+                                        {
                                             if(err)
                                                 res.status(500).send(err); //internal server error
                                         }
-                                    )
-                                    rid = e.rid;
-                                });
-
-                                mySqlConnection.query(
-                                    `delete from cart_${uid}`, //empty the cart
-                                    [],
-                                    (err) =>
-                                    {
-                                        if(err)
-                                            res.status(500).send(err); //internal server error
-                                    }
-                                );
-                                order_id++;
-                                res.status(200).send("checked out");
-                                eventEmitter.emit(`newOrder_${rid}`);
+                                    );
+                                    order_id++;
+                                    res.status(200).send("checked out");
+                                    io.emit(`newOrder_${rid}`);
+                                }
                             }
-                        }
-                }
-            )
+                    }
+                )
+            })
+            
         }
     }      
 
@@ -214,4 +218,4 @@ router.get("/checkout", (req,res) => {
         res.status(400).send("login to checkout"); //bad request
 });
 
-module.exports = {eventEmitter: eventEmitter, router: router};
+module.exports = router;

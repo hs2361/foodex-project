@@ -337,7 +337,16 @@ router.get('/verify/:email/:code', (req,res) => {
                                 if(err)
                                     res.status(500).send(err);
                                 else {
-                                    res.status(200).send('email successfully verified');
+                                    mySqlConnection.query(
+                                        'delete from verify where email = ?', //remove data from verify table
+                                        [req.params.email],
+                                        (err) => {
+                                            if (err)
+                                                res.status(500).send(err); //internal server error
+                                            else
+                                                res.status(200).send('email successfully verified');
+                                        }
+                                    )
                                 }
                             }
                         )
