@@ -140,7 +140,7 @@ router.post('/signup', imgUploader.single(`rest_image`), (req, res) => //POST re
                 res.status(500).send(err);
             else {
                 const tempPath = req.file.path;
-                const targetPath = __dirname.replace("\\routes", "") + `\\frontend\\images\\rest_${r}.jpg`;
+                const targetPath = __dirname.replace("\\routes", "") + `\\frontend\\images\\rest_img_${r}.jpg`;
 
                 if (path.extname(req.file.originalname).toLowerCase() === ".jpg") {
                     fs.rename(tempPath, targetPath, err => {
@@ -222,7 +222,8 @@ router.post('/signup', imgUploader.single(`rest_image`), (req, res) => //POST re
                                                             });
                                                             res.redirect('/restaurants/verify'); //redirect to verify page
                                                         }
-                                                    });
+                                                    }
+                                                );
                                             }
                                         });
                                     }
