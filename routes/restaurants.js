@@ -19,7 +19,7 @@ router.get('/', (req, res) => {
             res.redirect('/restaurants/profile');
         }
         else {
-            res.status(401).send('Login as restaurant for this');
+            res.status(401).render('login_rest', { alert: true, msg: "You must be logged in as a restaurant!" });
         }
     }
     else {
@@ -39,7 +39,7 @@ router.get('/profile', (req, res) => {
                         res.status(500).send(err);
                     }
                     else if (!rows) {
-                        res.status(500).send('login again');
+                        res.status(500).render('login_rest', { alert: true, msg: "Try logging in again" });
                     }
                     else {
                         res.send(rows);
@@ -48,7 +48,7 @@ router.get('/profile', (req, res) => {
             );
         }
         else {
-            res.status(401).send('Login as restaurant for this');
+            res.status(401).render('login_rest', { alert: true, msg: "You must be logged in as a restaurant!" });
         }
     }
     else {
@@ -62,7 +62,7 @@ router.get('/profile/edit', (req, res) => {
             res.status(200).send('profile edit form');
         }
         else {
-            res.status(401).send('Login as restaurant for this');
+            res.status(401).render('login_rest', { alert: true, msg: "You must be logged in as a restaurant!" });
         }
     }
     else {
@@ -88,7 +88,7 @@ router.post('/profile/edit', (req, res) => {
             );
         }
         else {
-            res.status(401).send('Login as restaurant for this');
+            res.status(401).render('login_rest', { alert: true, msg: "You must be logged in as a restaurant!" });
         }
     }
     else {
@@ -100,14 +100,14 @@ router.post('/profile/edit', (req, res) => {
 router.get('/signup', (req, res) => {
     if (req.session.user) {
         if (req.session.user.rid) {
-            res.status(400).send('already logged in');
+            res.status(400).redirect("landing", { alert: true, msg: "You are already logged in!" });
         }
         else {
-            res.status(401).send('not a restaurant');
+            res.status(400).redirect("landing", { alert: true, msg: "You are already logged in as a user!" });
         }
     }
     else {
-        res.render('register_rest')
+        res.render('register_rest', { alert: false, msg: "" })
     }
 });
 
@@ -122,7 +122,7 @@ router.get('/login', (req, res) => {
         }
     }
     else {
-        res.render('login_rest');
+        res.render('login_rest', { alert: false, msg: "" });
     }
 });
 
@@ -145,10 +145,6 @@ router.post('/signup', imgUploader.single(`rest_image`), (req, res) => //POST re
                 if (path.extname(req.file.originalname).toLowerCase() === ".jpg") {
                     fs.rename(tempPath, targetPath, err => {
                         if (err) console.log(err);
-
-                        else {
-                            console.log("file saved");
-                        }
                     });
                 } else {
                     fs.unlink(tempPath, err => {
@@ -260,12 +256,12 @@ router.post('/login', (req, res) => {
                             rating INT
                         );`,
                         [],
-                        (err, rows) => {
+                        (err) => {
                             if (err) {
                                 res.status(500).send(err);
                             }
                             else {
-                                res.send(user);
+                                res.redirect("/rdashboard");
                             }
                         }
                     )
@@ -304,12 +300,12 @@ router.post('/login', (req, res) => {
                         });
                 }
                 else {
-                    res.status(400).send("pwd incorrect");
+                    res.status(400).render("login_rest", { alert: true, msg: "Incorrect Password!" });
                 }
             }
 
             else {
-                res.status(400).send("email does not exist");
+                res.status(400).render("login_rest", { alert: true, msg: "Account does not exist!" });
             }
         }
     )
@@ -318,12 +314,12 @@ router.post('/login', (req, res) => {
 router.get('/logout', (req, res) => {
     if (req.session.user) {
         req.session.destroy(() => {
-            res.status(200).send("logout success");
+            res.status(200).redirect("landing", { alert: true, msg: "Logged out" });
         });
     }
 
     else {
-        res.status(400).send("Not logged in");
+        res.status(400).redirect("landing", { alert: true, msg: "Not logged in!" });
     }
     //redirect to landing page
 });
@@ -352,14 +348,14 @@ router.get('/verify/:email/:code', (req, res) => {
                                 if (err)
                                     res.status(500).send(err);
                                 else {
-                                    res.status(200).send('email successfully verified');
+                                    res.status(200).redirect("login_rest", { alert: true, msg: "Email successfully verified!" });
                                 }
                             }
                         )
 
                     }
                     else {
-                        res.status(400).send("couldn't verify your email")
+                        res.status(400).redirect("register_rest", { alert: true, msg: "Couldn't verify your email!" });
                     }
                 }
             }
