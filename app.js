@@ -1,8 +1,7 @@
-// import {socket} from 'socket.io'
 const express = require('express');
 const app = express();
 const http = require('http').createServer(app);
-var io = require('socket.io').listen(http);
+const io = require("socket.io").listen(http);
 const bodyParser = require("body-parser");
 const expressLayouts = require("express-ejs-layouts");
 
