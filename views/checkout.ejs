@@ -246,9 +246,10 @@
             socket.on('order-state-change', (oid) => {
                 console.log('changing state');
                 console.log(oid);
-                if(oid == '<%= details.oid %>') {
-                    $('.l1').css({color: grey});
-                    $('.l2').css({color: black});
+                console.log('<%= details.oid %>')
+                if(oid == <%= details.oid %>) {
+                    $('.l1').css({color: 'gray'});
+                    $('.l2').css({color: 'black'});
                     setTimeout(() => {
                         swal({
                                 title: "Your food has been delivered!",
