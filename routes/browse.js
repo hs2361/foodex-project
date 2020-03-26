@@ -108,7 +108,8 @@ router.get('/:rid', (req, res) => {
                                                                                 phone: req.session.user.phone,
                                                                                 email: req.session.user.email
                                                                             },
-                                                                            data: { rows, r, cart: true, dishes, totalPrice }
+                                                                            data: { rows, r, cart: true, dishes, totalPrice },
+                                                                            rid: req.params.rid
                                                                         })
                                                                     }
                                                                 }
@@ -124,7 +125,8 @@ router.get('/:rid', (req, res) => {
                                                             phone: req.session.user.phone,
                                                             email: req.session.user.email
                                                         },
-                                                        data: { rows, r, cart: false, dishes, totalPrice }
+                                                        data: { rows, r, cart: false, dishes, totalPrice },
+                                                        rid: req.params.rid
                                                     })
                                                 }
                                             }

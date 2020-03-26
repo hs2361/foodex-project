@@ -29,10 +29,36 @@ router.get('/rdashboard', (req, res) =>
                 (err, rows) => {
                     if (err)
                         res.status(500).send(err);
-                    else if(!rows) {
-                        // res.render('rest_dashboard', {check: 'false', o: {}, profile: {name: req.session.user.rname, phone: req.session.user.phone, email:req.session.user.email}});
-                        res.send({check: 'false', o: {}, profile: {name: req.session.user.rname, phone: req.session.user.phone, email:req.session.user.email}});
-                        console.log("{check: 'false', o: {}, profile: {name: req.session.user.rname, phone: req.session.user.phone, email:req.session.user.email}}");
+                    else if(!rows.length) {
+                        res.render('rest_dashboard', {check: 'false', o: {}, profile: {name: req.session.user.rname, phone: req.session.user.phone, email:req.session.user.email, rid: req.session.user.rid}});
+                    }
+                    else if(rows.length == 1) {
+                        console.log('1 row only');
+                        let row = rows[0];
+                        let o = {};
+                        o.rid = row.rid;
+                        o.oid = row.oid;
+                        o.otime = row.otime;
+                        o.rname = row.rname;
+                        o.category = row.category;
+                        o.items = {};
+                        amount = 0;
+                        mySqlConnection.query(
+                            `select *from menu_${row.rid} where did = ${row.did}`, //get details of dishes
+                            [],
+                            (error,r) => {
+                                if(error)
+                                    res.status(500).send(error)
+                                else
+                                {
+                                    o.oid = row.oid;
+                                    o.items[r[0]["dname"]] = row.qty; //set dish name in o.items object
+                                    amount += r[0]["price"] * row.qty; //calculate amount as price * quantity
+                                    o.amount = amount;
+                                    res.render('rest_dashboard', {check: 'true', o: [o], profile: {name: req.session.user.rname, phone: req.session.user.phone, email:req.session.user.email, rid: req.session.user.rid}});
+                                }
+                            }
+                        );
                     }
                     else {
                         let o = {};

@@ -173,52 +173,52 @@ router.get("/checkout", (req,res) => {
 
         else
         {
-            io.on('connection', function(socket) {
-                const uid = req.session.user.uid;
-                mySqlConnection.query( //get dishes from cart
-                    `select *from cart_${uid}`,
-                    [],
-                    (err,rows) => {
-                        if(err)
-                            res.status(500).send(err); //internal server error
+            const uid = req.session.user.uid;
+            mySqlConnection.query( //get dishes from cart
+                `select *from cart_${uid}`,
+                [],
+                (err,rows) => {
+                    if(err)
+                        res.status(500).send(err); //internal server error
+                    else
+                    {
+                        if(!rows.length)
+                            res.status(400).send("empty cart") //bad request
+
                         else
-                            {
-                                if(!rows.length)
-                                    res.status(400).send("empty cart") //bad request
+                        {
+                            var rid;
+                            rows.forEach((e) => { //iterate over every item in the cart
+                                mySqlConnection.query(
+                                    "insert into orders (oid,rid,did,uid,delivered) values (?)", //insert into the orders table
+                                    [[order_id,e["rid"],e["did"],uid,0]],
+                                    (err) => {
+                                        if(err)
+                                            res.status(500).send(err); //internal server error
+                                    }
+                                )
+                                rid = e.rid;
+                            });
 
-                                else
+                            mySqlConnection.query(
+                                `delete from cart_${uid}`, //empty the cart
+                                [],
+                                (err) =>
                                 {
-                                    let rid;
-                                    rows.forEach((e) => { //iterate over every item in the cart
-                                        mySqlConnection.query(
-                                            "insert into orders (oid,rid,did,uid,delivered) values (?)", //insert into the orders table
-                                            [[order_id,e["rid"],e["did"],uid,0]],
-                                            (err) => {
-                                                if(err)
-                                                    res.status(500).send(err); //internal server error
-                                            }
-                                        )
-                                        rid = e.rid;
-                                    });
-
-                                    mySqlConnection.query(
-                                        `delete from cart_${uid}`, //empty the cart
-                                        [],
-                                        (err) =>
-                                        {
-                                            if(err)
-                                                res.status(500).send(err); //internal server error
-                                        }
-                                    );
-                                    order_id++;
-                                    res.status(200).send("checked out");
-                                    io.emit(`newOrder_${rid}`);
+                                    if(err)
+                                        res.status(500).send(err); //internal server error
                                 }
-                            }
+                            );
+                            order_id++;
+                            io.on('connection', function(socket) {
+                                socket.emit(`new-order`, rid);
+                            });
+                            res.status(200).send("checked out");
+                        }
                     }
-                )
-            })
-            
+                }
+            )
+        
         }
     }      
 

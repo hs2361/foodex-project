@@ -1,0 +1,35 @@
+<div class="menu">
+
+    <% o.forEach(order => { %>
+        <div class="card">
+            <div class="card__left">
+                <img src="../frontend/images/rest_card_1.jpg" width="280px" alt="">
+            </div>
+            <div class="card__right">
+                <div class="rest__name">
+                    #<%= order.oid %>
+                </div>
+                <div class="rest__category">
+                    <%= order.otime %>
+                </div>
+                <div class="rest__dish__items">
+                    <% Object.entries(order.items).forEach(dish => { %>
+                        <div class="rest__dish">
+                            <span class="dish__name"><%= dish[0] %> <b>x<%= dish[1] %></b></span>
+                            <!-- <div class="dish__price">₹800</div> -->
+                        </div>
+                    <% }); %>
+                </div>
+                <div class="rest__total__price">
+                    <span class="total__price__label">Total</span>
+                    <div class="total__price">₹<%= order.amount %></div>
+                </div>
+            <div class="card__response__tab">
+                <a href="/rdashboard/accept/<%= order.oid %>"><button class="card__response__tab__accept">Accept Order</button></a>
+                <button class="card__response__tab__delivered">Delivered</button>
+                
+            </div>
+            </div>
+        </div>
+    <% }); %>
+</div>

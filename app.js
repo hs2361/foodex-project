@@ -33,6 +33,14 @@ app.get("*", (req, res) => {
   res.status(404).render("404");
 }); //default 404 response
 
+io.on('connection', (socket) => {
+  socket.on('new-order', (rid) => {
+    console.log('the sockets are running, ig');
+    io.emit('add-order', rid);
+  })
+})
+
 const PORT = 5000;
 http.listen(PORT, console.log(`Server started on port ${PORT}`)); //starting server
 module.exports = io;
+
