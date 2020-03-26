@@ -27,6 +27,7 @@ app.use("/order", require("./routes/order")); //routing for /order endpoint of A
 app.use("/restaurants", require("./routes/restaurants")); //routing for /restaurants endpoint of API
 app.use("/feedback", require("./routes/feedback")) //routing for /feedback endpoint of API
 app.use("/browse", require("./routes/browse")); //routing for /browse endpoint of API
+app.use("/search", require("./routes/search"));
 
 app.get("*", (req, res) => {
   res.status(404).render("404");
