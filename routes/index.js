@@ -26,7 +26,7 @@ router.get('/rdashboard', (req, res) => {
                  group by oid,did`,
                 [],
                 (err, rows) => {
-                    if (err)
+                    if (err) 
                         res.status(500).send(err);
                     else if (!rows.length) {
                         res.render('rest_dashboard', { check: 'false', o: {}, profile: { name: req.session.user.rname, phone: req.session.user.phone, email: req.session.user.email, rid: req.session.user.rid } });
@@ -83,6 +83,7 @@ router.get('/rdashboard', (req, res) => {
                                                     o.amount = 0;
                                                     let amount = 0;
                                                     let map = {};
+                                                    console.log(rows);
                                                     rows.forEach((e, i) => { //iterate over all the orders
                                                         console.log(e);
                                                         if (i == 0) //first row
@@ -101,8 +102,11 @@ router.get('/rdashboard', (req, res) => {
                                                                 `select *from menu_${e.rid} where did = ${e.did}`, //get details of dishes
                                                                 [],
                                                                 (error, r) => {
-                                                                    if (error)
+                                                                    if (error) {
                                                                         res.status(500).send(error)
+                                                                        console.log(error);
+                                                                        console.log(2);
+                                                                    }
                                                                     else {
                                                                         orders[0].oid = e.oid;
                                                                         orders[0].items[r[0]["dname"]] = e.qty; //set dish name in o.items object
@@ -120,8 +124,11 @@ router.get('/rdashboard', (req, res) => {
                                                                     `select *from menu_${e.rid} where did = ${e.did}`, //get details of dishes
                                                                     [],
                                                                     (error, r) => {
-                                                                        if (error)
-                                                                            res.status(500).send(error);
+                                                                        if (error) {
+                                                                            res.status(500).send(error)
+                                                                            console.log(error);
+                                                                            console.log(3);
+                                                                        }
                                                                         else {
                                                                             orders[map[e.oid]].oid = e.oid;
                                                                             orders[map[e.oid]].items[r[0]["dname"]] = e.qty;  //set dish name in o.items object
@@ -156,8 +163,11 @@ router.get('/rdashboard', (req, res) => {
                                                                     `select *from menu_${e.rid} where did = ${e.did}`, //get details of dishes
                                                                     [],
                                                                     (error, r) => {
-                                                                        if (error)
+                                                                        if (error) {
                                                                             res.status(500).send(error)
+                                                                            console.log(error);
+                                                                            console.log(4);
+                                                                        }
                                                                         else {
                                                                             orders[map[e.oid]].oid = e.oid;
                                                                             orders[map[e.oid]].items[r[0]["dname"]] = e.qty; //set dish name in o.items object

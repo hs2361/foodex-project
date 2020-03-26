@@ -251,14 +251,10 @@
         <% if(check == 'true') { %>
         <div class="menu">
 
-            <% o.reverse().forEach(order => { %>
-            <div class="card">
-                <div class="card__left">
-                    <img src="../frontend/images/rest_card_1.jpg" width="280px" alt="">
-                </div>
-                <div class="card__right">
-                    <div class="rest__name">
-                        #<%= order.oid %>
+            <% o.forEach(order => { %>
+                <div class="card">
+                    <div class="card__left">
+                        <img src="../frontend/images/rest_card_1.jpg" width="280px" alt="">
                     </div>
                     <div class="rest__category">
                         <%= order.otime %>
@@ -276,10 +272,14 @@
                         <div class="total__price">₹<%= order.amount %></div>
                     </div>
                     <div class="card__response__tab">
-                        <a href="/rdashboard/accept/<%= order.oid %>"><button class="card__response__tab__accept">Accept
-                                Order</button></a>
-                        <button class="card__response__tab__delivered">Delivered</button>
-
+                        <a href="/rdashboard/accept/<%= order.oid %>"><button class="card__response__tab__accept" onclick="emitevent()">Finish Order</button></a>
+                        <script>
+                            function emitevent() {
+                                var socket = io.connect();
+                                socket.emit('accepting-order', '<%= order.oid %>'); 
+                            }
+                        </script>
+                    </div>
                     </div>
                 </div>
             </div>
@@ -305,7 +305,7 @@
                 if (rid == '<%= profile.rid %>') {
                     location.reload();
                 }
-            })
+            });
         });
 
     </script>

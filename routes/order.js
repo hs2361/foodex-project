@@ -196,6 +196,7 @@ router.get("/checkout", (req, res) => {
                                         res.status(500).send(err); //internal server error
                                 }
                             );
+                            res.redirect('/order/status');
                             order_id++;
                             io.on('connection', function (socket) {
                                 socket.emit(`new-order`, rid);
@@ -212,5 +213,23 @@ router.get("/checkout", (req, res) => {
     else
         res.status(400).send("login to checkout"); //bad request
 });
+
+router.get('/status', (req, res) => {
+    if(req.session.user) {
+        if(req.session.user.uid) {
+            res.render('checkout', { details: { oid: (order_id-1) }, alert: 'false', msg: '' });
+        }
+        else {
+            res.redirect('/users/login');
+        }
+    }
+    else {
+        res.redirect('/users/login');
+    }
+})
+
+router.get('/status/:oid', (req, res) => {
+    
+})
 
 module.exports = router;
