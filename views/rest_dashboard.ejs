@@ -150,11 +150,12 @@
     <div class="container ">
 
         <nav>
-            <div class="brand">
-                <img width="35px" src="../frontend/images/brand-icon.png" alt="" srcset="">
-                <p>Food<span class="orange">Captain</span></p>
-
-            </div>
+            <a href="../">
+                <div class="brand">
+                    <img width="35px" src="../frontend/images/brand-icon.png" alt="" srcset="">
+                    <p>Food<span class="orange">Captain</span></p>
+                </div>
+            </a>
 
             <div class="nav__right">
                 <div class="search">
@@ -192,21 +193,22 @@
         <div class="rest__dis">
             <div class="rest__dis__image">
 
-                <img height="150px " width="230px" src="../frontend/images/rest_img_<%= profile.rid %>.jpg" alt="" srcset="">
+                <img height="150px " width="230px" src="../frontend/images/rest_img_<%= profile.rid %>.jpg" alt=""
+                    srcset="">
             </div>
             <div class="rest__dis__content">
                 <div class="rest__dis__name"><%= profile.name %></div>
-                <div class="rest__dis__category">fast food</div>
-                
+                <div class="rest__dis__category"><%= profile.category %></div>
+
                 <div class="rest__dis__rating">
                     <svg width="15px" fill="white" id="Capa_1" enable-background="new 0 0 448.941 448.941"
                         viewBox="0 0 448.941 448.941" xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="m448.941 168.353h-161.338l-63.132-168.353-63.132 168.353h-161.339l121.478 106.293-65.36 174.295 168.353-84.176 168.353 84.176-65.361-174.296z" />
-                    </svg>4.5</div>
+                    </svg><%= rating %></div>
                 <div class="line1"></div>
                 <div class="rest__dis__location">
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Amet, quia.
+                    <%= profile.address %>
                 </div>
 
 
@@ -250,40 +252,41 @@
         <div class="menu">
 
             <% o.reverse().forEach(order => { %>
-                <div class="card">
-                    <div class="card__left">
-                        <img src="../frontend/images/rest_card_1.jpg" width="280px" alt="">
+            <div class="card">
+                <div class="card__left">
+                    <img src="../frontend/images/rest_card_1.jpg" width="280px" alt="">
+                </div>
+                <div class="card__right">
+                    <div class="rest__name">
+                        #<%= order.oid %>
                     </div>
-                    <div class="card__right">
-                        <div class="rest__name">
-                            #<%= order.oid %>
+                    <div class="rest__category">
+                        <%= order.otime %>
+                    </div>
+                    <div class="rest__dish__items">
+                        <% Object.entries(order.items).forEach(dish => { %>
+                        <div class="rest__dish">
+                            <span class="dish__name"><%= dish[0] %> <b>x<%= dish[1] %></b></span>
+                            <!-- <div class="dish__price">₹800</div> -->
                         </div>
-                        <div class="rest__category">
-                            <%= order.otime %>
-                        </div>
-                        <div class="rest__dish__items">
-                            <% Object.entries(order.items).forEach(dish => { %>
-                                <div class="rest__dish">
-                                    <span class="dish__name"><%= dish[0] %> <b>x<%= dish[1] %></b></span>
-                                    <!-- <div class="dish__price">₹800</div> -->
-                                </div>
-                            <% }); %>
-                        </div>
-                        <div class="rest__total__price">
-                            <span class="total__price__label">Total</span>
-                            <div class="total__price">₹<%= order.amount %></div>
-                        </div>
+                        <% }); %>
+                    </div>
+                    <div class="rest__total__price">
+                        <span class="total__price__label">Total</span>
+                        <div class="total__price">₹<%= order.amount %></div>
+                    </div>
                     <div class="card__response__tab">
-                        <a href="/rdashboard/accept/<%= order.oid %>"><button class="card__response__tab__accept">Accept Order</button></a>
+                        <a href="/rdashboard/accept/<%= order.oid %>"><button class="card__response__tab__accept">Accept
+                                Order</button></a>
                         <button class="card__response__tab__delivered">Delivered</button>
-                        
-                    </div>
+
                     </div>
                 </div>
+            </div>
             <% }); %>
         </div>
         <% } else if(check == 'false'){ %>
-            <div class="no__orders"><b>No Orders Yet</b></div>
+        <div class="no__orders"><b>No Orders Yet</b></div>
         <% } %>
 
 
@@ -296,10 +299,10 @@
 
     <script src="../frontend/js/jquery.min.js"></script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             var socket = io();
             socket.on('add-order', (rid) => {
-                if(rid == '<%= profile.rid %>') {
+                if (rid == '<%= profile.rid %>') {
                     location.reload();
                 }
             })
@@ -335,25 +338,25 @@
         $('#close').click(hamburg);
 
         $('.card__response__tab__accept').click(
-            function (){
-                $(this).css('display','none');
-                
+            function () {
+                $(this).css('display', 'none');
+
             }
         )
-        
-            $('.card__response__tab__delivered').click(
-                function () {
-                    console.log("eg");
-                    $(this).text("✔ Delivered ");
-                    $(this).attr("disabled","disabled");
 
-                }
-            )
-      
+        $('.card__response__tab__delivered').click(
+            function () {
+                console.log("eg");
+                $(this).text("✔ Delivered ");
+                $(this).attr("disabled", "disabled");
+
+            }
+        )
+
 
 
     </script>
-    
+
 </body>
 
 </html>
