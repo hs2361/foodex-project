@@ -75,7 +75,7 @@ router.post('/profile/edit', (req, res) => {
         if (req.session.user.rid) {
             const { name, email, phone, address } = req.body;
             mySqlConnection.query(
-                `UPDATE TABLE restaurants SET name = ${name}, email = ${email}, phone = ${phone}, address = ${address} WHERE rid = ${req.session.user.rid}`,
+                `UPDATE TABLE restaurants SET name = ${name}, phone = ${phone}, address = ${address} WHERE rid = ${req.session.user.rid}`,
                 [],
                 (err, rows) => {
                     if (err) {

@@ -129,7 +129,7 @@ router.get("/", (req, res) => { //GET request to get details of all past and cur
         }
     }
     else {
-        res.status(401).send("Login as user to submit feedback"); //unauthorised user
+        res.redirect('/users/login');
     }
 });
 
@@ -203,14 +203,12 @@ router.post("/:oid", (req,res) => { //POST request to submit feedback and rating
                 }
             )
         }
-        else
-        {
+        else {
             res.status(401).send("Login as user to submit feedback"); //unauthorised user
         }
     }
-    else
-    {
-        res.status(400).send("Login as user to submit feedback"); //unauthorised user
+    else {
+        res.redirect('/users/login');
     }
 })
 
