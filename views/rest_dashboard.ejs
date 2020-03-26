@@ -274,9 +274,13 @@
                             <div class="total__price">₹<%= order.amount %></div>
                         </div>
                     <div class="card__response__tab">
-                        <a href="/rdashboard/accept/<%= order.oid %>"><button class="card__response__tab__accept">Accept Order</button></a>
-                        <button class="card__response__tab__delivered">Delivered</button>
-                        
+                        <a href="/rdashboard/accept/<%= order.oid %>"><button class="card__response__tab__accept" onclick="emitevent()">Finish Order</button></a>
+                        <script>
+                            function emitevent() {
+                                var socket = io.connect();
+                                socket.emit('accepting-order', '<%= order.oid %>'); 
+                            }
+                        </script>
                     </div>
                     </div>
                 </div>
@@ -302,7 +306,7 @@
                 if(rid == '<%= profile.rid %>') {
                     location.reload();
                 }
-            })
+            });
         });
 
     </script>

@@ -34,9 +34,12 @@ app.get("*", (req, res) => {
 
 io.on('connection', (socket) => {
   socket.on('new-order', (rid) => {
-    console.log('the sockets are running, ig');
     io.emit('add-order', rid);
-  })
+  });
+  socket.on('accepting-order', (oid) => {
+    console.log('accepted order');
+    io.emit('order-state-change', oid);
+  });
 })
 
 const PORT = 5000;
