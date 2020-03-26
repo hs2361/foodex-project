@@ -67,39 +67,53 @@ router.get('/:rid/:did', (req, res) => {
         else {
             const uid = req.session.user.uid;
             if (req.query.action === 'add') {
-                var mul = false;
                 mySqlConnection.query(
-                    `select *from cart_${uid}`,
+                    `select * from orders where uid = ${req.session.user.uid} and not delivered`,
                     [],
-                    (err, rows) => {
-                        if (err)
-                            res.status(500).send(err); //internal server error
+                    (e, r) => {
+                        if (e)
+                            res.status(500).send(e);
                         else {
-                            rows.some((e) => { //iterate over items in cart
-                                if (e["rid"] != req.params.rid) {
-                                    res.status(400).send("cannot order simultaneously from multiple restaurants") //bad request
-                                    mul = true;
-                                }
+                            if (r.length) {
+                                res.status(400).send("You cannot order until your existing order has been delivered");
+                            }
+                            else {
+                                var mul = false;
+                                mySqlConnection.query(
+                                    `select *from cart_${uid}`,
+                                    [],
+                                    (err, rows) => {
+                                        if (err)
+                                            res.status(500).send(err); //internal server error
+                                        else {
+                                            rows.some((e) => { //iterate over items in cart
+                                                if (e["rid"] != req.params.rid) {
+                                                    res.status(400).send("cannot order simultaneously from multiple restaurants") //bad request
+                                                    mul = true;
+                                                }
+                                                return mul;
+                                            })
+                                        }
 
-                                return mul;
-                            })
-                        }
-
-                        if (!mul) //not trying to order from multiple restaurants
-                        {
-                            mySqlConnection.query( //add dish to cart
-                                `insert into cart_${uid} values (?)`,
-                                [[req.params.rid, req.params.did]],
-                                (err) => {
-                                    if (err)
-                                        res.status(500).send(err); //internal server error
-                                    else
-                                        res.redirect(`/browse/${req.params.rid}`);
-                                }
-                            )
+                                        if (!mul) //not trying to order from multiple restaurants
+                                        {
+                                            mySqlConnection.query( //add dish to cart
+                                                `insert into cart_${uid} values (?)`,
+                                                [[req.params.rid, req.params.did]],
+                                                (err) => {
+                                                    if (err)
+                                                        res.status(500).send(err); //internal server error
+                                                    else
+                                                        res.redirect(`/browse/${req.params.rid}`);
+                                                }
+                                            )
+                                        }
+                                    }
+                                );
+                            }
                         }
                     }
-                );
+                )
             }
             else if (req.query.action === 'remove') {
                 mySqlConnection.query(
@@ -215,9 +229,9 @@ router.get("/checkout", (req, res) => {
 });
 
 router.get('/status', (req, res) => {
-    if(req.session.user) {
-        if(req.session.user.uid) {
-            res.render('checkout', { details: { oid: (order_id-1) }, alert: 'false', msg: '' });
+    if (req.session.user) {
+        if (req.session.user.uid) {
+            res.render('checkout', { details: { oid: (order_id - 1) }, alert: 'false', msg: '' });
         }
         else {
             res.redirect('/users/login');
@@ -229,7 +243,7 @@ router.get('/status', (req, res) => {
 })
 
 router.get('/status/:oid', (req, res) => {
-    
+
 })
 
 module.exports = router;
