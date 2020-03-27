@@ -26,7 +26,7 @@ router.get('/rdashboard', (req, res) => {
                     if (err) 
                         res.status(500).send(err);
                     else if (!rows.length) {
-                        res.render('rest_dashboard', { check: 'false', o: {}, profile: { name: req.session.user.rname, phone: req.session.user.phone, email: req.session.user.email, rid: req.session.user.rid } });
+                        res.render('rest_dashboard', { check: 'false', o: {}, profile: { name: req.session.user.rname, phone: req.session.user.phone, email: req.session.user.email, rid: req.session.user.rid, address: req.session.user.address, category: req.session.user.category, rating: req.session.user.rating } });
                     }
                     else if (rows.length == 1) {
                         console.log('1 row only');
@@ -309,25 +309,193 @@ router.post('/rdashboard/menu', (req, res) => {
 
 router.get('/rdashboard/feedback/', (req, res) => {
     if (req.session.user) {
-        if (req.session.user.rid) {
+        if(req.session.user.rid) {
+            let orders = [];
             mySqlConnection.query(
-                `select * from orders where rid = ${req.session.user.rid} and delivered = 1`,
+                `select oid, orders.rid, rname, category, did, delivered, feedback, orders.rating as rating, otime, count(did) as qty
+                 from orders, restaurants where orders.rid = ${req.session.user.rid} and orders.rid = restaurants.rid and delivered = 1
+                 group by oid,did`,
                 [],
                 (err, rows) => {
-                    if (err) {
+                    if (err) 
                         res.status(500).send(err);
+                    else if (!rows.length) {
+                        res.render('rest_feedback', { check: 'false', o: {}, profile: { name: req.session.user.rname, phone: req.session.user.phone, email: req.session.user.email, rid: req.session.user.rid, address: req.session.user.address, category: req.session.user.category, rating: req.session.user.rating } });
                     }
-                    else if (!rows) {
-                        res.send("No orders yet");
+                    else if (rows.length == 1) {
+                        console.log('1 row only');
+                        let row = rows[0];
+                        let o = {};
+                        o.rid = row.rid;
+                        o.oid = row.oid;
+                        o.otime = row.otime;
+                        o.rname = row.rname;
+                        o.category = row.category;
+                        o.feedback = row.feedback;
+                        o.rating = row.rating;
+                        o.items = {};
+                        amount = 0;
+                        mySqlConnection.query(
+                            `select *from menu_${row.rid} where did = ${row.did}`, //get details of dishes
+                            [],
+                            (error, r) => {
+                                if (error)
+                                    res.status(500).send(error)
+                                else {
+                                    o.oid = row.oid;
+                                    o.items[r[0]["dname"]] = row.qty; //set dish name in o.items object
+                                    amount += r[0]["price"] * row.qty; //calculate amount as price * quantity
+                                    o.amount = amount;
+                                    res.render('rest_feedback', { check: 'true', o: [o], profile: { name: req.session.user.rname, phone: req.session.user.phone, email: req.session.user.email, rid: req.session.user.rid, address: req.session.user.address, category: req.session.user.category, rating: req.session.user.rating } });
+                                }
+                            }
+                        );
                     }
                     else {
-                        res.send(rows);
+                        mySqlConnection.query(
+                            `select avg(rating) as rating from orders where rid = ${req.session.user.rid}`,
+                            [],
+                            (err, r) => {
+                                var rating = 0;
+                                if (err)
+                                    res.status(500).send(err);
+                                else {
+                                    if (!r)
+                                        rating = 0;
+                                    else {
+                                        rating = r[0].rating;
+                                        mySqlConnection.query(
+                                            `update restaurants set rating = ${rating} where rid = ${req.session.user.rid}`,
+                                            [],
+                                            (err) => {
+                                                if (err)
+                                                    res.status(500).send(err)
+                                                else {
+                                                    let o = {};
+                                                    o.items = {};
+                                                    o.amount = 0;
+                                                    let amount = 0;
+                                                    let map = {};
+                                                    console.log(rows);
+                                                    rows.forEach((e, i) => { //iterate over all the orders
+                                                        console.log(e);
+                                                        if (i == 0) //first row
+                                                        {
+                                                            o = {}; //make new object for new order
+                                                            o.oid = e.oid;
+                                                            o.rid = e.rid;
+                                                            o.otime = e.otime;
+                                                            o.rname = e.rname;
+                                                            o.category = e.category;
+                                                            o.feedback = e.feedback;
+                                                            o.rating = e.rating;
+                                                            o.items = {};
+                                                            amount = 0;
+                                                            map[e.oid] = orders.length; //to ensure that orders go into the right object
+                                                            orders.push(o); //put temp o object into orders array
+                                                            mySqlConnection.query(
+                                                                `select *from menu_${e.rid} where did = ${e.did}`, //get details of dishes
+                                                                [],
+                                                                (error, r) => {
+                                                                    if (error) {
+                                                                        res.status(500).send(error)
+                                                                        console.log(error);
+                                                                        console.log(2);
+                                                                    }
+                                                                    else {
+                                                                        orders[0].oid = e.oid;
+                                                                        orders[0].items[r[0]["dname"]] = e.qty; //set dish name in o.items object
+                                                                        amount += r[0]["price"] * e.qty; //calculate amount as price * quantity
+                                                                        orders[0].amount = amount;
+                                                                    }
+                                                                }
+                                                            );
+                                                        }
+
+                                                        else {
+                                                            if (e.oid == rows[i - 1].oid) //for consequent rows of the same order ID
+                                                            {
+                                                                mySqlConnection.query(
+                                                                    `select *from menu_${e.rid} where did = ${e.did}`, //get details of dishes
+                                                                    [],
+                                                                    (error, r) => {
+                                                                        if (error) {
+                                                                            res.status(500).send(error)
+                                                                            console.log(error);
+                                                                            console.log(3);
+                                                                        }
+                                                                        else {
+                                                                            orders[map[e.oid]].oid = e.oid;
+                                                                            orders[map[e.oid]].items[r[0]["dname"]] = e.qty;  //set dish name in o.items object
+                                                                            amount += r[0]["price"] * e.qty; //calculate amount as price * quantity
+                                                                            orders[map[e.oid]].amount = amount;
+
+                                                                            if (i == rows.length - 1) //last row of orders
+                                                                            {
+                                                                                // res.send(orders); //send orders array to user
+                                                                                res.render('rest_feedback', { check: 'true', o: orders, rating: rating, profile: { name: req.session.user.rname, phone: req.session.user.phone, email: req.session.user.email, rid: req.session.user.rid, address: req.session.user.address, category: req.session.user.category, rating: req.session.user.rating } });
+                                                                            }
+                                                                            return;
+                                                                        }
+                                                                    }
+                                                                );
+                                                            }
+
+                                                            else {
+                                                                o = {}; //make new object for new order
+                                                                o.oid = e.oid;
+                                                                o.rid = e.rid;
+                                                                o.otime = e.otime;
+                                                                o.rname = e.rname;
+                                                                o.category = e.category;
+                                                                o.feedback = e.feedback;
+                                                                o.rating = e.rating;
+                                                                o.items = {};
+                                                                o.amount = 0;
+                                                                amount = 0;
+                                                                map[e.oid] = orders.length; //to ensure that orders go into the right object
+                                                                orders.push(o); //put temp o object into orders array
+
+                                                                mySqlConnection.query(
+                                                                    `select *from menu_${e.rid} where did = ${e.did}`, //get details of dishes
+                                                                    [],
+                                                                    (error, r) => {
+                                                                        if (error) {
+                                                                            res.status(500).send(error)
+                                                                            console.log(error);
+                                                                            console.log(4);
+                                                                        }
+                                                                        else {
+                                                                            orders[map[e.oid]].oid = e.oid;
+                                                                            orders[map[e.oid]].items[r[0]["dname"]] = e.qty; //set dish name in o.items object
+                                                                            amount = r[0]["price"] * e.qty; //calculate amount as price * quantity
+                                                                            orders[map[e.oid]].amount = amount;
+
+                                                                            if (i == rows.length - 1) //last row of orders
+                                                                            {
+                                                                                // res.send(orders); //send orders array to user
+                                                                                res.render('rest_feedback', { check: 'true', o: orders, profile: { name: req.session.user.rname, phone: req.session.user.phone, email: req.session.user.email, rid: req.session.user.rid, address: req.session.user.address, category: req.session.user.category, rating: req.session.user.rating } });
+                                                                            }
+                                                                            return;
+                                                                        }
+                                                                    }
+                                                                );
+                                                            }
+                                                        }
+                                                    })
+                                                }
+                                            }
+                                        )
+                                    }
+                                }
+                            }
+                        )
                     }
                 }
-            )
+            );
         }
         else {
-            res.status(401).render("landing", { alert: 'true', msg: 'Login as a restaurant for this', user: req.session.user });
+            res.render("landing", { alert: 'true', msg: 'Login as a restaurant for this', user: req.session.user });
         }
     }
     else {
