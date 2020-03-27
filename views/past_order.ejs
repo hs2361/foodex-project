@@ -436,8 +436,8 @@
         $('.rating_btn').click(function(){
             var classname = $(this).attr('class');
             classname = classname.slice(11,16);
-            $("."+classname).attr('disabled','disabled');
-            console.log(classname);
+          
+            
         })
 
         $('.ham').click(hamburg);
@@ -445,10 +445,10 @@
           $('.rating_btn').click(function () {
                 var classname = $(this).attr('class');
                 classname = classname.slice(11, 16);
-                $("." + classname).attr('disabled', 'disabled');
+                // $("." + classname).attr('disabled', 'disabled');
                 console.log(classname);
                 $('.add__dishes__popup').toggleClass('hide');
-                $('.container').toggleClass("blur");
+                // $('.container').toggleClass("blur");
             })
             $("#add__dishes__popup__close").click(
                 function () {

@@ -15,10 +15,7 @@ a{
 .ham{
     display: none;
 }
-.ham__items{
-    display: none;
-    
-}
+
 .ham__unhide{
     position: fixed;
     top: 40%;

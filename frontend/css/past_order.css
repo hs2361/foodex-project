@@ -417,7 +417,7 @@ display: none;
 }
 .rest__rating__tab{
     direction: rtl;
-    
+
 }
 .rest__rating__tab input{
     display: none;
@@ -439,12 +439,9 @@ display: none;
     top: -15px;
     left: 0;
     opacity: 0;
-    font-size: 28px;
-    
-    
+    font-size: 28px; 
 }
 .rest__rating__tab label:hover::after,
-
 .rest__rating__tab label:hover ~ label::after,
 .rest__rating__tab input:checked~ label::after{
     opacity: 1;
