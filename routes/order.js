@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const http = require('http').createServer(router);
-const events = require("events");
 const io = require('socket.io').listen(http);
 const mySqlConnection = require("../db/database"); //importing database connection
 
