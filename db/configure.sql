@@ -43,5 +43,12 @@ CREATE TABLE IF NOT EXISTS orders
     otime     DATETIME DEFAULT NOW()
 );
 
+CREATE TABLE IF NOT EXISTS menu_1
+(
+    did   INT PRIMARY KEY AUTO_INCREMENT,
+    dname VARCHAR(255),
+    price INT
+);
+
 INSERT INTO restaurants(rid, rname, verified)
 VALUES (1, "Ghost <3", false);

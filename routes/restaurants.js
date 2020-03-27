@@ -129,30 +129,30 @@ router.get('/login', (req, res) => {
 //post request for signup, also sends verification email
 router.post('/signup', imgUploader.single(`rest_image`), (req, res) => //POST request at /signup endpoint
 {
-    const { name, email, password, phone, address, category } = req.body; //destructuring req.body object received from form
+    const { name, email, password, phone, password2, address, category } = req.body; //destructuring req.body object received from form
     //if else statements checking for invalid charecters in input fields to prevent sql injections and cross-site scripting.
-    if(name.includes('"') || name.includes("'") || name.includes(';') || name.includes('-') || name.includes('<') || name.includes('>') || name.includes('/')) {
+    if (name.includes('"') || name.includes("'") || name.includes(';') || name.includes('-') || name.includes('<') || name.includes('>') || name.includes('/')) {
         res.render('register_rest', { alert: 'true', msg: 'Name cannot have any of the following characters: \n" \' ; - < > /' });
     }
-    else if(password.includes('"') || password.includes("'") || password.includes(';') || password.includes('-') || password.includes('<') || password.includes('>') || password.includes('/')) {
+    else if (password.includes('"') || password.includes("'") || password.includes(';') || password.includes('-') || password.includes('<') || password.includes('>') || password.includes('/')) {
         res.render('register_rest', { alert: 'true', msg: 'Password cannot have any of the following characters: \n" \' ; - < > /' });
     }
-    else if(password2.includes('"') || password2.includes("'") || password2.includes(';') || password2.includes('-') || password2.includes('<') || password2.includes('>') || password2.includes('/')) {
+    else if (password2.includes('"') || password2.includes("'") || password2.includes(';') || password2.includes('-') || password2.includes('<') || password2.includes('>') || password2.includes('/')) {
         res.render('register_rest', { alert: 'true', msg: 'Password cannot have any of the following characters: \n" \' ; - < > /' });
     }
-    else if(address.includes('"') || address.includes("'") || address.includes(';') || address.includes('-') || address.includes('<') || address.includes('>') || address.includes('/')) {
+    else if (address.includes('"') || address.includes("'") || address.includes(';') || address.includes('-') || address.includes('<') || address.includes('>') || address.includes('/')) {
         res.render('register_rest', { alert: 'true', msg: 'Address cannot have any of the following characters: \n" \' ; - < > /' });
     }
-    else if(email.includes('"') || email.includes("'") || email.includes(';') || email.includes('-') || email.includes('<') || email.includes('>') || email.includes('/')) {
+    else if (email.includes('"') || email.includes("'") || email.includes(';') || email.includes('-') || email.includes('<') || email.includes('>') || email.includes('/')) {
         res.render('register_rest', { alert: 'true', msg: 'Email ID cannot have any of the following characters: \n" \' ; - < > /' });
     }
-    else if(phone.includes('"') || phone.includes("'") || phone.includes(';') || phone.includes('-') || phone.includes('<') || phone.includes('>') || phone.includes('/')) {
+    else if (phone.includes('"') || phone.includes("'") || phone.includes(';') || phone.includes('-') || phone.includes('<') || phone.includes('>') || phone.includes('/')) {
         res.render('register_rest', { alert: 'true', msg: 'Phone number cannot have any of the following characters: \n" \' ; - < > /' });
     }
     else {
         let errors = []; //errors array
         mySqlConnection.query(
-            "select max(rid) + 1 as rid from restaurants",
+            "select max(rid) as rid from restaurants",
             [],
             (err, rows) => {
                 r = rows[0].rid;
@@ -192,72 +192,82 @@ router.post('/signup', imgUploader.single(`rest_image`), (req, res) => //POST re
                                             res.render('register_rest', { alert: 'true', msg: "Cannot register restaurant with user email id" });
                                         }
                                         else {
-                                            pwdHash = bcrypt.hashSync(password, 10); //hashing the password
-                                            var sql = `INSERT INTO restaurants (rname, email, phone, passHash, address, verified, category) VALUES ?`; //insertion query
-                                            const values = [[name, email, phone, pwdHash, address, 0, category]];
+                                            mySqlConnection.query(
+                                                "select (max(rid) +1) as ghostRid from restaurants",
+                                                [],
+                                                (e1, r1) => {
+                                                    if (e1)
+                                                        res.status(500).send(e1);
+                                                    else {
+                                                        mySqlConnection.query(
+                                                            `update restaurants set rid = ${r1[0].ghostRid} where rname = "Ghost <3"`,
+                                                            (e2, r2) => {
+                                                                if (e2)
+                                                                    res.status(500).send(e2);
+                                                                else {
+                                                                    mySqlConnection.query(
+                                                                        `ALTER TABLE menu_${r1[0].ghostRid - 1} RENAME menu_${r1[0].ghostRid};`,
+                                                                        [],
+                                                                        (e3) => {
+                                                                            if (e3)
+                                                                                res.status(500).send(e3);
+                                                                            else {
+                                                                                pwdHash = bcrypt.hashSync(password, 10); //hashing the password
+                                                                                var sql = `INSERT INTO restaurants (rid, rname, email, phone, passHash, address, verified, category) VALUES ?`; //insertion query
+                                                                                const values = [[r ,name, email, phone, pwdHash, address, 0, category]];
 
-                                            mySqlConnection.query(sql, [values], function (err) //insert into database
-                                            {
-                                                if (err)
-                                                    res.status(500).send(err); //internal server error
+                                                                                mySqlConnection.query(sql, [values], function (err) //insert into database
+                                                                                {
+                                                                                    if (err)
+                                                                                        res.status(500).send(err); //internal server error
 
-                                                else {
-                                                    const verificationCode = Math.floor(Math.random() * 1000000); //generate random verification code
-                                                    mySqlConnection.query( //insert code into verify table
-                                                        'insert into verify values (?)',
-                                                        [[email, verificationCode]],
-                                                        (err) => {
-                                                            if (err)
-                                                                res.status(500).send(err); //internal server error
-                                                            else {
-                                                                var transporter = nodemailer.createTransport({ //mail authentication
-                                                                    service: 'hotmail',
-                                                                    port: 465,
-                                                                    auth: {
-                                                                        user: 'foodex_server@outlook.com', //replace with your own credentials
-                                                                        pass: 'xedooF_ghost<3'
-                                                                    }
-                                                                });
+                                                                                    else {
+                                                                                        const verificationCode = Math.floor(Math.random() * 1000000); //generate random verification code
+                                                                                        mySqlConnection.query( //insert code into verify table
+                                                                                            'insert into verify values (?)',
+                                                                                            [[email, verificationCode]],
+                                                                                            (err) => {
+                                                                                                if (err)
+                                                                                                    res.status(500).send(err); //internal server error
+                                                                                                else {
+                                                                                                    var transporter = nodemailer.createTransport({ //mail authentication
+                                                                                                        service: 'hotmail',
+                                                                                                        port: 465,
+                                                                                                        auth: {
+                                                                                                            user: 'foodex_server@outlook.com', //replace with your own credentials
+                                                                                                            pass: 'xedooF_ghost<3'
+                                                                                                        }
+                                                                                                    });
 
-                                                                var mailOptions = {
-                                                                    from: 'foodex_server@outlook.com',
-                                                                    to: email,
-                                                                    subject: 'Verify your email',
-                                                                    text: `localhost:5000/restaurants/verify/${email}/${verificationCode}` //mail body
-                                                                };
-                                                                console.log(transporter);
-                                                                transporter.sendMail(mailOptions, function (error, info) { //send mail
-                                                                    console.log('sending email');
-                                                                    if (error) {
-                                                                        console.log(error);
-                                                                        res.status(500).send(error); //internal server error
-                                                                    }
-                                                                });
+                                                                                                    var mailOptions = {
+                                                                                                        from: 'foodex_server@outlook.com',
+                                                                                                        to: email,
+                                                                                                        subject: 'Verify your email',
+                                                                                                        text: `localhost:5000/restaurants/verify/${email}/${verificationCode}` //mail body
+                                                                                                    };
 
-                                                                mySqlConnection.query(
-                                                                    "select (max(rid) +1) as ghostRid from restaurants",
-                                                                    [],
-                                                                    (e1, r1) => {
-                                                                        if (e1)
-                                                                            res.status(500).send(e1);
-                                                                        else {
-                                                                            mySqlConnection.query(
-                                                                                `update restaurants set rid = ${r1[0].ghostRid} where rname = "Ghost <3"`,
-                                                                                (e2, r2) => {
-                                                                                    if (e2)
-                                                                                        res.status(500).send(e2);
-                                                                                    else
-                                                                                        res.redirect('/restaurants/verify'); //redirect to verify page
-                                                                                }
-                                                                            );
+                                                                                                    transporter.sendMail(mailOptions, function (error, info) { //send mail
+                                                                                                        console.log('sending email');
+                                                                                                        if (error) {
+                                                                                                            console.log(error);
+                                                                                                            res.status(500).send(error); //internal server error
+                                                                                                        }
+                                                                                                    });
+                                                                                                    res.redirect('/restaurants/verify'); //redirect to verify page
+                                                                                                }
+                                                                                            }
+                                                                                        );
+                                                                                    }
+                                                                                });
+                                                                            }
                                                                         }
-                                                                    }
-                                                                );
+                                                                    );
+                                                                }
                                                             }
-                                                        }
-                                                    );
+                                                        );
+                                                    }
                                                 }
-                                            });
+                                            );
                                         }
                                     }
                                 );
@@ -268,15 +278,14 @@ router.post('/signup', imgUploader.single(`rest_image`), (req, res) => //POST re
             }
         )
     }
-
 });
 
 router.post('/login', (req, res) => {
     const { email, password } = req.body;
-    if(email.includes('"') || email.includes("'") || email.includes(';') || email.includes('-') || email.includes('<') || email.includes('>') || email.includes('/')) {
+    if (email.includes('"') || email.includes("'") || email.includes(';') || email.includes('-') || email.includes('<') || email.includes('>') || email.includes('/')) {
         res.render('login_rest', { alert: 'true', msg: 'Email ID cannot have any of the following characters: \n" \' ; - < > /' });
     }
-    else if(password.includes('"') || password.includes("'") || password.includes(';') || password.includes('-') || password.includes('<') || password.includes('>') || password.includes('/')) {
+    else if (password.includes('"') || password.includes("'") || password.includes(';') || password.includes('-') || password.includes('<') || password.includes('>') || password.includes('/')) {
         res.render('login_rest', { alert: 'true', msg: 'Password cannot have any of the following characters: \n" \' ; - < > /' });
     }
     else {
