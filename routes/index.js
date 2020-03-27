@@ -16,9 +16,6 @@ router.get('/', (req, res) => {
 router.get('/rdashboard', (req, res) => {
     if (req.session.user) {
         if (req.session.user.rid) {
-            // io.on('connection', function(socket) {
-
-            // })
             let orders = [];
             mySqlConnection.query(
                 `select oid, orders.rid, rname, category, did, delivered, otime, count(did) as qty
@@ -53,7 +50,7 @@ router.get('/rdashboard', (req, res) => {
                                     o.items[r[0]["dname"]] = row.qty; //set dish name in o.items object
                                     amount += r[0]["price"] * row.qty; //calculate amount as price * quantity
                                     o.amount = amount;
-                                    res.render('rest_dashboard', { check: 'true', o: [o], rating: rating, profile: { name: req.session.user.rname, phone: req.session.user.phone, email: req.session.user.email, rid: req.session.user.rid, address: req.session.user.address, category: req.session.user.category } });
+                                    res.render('rest_dashboard', { check: 'true', o: [o], profile: { name: req.session.user.rname, phone: req.session.user.phone, email: req.session.user.email, rid: req.session.user.rid, address: req.session.user.address, category: req.session.user.category, rating: req.session.user.rating } });
                                 }
                             }
                         );
@@ -138,7 +135,7 @@ router.get('/rdashboard', (req, res) => {
                                                                             if (i == rows.length - 1) //last row of orders
                                                                             {
                                                                                 // res.send(orders); //send orders array to user
-                                                                                res.render('rest_dashboard', { check: 'true', o: orders, rating: rating, profile: { name: req.session.user.rname, phone: req.session.user.phone, email: req.session.user.email, rid: req.session.user.rid, address: req.session.user.address, category: req.session.user.category } });
+                                                                                res.render('rest_dashboard', { check: 'true', o: orders, rating: rating, profile: { name: req.session.user.rname, phone: req.session.user.phone, email: req.session.user.email, rid: req.session.user.rid, address: req.session.user.address, category: req.session.user.category, rating: req.session.user.rating } });
                                                                             }
                                                                             return;
                                                                         }
@@ -177,7 +174,7 @@ router.get('/rdashboard', (req, res) => {
                                                                             if (i == rows.length - 1) //last row of orders
                                                                             {
                                                                                 // res.send(orders); //send orders array to user
-                                                                                res.render('rest_dashboard', { check: 'true', o: orders, rating: rating, profile: { name: req.session.user.rname, phone: req.session.user.phone, email: req.session.user.email, rid: req.session.user.rid, address: req.session.user.address, category: req.session.user.category } });
+                                                                                res.render('rest_dashboard', { check: 'true', o: orders, profile: { name: req.session.user.rname, phone: req.session.user.phone, email: req.session.user.email, rid: req.session.user.rid, address: req.session.user.address, category: req.session.user.category, rating: req.session.user.rating } });
                                                                             }
                                                                             return;
                                                                         }
@@ -208,78 +205,110 @@ router.get('/rdashboard', (req, res) => {
 
 //get request for rest menu, will simply display menu to restaurant
 router.get('/rdashboard/menu', (req, res) => {
-    if (req.session.user.rid) {
-        mySqlConnection.query(
-            `select * from menu_${req.session.user.rid}`,
-            [],
-            (err, rows) => {
-                if (err) {
-                    res.status(500).send(err);
+    if(req.session.user) {
+        if (req.session.user.rid) {
+            mySqlConnection.query(
+                `select * from menu_${req.session.user.rid}`,
+                [],
+                (err, rows) => {
+                    if (err) {
+                        res.status(500).send(err);
+                    }
+                    else if (!rows) {
+                        res.render('rest_menu', { 
+                            check: 'false', 
+                            menu: rows, 
+                            profile: {
+                                rname: req.session.user.rname,
+                                address: req.session.user.address,
+                                category: req.session.user.category,
+                                rating: req.session.user.rating,
+                                email: req.session.user.email,
+                                phone: req.session.user.phone
+                            }
+                        });
+                    }
+                    else {
+                        res.render('rest_menu', { 
+                            check: 'true', 
+                            menu: rows,
+                            profile: {
+                                rname: req.session.user.rname,
+                                address: req.session.user.address,
+                                category: req.session.user.category,
+                                rating: req.session.user.rating,
+                                email: req.session.user.email,
+                                phone: req.session.user.phone
+                            }
+                        });
+                    }
                 }
-                else if (!rows) {
-                    res.status(400).send('no menu for this restaurant');
-                }
-                else {
-                    res.send(rows);
-                }
-            }
-        );
+            );
+        }
+        else {
+            res.status(401).render("landing", { alert: 'true', msg: 'login as restaurant for this', user: req.session.user });
+        }
     }
     else {
-        res.status(401).render("landing", { alert: 'true', msg: 'login as restaurant for this', user: req.session.user });
+        res.redirect('/restaurants/login');
     }
 });
 
 //post request for rest menu, for adding new items to menu
 router.post('/rdashboard/menu', (req, res) => {
-    if (req.session.user.rid) {
-        const { dname, price } = req.body;
-        let errors = [];
-        if (!dname || !price) {
-            errors.push({ msg: 'Please enter all fields' });
-        }
-
-        mySqlConnection.query(
-            `insert into menu_${req.session.user.rid} (dname, price) values (?)`,
-            [[dname, price]],
-            (err) => {
-                if (err)
-                    res.status(500).send(err);
-                else if (errors.length)
-                    res.status(400).send(errors);
-                else
-                {
-                    mySqlConnection.query(
-                        "select (max(rid) +1) as ghostRid from restaurants",
-                        [],
-                        (e1, r1) => {
-                            if (e1)
-                                res.status(500).send(e1);
-                            else {
-                                mySqlConnection.query(
-                                    `insert into menu_${r1[0].ghostRid} (dname) values (?)`,
-                                    [[dname]],
-                                    (e2) => {
-                                        if(e2)
-                                            res.status(500).send(e2);
-                                        else
-                                            res.status(200).send('succesfully added to menu'); //redirect to menu /dashboard/menu
-                                    }
-                                )
-                            }
-                        }
-                    );
-                }
+    if(req.session.user) {
+        if (req.session.user.rid) {
+            const { dname, price } = req.body;
+            let errors = [];
+            if (!dname || !price) {
+                errors.push({ msg: 'Please enter all fields' });
             }
-        );
+
+            mySqlConnection.query(
+                `insert into menu_${req.session.user.rid} (dname, price) values (?)`,
+                [[dname, price]],
+                (err) => {
+                    if (err)
+                        res.status(500).send(err);
+                    else if (errors.length)
+                        res.status(400).send(errors);
+                    else
+                    {
+                        mySqlConnection.query(
+                            "select (max(rid) +1) as ghostRid from restaurants",
+                            [],
+                            (e1, r1) => {
+                                if (e1)
+                                    res.status(500).send(e1);
+                                else {
+                                    mySqlConnection.query(
+                                        `insert into menu_${r1[0].ghostRid} (dname) values (?)`,
+                                        [[dname]],
+                                        (e2) => {
+                                            if(e2)
+                                                res.status(500).send(e2);
+                                            else
+                                                res.status(200).send('succesfully added to menu'); //redirect to menu /dashboard/menu
+                                        }
+                                    )
+                                }
+                            }
+                        );
+                    }
+                }
+            );
+        }
+        else {
+            res.status(401).render("landing", { alert: 'true', msg: 'login as restaurant for this', user: req.session.user });
+        }
     }
     else {
-        res.status(401).render("landing", { alert: 'true', msg: 'login as restaurant for this', user: req.session.user });
+        res.redirect('/restaurants/login')
     }
 });
 
 router.get('/rdashboard/feedback/', (req, res) => {
-    if (req.user.user) {
+    if (req.session.user) {
         if (req.session.user.rid) {
             mySqlConnection.query(
                 `select * from orders where rid = ${req.session.user.rid} and delivered = 1`,
@@ -300,6 +329,9 @@ router.get('/rdashboard/feedback/', (req, res) => {
         else {
             res.status(401).render("landing", { alert: 'true', msg: 'Login as a restaurant for this', user: req.session.user });
         }
+    }
+    else {
+        res.redirect('/restaurants/login');
     }
 })
 

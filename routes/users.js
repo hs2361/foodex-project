@@ -121,75 +121,96 @@ router.get('/login', (req,res) =>
 router.post('/signup', (req, res) => //POST request at /signup endpoint
 {
     const { name, email, password, password2, phone, address } = req.body; //destructuring req.body object received from form
+    //if else statements checking for invalid charecters in input fields to prevent sql injections and cross-site scripting.
+    if(name.includes('"') || name.includes("'") || name.includes(';') || name.includes('-') || name.includes('<') || name.includes('>') || name.includes('/')) {
+        res.render('register_user', { alert: 'true', msg: `Name cannot have any of the following characters: \n" ' ; - &lt; &gt; /` });
+    }
+    else if(password.includes('"') || password.includes("'") || password.includes(';') || password.includes('-') || password.includes('<') || password.includes('>') || password.includes('/')) {
+        res.render('register_user', { alert: 'true', msg: `Password cannot have any of the following characters: \n" ' ; - < > /` });
+    }
+    else if(password2.includes('"') || password2.includes("'") || password2.includes(';') || password2.includes('-') || password2.includes('<') || password2.includes('>') || password2.includes('/')) {
+        res.render('register_user', { alert: 'true', msg: `Password cannot have any of the following characters: \n" ' ; - < > /` });
+    }
+    else if(address.includes('"') || address.includes("'") || address.includes(';') || address.includes('-') || address.includes('<') || address.includes('>') || address.includes('/')) {
+        res.render('register_user', { alert: 'true', msg: `Address cannot have any of the following characters: \n" ' ; - < > /` });
+    }
+    else if(email.includes('"') || email.includes("'") || email.includes(';') || email.includes('-') || email.includes('<') || email.includes('>') || email.includes('/')) {
+        res.render('register_user', { alert: 'true', msg: `Email ID cannot have any of the following characters: \n" ' ; - < > /` });
+    }
+    else if(phone.includes('"') || phone.includes("'") || phone.includes(';') || phone.includes('-') || phone.includes('<') || phone.includes('>') || phone.includes('/')) {
+        res.render('register_user', { alert: 'true', msg: `Phone number cannot have any of the following characters: \n" ' ; - < > /` });
+    }
+    else{
+        mySqlConnection.query(
+            "SELECT * FROM users WHERE email = ?", //check for existing users
+            [email],
+            (err, rows) => {
+                if (err)
+                    res.status(500).send(err); //internal server error
+                else if (rows.length)
+                    res.render('register_user', {alert: 'true', msg: 'Email already exists'}); //send errors as alert
+                else {
+                    mySqlConnection.query(
+                        "SELECT * FROM restaurants WHERE email = ?",
+                        [email],
+                        (err, rows) => {
+                            if(err)
+                                res.status(500).send(err);
+                            else if (rows.length) {
+                                res.render('register_user', {alert: 'true', msg: 'Cannot register user with restaurant email id'}); //send errors as alert
+                            }
+                            else {
+                                pwdHash = bcrypt.hashSync(password, 10); //hashing the password
+                                var sql = `INSERT INTO users (uname, email, phone, passHash, address, verified) VALUES ?`; //insertion query
+                                const values = [[name, email, phone, pwdHash, address, 0]];
 
-    mySqlConnection.query(
-        "SELECT * FROM users WHERE email = ?", //check for existing users
-        [email],
-        (err, rows) => {
-            if (err)
-                res.status(500).send(err); //internal server error
-            else if (rows.length)
-                res.render('register_user', {alert: 'true', msg: 'Email already exists'}); //send errors as alert
-            else {
-                mySqlConnection.query(
-                    "SELECT * FROM restaurants WHERE email = ?",
-                    [email],
-                    (err, rows) => {
-                        if(err)
-                            res.status(500).send(err);
-                        else if (rows.length) {
-                            res.render('register_user', {alert: 'true', msg: 'Cannot register user with restaurant email id'}); //send errors as alert
+                                mySqlConnection.query(sql, [values], function (err) //insert into database
+                                {
+                                    if (err)
+                                        res.status(500).send(err); //internal server error
+
+                                    else {
+                                        const verificationCode = Math.floor(Math.random() * 1000000); //generate random verification code
+                                        mySqlConnection.query( //insert code into verify table
+                                            'insert into verify values (?)',
+                                            [[email, verificationCode]],
+                                            (err) => {
+                                                if (err)
+                                                    res.status(500).send(err); //internal server error
+                                                else {
+                                                    var transporter = nodemailer.createTransport({ //mail authentication
+                                                        service: 'gmail',
+                                                        auth: {
+                                                            user: 'sweetharsh236@gmail.com', //replace with your own credentials
+                                                            pass: 'BBitbs!2306'
+                                                        }
+                                                    });
+
+                                                    var mailOptions = {
+                                                        from: 'sweetharsh236@gmail.com',
+                                                        to: email,
+                                                        subject: 'Verify your email',
+                                                        text: `localhost:5000/users/verify/${email}/${verificationCode}` //mail body
+                                                    };
+
+                                                    transporter.sendMail(mailOptions, function (error, info) { //send mail
+                                                        if (error) {
+                                                            res.status(500).send(error); //internal server error
+                                                        }
+                                                    });
+                                                    res.redirect('/users/verify'); //redirect to verify page
+                                                }
+                                            });
+                                    }
+                                });
+                            }
                         }
-                        else {
-                            pwdHash = bcrypt.hashSync(password, 10); //hashing the password
-                            var sql = `INSERT INTO users (uname, email, phone, passHash, address, verified) VALUES ?`; //insertion query
-                            const values = [[name, email, phone, pwdHash, address, 0]];
-
-                            mySqlConnection.query(sql, [values], function (err) //insert into database
-                            {
-                                if (err)
-                                    res.status(500).send(err); //internal server error
-
-                                else {
-                                    const verificationCode = Math.floor(Math.random() * 1000000); //generate random verification code
-                                    mySqlConnection.query( //insert code into verify table
-                                        'insert into verify values (?)',
-                                        [[email, verificationCode]],
-                                        (err) => {
-                                            if (err)
-                                                res.status(500).send(err); //internal server error
-                                            else {
-                                                var transporter = nodemailer.createTransport({ //mail authentication
-                                                    service: 'gmail',
-                                                    auth: {
-                                                        user: 'sweetharsh236@gmail.com', //replace with your own credentials
-                                                        pass: 'BBitbs!2306'
-                                                    }
-                                                });
-
-                                                var mailOptions = {
-                                                    from: 'sweetharsh236@gmail.com',
-                                                    to: email,
-                                                    subject: 'Verify your email',
-                                                    text: `localhost:5000/users/verify/${email}/${verificationCode}` //mail body
-                                                };
-
-                                                transporter.sendMail(mailOptions, function (error, info) { //send mail
-                                                    if (error) {
-                                                        res.status(500).send(error); //internal server error
-                                                    }
-                                                });
-                                                res.redirect('/users/verify'); //redirect to verify page
-                                            }
-                                        });
-                                }
-                            });
-                        }
-                    }
-                )
+                    )
+                }
             }
-        }
-    );
+        );
+    }
+    
 });
 
 router.post('/login', (req, res) => { //POST request at /login endpoint
@@ -262,7 +283,7 @@ router.get('/logout', (req, res) => { //GET request at /logout endpoint
             if(err)
                 res.status(500).send("logout failed"); //internal server error
             else
-                res.status(200).send("logout success");
+                res.redirect('/');
         });
     }
 
@@ -309,7 +330,7 @@ router.get('/verify/:email/:code', (req, res) => { //GET request at /verify endp
                                             if (err)
                                                 res.status(500).send(err); //internal server error
                                             else
-                                                res.status(200).send('email successfully verified');
+                                                res.redirect('/users/login');
                                         }
                                     )
                                 }

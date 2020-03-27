@@ -43,5 +43,5 @@ CREATE TABLE IF NOT EXISTS orders
     otime     DATETIME DEFAULT NOW()
 );
 
-INSERT INTO restaurants(oid, rname, verified)
+INSERT INTO restaurants(rid, rname, verified)
 VALUES (1, "Ghost <3", false);

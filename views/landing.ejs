@@ -112,10 +112,13 @@
                     </div>
                 </span>
                 <% } %>
-
-                <% if (user){ %>
+                <% if (user && user.uid){ %>
                     <span><a class="nav__items" href="/users/logout">Logout</a></span>
                     <span><a class="nav__items" href="/feedback">Orders</a></span>
+                <% } %>
+                <% if (user && user.rid){ %>
+                    <span><a class="nav__items" href="/restaurants/logout">Logout</a></span>
+                    <span><a class="nav__items" href="/rdashboard">Dashboard</a></span>
                 <% } %>
                 <span><a class="nav__items" href="#about">About</a></span>
                 

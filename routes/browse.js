@@ -55,7 +55,7 @@ router.get('/', (req, res) => {
         }
     }
     else
-        res.status(400).send("login to order"); //bad request
+        res.redirect('/users/login');
 });
 
 router.get('/:rid', (req, res) => {

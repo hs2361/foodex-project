@@ -53,8 +53,9 @@ router.get('/', (req, res) => {
             )
         }
     }
-    else
-        res.status(400).send("login to order"); //bad request
+    else {
+        res.redirect('/users/login');
+    }
 });
 
 router.get('/:rid/:did', (req, res) => {
@@ -142,8 +143,9 @@ router.get('/:rid/:did', (req, res) => {
         }
     }
 
-    else
-        res.status(400).send("login to order"); //bad request
+    else {
+        res.redirect('/users/login');
+    }
 });
 
 // router.get("/confirm", (req, res) => {
@@ -223,8 +225,9 @@ router.get("/checkout", (req, res) => {
         }
     }
 
-    else
-        res.status(400).send("login to checkout"); //bad request
+    else {
+        res.redirect('/users/login');
+    }
 });
 
 router.get('/status', (req, res) => {
@@ -239,10 +242,6 @@ router.get('/status', (req, res) => {
     else {
         res.redirect('/users/login');
     }
-})
-
-router.get('/status/:oid', (req, res) => {
-
-})
+});
 
 module.exports = router;
