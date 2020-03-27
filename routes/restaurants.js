@@ -196,21 +196,23 @@ router.post('/signup', imgUploader.single(`rest_image`), (req, res) => //POST re
                                                             res.status(500).send(err); //internal server error
                                                         else {
                                                             var transporter = nodemailer.createTransport({ //mail authentication
-                                                                service: 'Gmail',
+                                                                service: 'hotmail',
+                                                                port: 465,
                                                                 auth: {
-                                                                    user: 'sweetharsh236@gmail.com', //replace with your own credentials
-                                                                    pass: 'BBitbs!2306'
+                                                                    user: 'foodex_server@outlook.com', //replace with your own credentials
+                                                                    pass: 'xedooF_ghost<3'
                                                                 }
                                                             });
 
                                                             var mailOptions = {
-                                                                from: 'sweetharsh236@gmail.com',
+                                                                from: 'foodex_server@outlook.com',
                                                                 to: email,
                                                                 subject: 'Verify your email',
                                                                 text: `localhost:5000/restaurants/verify/${email}/${verificationCode}` //mail body
                                                             };
-
+                                                            console.log(transporter);
                                                             transporter.sendMail(mailOptions, function (error, info) { //send mail
+                                                                console.log('sending email');
                                                                 if (error) {
                                                                     console.log(error);
                                                                     res.status(500).send(error); //internal server error
@@ -382,7 +384,7 @@ router.get('/verify/:email/:code', (req, res) => {
 
                     }
                     else {
-                        res.status(400).redirect("register_rest", { alert: true, msg: "Couldn't verify your email!" });
+                        res.render("register_rest", { alert: true, msg: "Couldn't verify your email!" });
                     }
                 }
             }
