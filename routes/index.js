@@ -219,10 +219,32 @@ router.get('/rdashboard/menu', (req, res) => {
                         res.status(500).send(err);
                     }
                     else if (!rows) {
-                        res.status(400).send('no menu for this restaurant');
+                        res.render('rest_menu', { 
+                            check: 'false', 
+                            menu: rows, 
+                            profile: {
+                                rname: req.session.user.rname,
+                                address: req.session.user.address,
+                                category: req.session.user.category,
+                                rating: req.session.user.rating,
+                                email: req.session.user.email,
+                                phone: req.session.user.phone
+                            }
+                        });
                     }
                     else {
-                        res.send(rows);
+                        res.render('rest_menu', { 
+                            check: 'true', 
+                            menu: rows,
+                            profile: {
+                                rname: req.session.user.rname,
+                                address: req.session.user.address,
+                                category: req.session.user.category,
+                                rating: req.session.user.rating,
+                                email: req.session.user.email,
+                                phone: req.session.user.phone
+                            }
+                        });
                     }
                 }
             );
@@ -255,7 +277,7 @@ router.post('/rdashboard/menu', (req, res) => {
                     else if (errors.length)
                         res.status(400).send(errors);
                     else
-                        res.status(200).send('succesfully added to menu');
+                        res.redirect('/rdashboard/menu');
                     //redirect to menu /dashboard/menu
                 }
             );

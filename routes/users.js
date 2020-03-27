@@ -309,7 +309,7 @@ router.get('/verify/:email/:code', (req, res) => { //GET request at /verify endp
                                             if (err)
                                                 res.status(500).send(err); //internal server error
                                             else
-                                                res.status(200).send('email successfully verified');
+                                                res.redirect('/users/login');
                                         }
                                     )
                                 }

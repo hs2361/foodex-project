@@ -115,10 +115,10 @@ router.get('/signup', (req, res) => {
 router.get('/login', (req, res) => {
     if (req.session.user) {
         if (req.session.user.rid) {
-            res.status(400).send('already logged in');
+            res.status(400).send('Already logged in');
         }
         else {
-            res.status(401).send('not a restaurant');
+            res.status(401).send('Not a restaurant');
         }
     }
     else {
@@ -355,7 +355,7 @@ router.get('/verify/:email/:code', (req, res) => {
                                             if (err)
                                                 res.status(500).send(err); //internal server error
                                             else
-                                                res.status(200).send('email successfully verified');
+                                                res.redirect('/restaurants/login');
                                         }
                                     )
                                 }
