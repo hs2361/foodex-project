@@ -262,7 +262,7 @@ router.get('/logout', (req, res) => { //GET request at /logout endpoint
             if(err)
                 res.status(500).send("logout failed"); //internal server error
             else
-                res.status(200).send("logout success");
+                res.redirect('/');
         });
     }
 

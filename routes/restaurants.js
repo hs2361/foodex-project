@@ -320,12 +320,12 @@ router.post('/login', (req, res) => {
                         });
                 }
                 else {
-                    res.status(400).render("login_rest", { alert: true, msg: "Incorrect Password!" });
+                    res.render("login_rest", { alert: true, msg: "Incorrect Password!" });
                 }
             }
 
             else {
-                res.status(400).render("login_rest", { alert: true, msg: "Account does not exist!" });
+                res.render("login_rest", { alert: true, msg: "Account does not exist!" });
             }
         }
     )
@@ -334,12 +334,12 @@ router.post('/login', (req, res) => {
 router.get('/logout', (req, res) => {
     if (req.session.user) {
         req.session.destroy(() => {
-            res.status(200).redirect("landing", { alert: true, msg: "Logged out" });
+            res.redirect('/');
         });
     }
 
     else {
-        res.status(400).redirect("landing", { alert: true, msg: "Not logged in!" });
+        res.render("landing", { alert: true, msg: "Not logged in!" });
     }
     //redirect to landing page
 });
