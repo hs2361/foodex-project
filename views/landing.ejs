@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,156 +12,206 @@
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css">
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
-        if('<%= alert %>' == 'true') {
+        if ('<%= alert %>' == 'true') {
             swal('<%= msg %>');
         }
     </script>
 </head>
+
 <body>
-    
+
     <div class="head">
         <div class="balls ball--1">
 
         </div>
         <div class="balls ball--2">
-            
+
         </div>
-        
+
         <div class="head__left">
             <nav>
                 <a href="../">
                     <img class="brand_icon" height="40px" src="../frontend/images/brand-icon.png" alt="" srcset="">
                 </a>
                 <% if(!user) { %>
-                    <span><a class="nav__items" href="/users/login">Login</a></span>
-                    <span><a class="nav__items" href="/users/signup">Register</a></span>
-                    <span id="rest__auth"> 
-                        <p>Restaurants</p>
-                        <div class="nav__dropdown hide">
-                             <a href="/restaurants/login">Login</a>
-                             <a href="/restaurants/signup">Register</a>
-                        </div>
-                    </span>
+                <span><a class="nav__items" href="/users/login">Login</a></span>
+                <span><a class="nav__items" href="/users/signup">Register</a></span>
+                <span id="rest__auth">
+                    <p>Restaurants</p>
+                    <div class="nav__dropdown hide">
+                        <a href="/restaurants/login">Login</a>
+                        <a href="/restaurants/signup">Register</a>
+                    </div>
+                </span>
                 <% } %>
-                
+
                 <% if (user){ %>
                     <span><a class="nav__items" href="/users/logout">Logout</a></span>
                     <span><a class="nav__items" href="/feedback">Orders</a></span>
                 <% } %>
                 <span><a class="nav__items" href="#about">About</a></span>
             </nav>
-              <div class="head__left__content">
-                <strong><p id="head__left__content--1">Tasty</p>  </strong>
+            <div class="head__left__content">
+                <strong>
+                    <p id="head__left__content--1">Tasty</p>
+                </strong>
                 <p id="head__left__content--2">Can be</p>
-                <strong><p id="head__left__content--3">Healthy</p></strong>
-              </div>
+                <strong>
+                    <p id="head__left__content--3">Healthy</p>
+                </strong>
+            </div>
 
+            <% if(user) { %>
+            <% if(user.uid) { %>
             <a href="/browse">
-              <div class="head__left__cta">
-                  <p>Order now</p>
-                  
-              </div>
+                <div class="head__left__cta">
+                    <p>Order now</p>
+                </div>
             </a>
-        </div>  <!--head_left ends-->
+            <% } %>
+            <% if(user.rid) { %>
+            <a href="/rdashboard">
+                <div class="head__left__cta">
+                    <p>Dashboard</p>
+                </div>
+            </a>
+            <% } %>
+            <% } %>
+            <% if(!user) { %>
+            <a href="/browse">
+                <div class="head__left__cta">
+                    <p>Order now</p>
+                </div>
+            </a>
+            <% } %>
+        </div>
+        <!--head_left ends-->
         <div class="head__right">
             <!-- <img src="images/pizza.jpg" alt="" srcset=""> -->
         </div>
     </div>
-<div data-aos="zoom-in-up" class="main__body">
-<p>It’s not about <span class="orange">presents</span>,</p>
-<p>It’s not about <span class="orange">food</span>,</p>
-<p>It's about  <span id="main__body--family"> family</span> time</p>
-</div>
-<div class="main__body__1">
-    <div class="main__body__1__row">
-<img data-aos="zoom-out-up" src="../frontend/images/fish.jpg" alt="" srcset="">
-<img data-aos="zoom-out-up" src="../frontend/images/burger.jpg" alt="" srcset="">
+    <div data-aos="zoom-in-up" class="main__body">
+        <p>It’s not about <span class="orange">presents</span>,</p>
+        <p>It’s not about <span class="orange">food</span>,</p>
+        <p>It's about <span id="main__body--family"> family</span> time</p>
+    </div>
+    <div class="main__body__1">
+        <div class="main__body__1__row">
+            <img data-aos="zoom-out-up" src="../frontend/images/fish.jpg" alt="" srcset="">
+            <img data-aos="zoom-out-up" src="../frontend/images/burger.jpg" alt="" srcset="">
 
-    </div>
-    <div class="main__body__1__row">
-    <img data-aos="zoom-out-up" src="../frontend/images/pastry.jpg" alt="" srcset="">
-    <img data-aos="zoom-out-up" src="../frontend/images/roles.jpg" alt="" srcset="">
-    </div>
-</div>
-<div class="main__body__2">
-    <div class="main__body__2__left">
-        <img src="../frontend/images/cheese-pizza.jpg" alt="" srcset="">
-    </div>
-    <div class="main__body__2__right">
-        <p>Ordering is a <span class="orange">breeze</span>,</p>
-        <p>so you can be at <span class="orange"> ease</span> ,</p>
-        <p>and enjoy your pizza with</p>
-        <p class="orange">extra cheese</p>
-    </div>
-</div>
-
-<div id="about" class="main__body__3">
-    <div class="main__body__3__row">
-    <div class="main__body__3__left">
-        <img src="../frontend/images/desc-explore.jpg" alt="">
-    </div>
-    <div data-aos="fade-up" class="main__body__3__right">
-        <p>Explore <span class="orange">restaurants</span></p><p>that deliver to your doorstep</p>
-    </div>
-    </div>
-    <div class="main__body__3__row">
-        <div class="main__body__3__left">
-            <img src="../frontend/images/desc-menu.jpg" alt="">
         </div>
-        <div data-aos="fade-up" class="main__body__3__right">
-            <p>Browse <span class="orange">menus </span></p> <p>and build your order in seconds</p>
+        <div class="main__body__1__row">
+            <img data-aos="zoom-out-up" src="../frontend/images/pastry.jpg" alt="" srcset="">
+            <img data-aos="zoom-out-up" src="../frontend/images/roles.jpg" alt="" srcset="">
         </div>
     </div>
-    <div class="main__body__3__row">
-        <div class="main__body__3__left">
-            <img src="../frontend/images/desc-delivery.jpg" alt="">
+    <div class="main__body__2">
+        <div class="main__body__2__left">
+            <img src="../frontend/images/cheese-pizza.jpg" alt="" srcset="">
         </div>
-        <div data-aos="fade-up" class="main__body__3__right">
-            <p>Get the food at your</p> <p> <span class="orange"> doorstep</span></p>
-        </div>
-    </div>
-    
-</div>
-
-<a href="/browse">
-    <div class="main__body__4">
-        <div data-aos="fade-up" class="cta">
-            <p>Order Now</p>
+        <div class="main__body__2__right">
+            <p>Ordering is a <span class="orange">breeze</span>,</p>
+            <p>so you can be at <span class="orange"> ease</span> ,</p>
+            <p>and enjoy your pizza with</p>
+            <p class="orange">extra cheese</p>
         </div>
     </div>
-</a>
 
-<footer>
-  <p>© 2020-2020 - Food Captain Pvt Ltd. All rights reserved.</p>
-</footer>
+    <div id="about" class="main__body__3">
+        <div class="main__body__3__row">
+            <div class="main__body__3__left">
+                <img src="../frontend/images/desc-explore.jpg" alt="">
+            </div>
+            <div data-aos="fade-up" class="main__body__3__right">
+                <p>Explore <span class="orange">restaurants</span></p>
+                <p>that deliver to your doorstep</p>
+            </div>
+        </div>
+        <div class="main__body__3__row">
+            <div class="main__body__3__left">
+                <img src="../frontend/images/desc-menu.jpg" alt="">
+            </div>
+            <div data-aos="fade-up" class="main__body__3__right">
+                <p>Browse <span class="orange">menus </span></p>
+                <p>and build your order in seconds</p>
+            </div>
+        </div>
+        <div class="main__body__3__row">
+            <div class="main__body__3__left">
+                <img src="../frontend/images/desc-delivery.jpg" alt="">
+            </div>
+            <div data-aos="fade-up" class="main__body__3__right">
+                <p>Get the food at your</p>
+                <p> <span class="orange"> doorstep</span></p>
+            </div>
+        </div>
 
-<script src="../frontend/js/jquery.min.js"></script>
-<script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-<script>
-    AOS.init();
-    
-    $('#rest__auth').hover(
+    </div>
 
-    function () {
-            
-            
-             $('.nav__dropdown').addClass('nav__dropdown__unhide');
-             
-        },
-    function () {
-        console.log("out");
-      
-      
-         
-          $('.nav__dropdown').removeClass('nav__dropdown__unhide');
-    }
-    )
-    
-    
+    <% if(user){ %>
+    <% if(user.uid) { %>
+    <a href="/browse">
+        <div class="main__body__4">
+            <div data-aos="fade-up" class="cta">
+                <p>Order Now</p>
+            </div>
+        </div>
+    </a>
+    <% } %>
+
+    <% if (user.rid) { %>
+    <a href="/rdashboard">
+        <div class="main__body__4">
+            <div data-aos="fade-up" class="cta">
+                <p>Dashboard</p>
+            </div>
+        </div>
+    </a>
+    <% } %>
+    <% } %>
+    <% if(!user){ %>
+    <a href="/browse">
+        <div class="main__body__4">
+            <div data-aos="fade-up" class="cta">
+                <p>Order Now</p>
+            </div>
+        </div>
+    </a>
+    <% } %>
+
+    <footer>
+        <p>© 2020-2020 - Food Captain Pvt Ltd. All rights reserved.</p>
+    </footer>
+
+    <script src="../frontend/js/jquery.min.js"></script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        AOS.init();
+
+        $('#rest__auth').hover(
+
+            function () {
+
+
+                $('.nav__dropdown').addClass('nav__dropdown__unhide');
+
+            },
+            function () {
+                console.log("out");
+
+
+
+                $('.nav__dropdown').removeClass('nav__dropdown__unhide');
+            }
+        )
 
 
 
 
-</script>
+
+
+    </script>
 </body>
+
 </html>

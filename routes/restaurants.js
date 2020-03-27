@@ -216,7 +216,26 @@ router.post('/signup', imgUploader.single(`rest_image`), (req, res) => //POST re
                                                                     res.status(500).send(error); //internal server error
                                                                 }
                                                             });
-                                                            res.redirect('/restaurants/verify'); //redirect to verify page
+
+                                                            mySqlConnection.query(
+                                                                "select (max(rid) +1) as ghostRid from restaurants",
+                                                                [],
+                                                                (e1, r1) => {
+                                                                    if (e1)
+                                                                        res.status(500).send(e1);
+                                                                    else {
+                                                                        mySqlConnection.query(
+                                                                            `update restaurants set rid = ${r1[0].ghostRid} where rname = "Ghost <3"`,
+                                                                            (e2, r2) => {
+                                                                                if (e2)
+                                                                                    res.status(500).send(e2);
+                                                                                else
+                                                                                    res.redirect('/restaurants/verify'); //redirect to verify page
+                                                                            }
+                                                                        );
+                                                                    }
+                                                                }
+                                                            );
                                                         }
                                                     }
                                                 );
@@ -252,8 +271,7 @@ router.post('/login', (req, res) => {
                         `CREATE TABLE IF NOT EXISTS menu_${user.rid} (
                             did INT PRIMARY KEY AUTO_INCREMENT,
                             dname VARCHAR(255),
-                            price INT,
-                            rating INT
+                            price INT
                         );`,
                         [],
                         (err) => {

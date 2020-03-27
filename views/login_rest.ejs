@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Foood </title>
     <link rel="stylesheet" href="../frontend/css/login_rest.css">
     <script>
-        if('<%= alert %>' == 'true') {
+        if ('<%= alert %>' == 'true') {
             swal('<%= msg %>');
         }
     </script>
 </head>
+
 <body>
     <a href="/">
         <div class="home">
@@ -35,29 +37,30 @@
         </div>
     </a>
     <div class="main__body">
-        
-            <div class="main__body__left">
-                <img src="../frontend/images/login_rest.jpg" alt="" srcset="">
-            </div>
-        
+
+        <div class="main__body__left">
+            <img src="../frontend/images/login_rest.jpg" alt="" srcset="">
+        </div>
+
         <div class="main__body__right">
-                <div class="heading">
-                    <p>You don’t need a silver fork</p>
-                    <p>to eat <span class="orange"> good food</span></p>
-                </div>
-                <div class="form">
+            <div class="heading">
+                <p>You don’t need a silver fork</p>
+                <p>to eat <span class="orange"> good food</span></p>
+            </div>
+            <div class="form">
                 <form action="/restaurants/login" method="POST">
                     <input type="email" required placeholder="username" name="email" id="email_inp">
                     <input type="password" required placeholder="password" name="password" id="password_inp">
                     <button type="submit">Login</button>
                 </form>
                 <div class="form__footer">
-                <a id="forgot_pass" href="#">Forgot Password?</a>
-                <a id="create_an_acc" href="/restaurants/signup">Create an account</a>
+                    <a id="forgot_pass" href="#">Forgot Password?</a>
+                    <a id="create_an_acc" href="/restaurants/signup">Create an account</a>
                 </div>
-                </div>
+            </div>
 
         </div>
     </div>
 </body>
+
 </html>

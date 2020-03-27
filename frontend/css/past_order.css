@@ -6,6 +6,94 @@
  /* border: solid; */
  font-family: "Raleway";
 }
+
+.add__dishes__popup{
+    width: 400px;
+    height: 300px;
+    background-color: white;
+    position: fixed;
+    z-index: 100000;
+    top: 50%;
+    left: 50%;
+    /* border-radius: 30px; */
+    /* border-bottom: solid orange 1px; */
+    transform: translate(-50%,-50%);
+    
+
+}
+.add__dishes__popup #add__dishes__popup__close{
+    position: absolute;
+    z-index: 10;
+    right: 14px;
+    top:4px;
+    fill: white;
+    
+
+}
+.add__dishes__popup #add__dishes__popup__close:hover{
+    transform: scale(1.1);
+    cursor: pointer;
+    transition: ease-in-out 0.3s;
+}
+.add__dishes__popup form{
+    display: flex;
+    flex-direction: column;
+    
+    
+    /* border: solid; */
+    width: 100%;
+    transform: translateY(80%);
+}
+textarea{
+    padding: 4px;
+}
+.add__dishes__popup .image{
+    background-image: url("../images/pizaalert.jpg");
+    width: 100%;
+    height: 150px;
+    filter: blur(2px);
+    position: absolute;
+    background-attachment: fixed;
+    background-position: center;
+    /* border-top-left-radius: 30px;
+    border-top-right-radius: 30px; */
+
+}
+.add__dishes__popup input,button{
+    /* border-radius: 8px; */
+    margin: 8px auto;
+    border: solid ORANGE 1PX;
+    padding: 4px;
+    width: 250px;
+
+    font-family: "Raleway",sans-serif;
+
+}
+.add__dishes__popup button{
+    background-color: chartreuse;
+    color: white;
+    font-weight: 800;
+    font-size: larger;
+    border: solid 1px green;
+    transition: ease-in-out 0.3s;
+}
+.add__dishes__popup button:hover{
+    cursor: pointer;
+    transform: scale(1.05);
+}
+.add__dishes__popup input::before{
+    content: "12";
+}
+.add__dishes__popup input[type=number]::-webkit-inner-spin-button, 
+ .add__dishes__popup input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  
+  margin: 0; 
+}
+input[type=number] {
+  -moz-appearance: textfield;
+  
+}
 body{
     height: 100vh;
 }
@@ -468,6 +556,10 @@ footer{
     .main__body__left img{
         width: 300px;
     }
+    .add__dishes__popup{
+       width: 300px;
+       
+   }
 }
 
 @media only screen and (max-width:420px){

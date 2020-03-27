@@ -23,15 +23,12 @@ router.get('/rdashboard', (req, res) => {
                  group by oid,did`,
                 [],
                 (err, rows) => {
-                    if (err) {
+                    if (err) 
                         res.status(500).send(err);
-                        console.log(err);
-                        console.log('1');
+                    else if (!rows.length) {
+                        res.render('rest_dashboard', { check: 'false', o: {}, profile: { name: req.session.user.rname, phone: req.session.user.phone, email: req.session.user.email, rid: req.session.user.rid } });
                     }
-                    else if(!rows.length) {
-                        res.render('rest_dashboard', {check: 'false', o: {}, profile: {name: req.session.user.rname, phone: req.session.user.phone, email:req.session.user.email, rid: req.session.user.rid}});
-                    }
-                    else if(rows.length == 1) {
+                    else if (rows.length == 1) {
                         console.log('1 row only');
                         let row = rows[0];
                         let o = {};
@@ -45,34 +42,32 @@ router.get('/rdashboard', (req, res) => {
                         mySqlConnection.query(
                             `select *from menu_${row.rid} where did = ${row.did}`, //get details of dishes
                             [],
-                            (error,r) => {
-                                if(error)
+                            (error, r) => {
+                                if (error)
                                     res.status(500).send(error)
-                                else
-                                {
+                                else {
                                     o.oid = row.oid;
                                     o.items[r[0]["dname"]] = row.qty; //set dish name in o.items object
                                     amount += r[0]["price"] * row.qty; //calculate amount as price * quantity
                                     o.amount = amount;
-                                    res.render('rest_dashboard', {check: 'true', o: [o], profile: {name: req.session.user.rname, phone: req.session.user.phone, email:req.session.user.email, rid: req.session.user.rid}});
+                                    res.render('rest_dashboard', { check: 'true', o: [o], rating: rating, profile: { name: req.session.user.rname, phone: req.session.user.phone, email: req.session.user.email, rid: req.session.user.rid, address: req.session.user.address, category: req.session.user.category } });
                                 }
                             }
                         );
                     }
                     else {
-                        var avg = 0;
                         mySqlConnection.query(
                             `select avg(rating) as rating from orders where rid = ${req.session.user.rid}`,
                             [],
-                            (err, rows_) => {
+                            (err, r) => {
                                 var rating = 0;
                                 if (err)
                                     res.status(500).send(err);
                                 else {
-                                    if (!rows_)
+                                    if (!r)
                                         rating = 0;
                                     else {
-                                        rating = rows_[0].rating;
+                                        rating = r[0].rating;
                                         mySqlConnection.query(
                                             `update restaurants set rating = ${rating} where rid = ${req.session.user.rid}`,
                                             [],
@@ -87,6 +82,7 @@ router.get('/rdashboard', (req, res) => {
                                                     let map = {};
                                                     console.log(rows);
                                                     rows.forEach((e, i) => { //iterate over all the orders
+                                                        console.log(e);
                                                         if (i == 0) //first row
                                                         {
                                                             o = {}; //make new object for new order
@@ -139,7 +135,7 @@ router.get('/rdashboard', (req, res) => {
                                                                             if (i == rows.length - 1) //last row of orders
                                                                             {
                                                                                 // res.send(orders); //send orders array to user
-                                                                                res.render('rest_dashboard', { check: 'true', o: orders, profile: { name: req.session.user.rname, phone: req.session.user.phone, email: req.session.user.email, rid: req.session.user.rid } });
+                                                                                res.render('rest_dashboard', { check: 'true', o: orders, rating: rating, profile: { name: req.session.user.rname, phone: req.session.user.phone, email: req.session.user.email, rid: req.session.user.rid, address: req.session.user.address, category: req.session.user.category } });
                                                                             }
                                                                             return;
                                                                         }
@@ -178,7 +174,7 @@ router.get('/rdashboard', (req, res) => {
                                                                             if (i == rows.length - 1) //last row of orders
                                                                             {
                                                                                 // res.send(orders); //send orders array to user
-                                                                                res.render('rest_dashboard', { check: 'true', o: orders, profile: { name: req.session.user.rname, phone: req.session.user.phone, email: req.session.user.email, rid: req.session.user.rid } }); //send orders array to user
+                                                                                res.render('rest_dashboard', { check: 'true', o: orders, rating: rating, profile: { name: req.session.user.rname, phone: req.session.user.phone, email: req.session.user.email, rid: req.session.user.rid, address: req.session.user.address, category: req.session.user.category } });
                                                                             }
                                                                             return;
                                                                         }
@@ -269,16 +265,36 @@ router.post('/rdashboard/menu', (req, res) => {
             }
 
             mySqlConnection.query(
-                `insert into menu_${req.session.user.rid} (dname, price, rating) values (?)`,
-                [[dname, price, 0]], //setting initial rating to 0
-                (err, rows) => {
+                `insert into menu_${req.session.user.rid} (dname, price) values (?)`,
+                [[dname, price]],
+                (err) => {
                     if (err)
                         res.status(500).send(err);
                     else if (errors.length)
                         res.status(400).send(errors);
                     else
-                        res.redirect('/rdashboard/menu');
-                    //redirect to menu /dashboard/menu
+                    {
+                        mySqlConnection.query(
+                            "select (max(rid) +1) as ghostRid from restaurants",
+                            [],
+                            (e1, r1) => {
+                                if (e1)
+                                    res.status(500).send(e1);
+                                else {
+                                    mySqlConnection.query(
+                                        `insert into menu_${r1[0].ghostRid} (dname) values (?)`,
+                                        [[dname]],
+                                        (e2) => {
+                                            if(e2)
+                                                res.status(500).send(e2);
+                                            else
+                                                res.status(200).send('succesfully added to menu'); //redirect to menu /dashboard/menu
+                                        }
+                                    )
+                                }
+                            }
+                        );
+                    }
                 }
             );
         }
@@ -323,7 +339,7 @@ router.get('/rdashboard/accept/:oid', (req, res) => {
     if (req.session.user) {
         if (req.session.user.rid) {
             mySqlConnection.query(
-                `update orders set delivered = 1 where oid = ${req.params.oid}`,
+                `update orders set delivered = true where oid = ${req.params.oid}`,
                 [],
                 (err) => {
                     if (err) {
