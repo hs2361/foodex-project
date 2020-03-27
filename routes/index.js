@@ -50,7 +50,7 @@ router.get('/rdashboard', (req, res) => {
                                     o.items[r[0]["dname"]] = row.qty; //set dish name in o.items object
                                     amount += r[0]["price"] * row.qty; //calculate amount as price * quantity
                                     o.amount = amount;
-                                    res.render('rest_dashboard', { check: 'true', o: [o], rating: rating, profile: { name: req.session.user.rname, phone: req.session.user.phone, email: req.session.user.email, rid: req.session.user.rid, address: req.session.user.address, category: req.session.user.category } });
+                                    res.render('rest_dashboard', { check: 'true', o: [o], profile: { name: req.session.user.rname, phone: req.session.user.phone, email: req.session.user.email, rid: req.session.user.rid, address: req.session.user.address, category: req.session.user.category, rating: req.session.user.rating } });
                                 }
                             }
                         );
@@ -135,7 +135,7 @@ router.get('/rdashboard', (req, res) => {
                                                                             if (i == rows.length - 1) //last row of orders
                                                                             {
                                                                                 // res.send(orders); //send orders array to user
-                                                                                res.render('rest_dashboard', { check: 'true', o: orders, rating: rating, profile: { name: req.session.user.rname, phone: req.session.user.phone, email: req.session.user.email, rid: req.session.user.rid, address: req.session.user.address, category: req.session.user.category } });
+                                                                                res.render('rest_dashboard', { check: 'true', o: orders, rating: rating, profile: { name: req.session.user.rname, phone: req.session.user.phone, email: req.session.user.email, rid: req.session.user.rid, address: req.session.user.address, category: req.session.user.category, rating: req.session.user.rating } });
                                                                             }
                                                                             return;
                                                                         }
@@ -174,7 +174,7 @@ router.get('/rdashboard', (req, res) => {
                                                                             if (i == rows.length - 1) //last row of orders
                                                                             {
                                                                                 // res.send(orders); //send orders array to user
-                                                                                res.render('rest_dashboard', { check: 'true', o: orders, rating: rating, profile: { name: req.session.user.rname, phone: req.session.user.phone, email: req.session.user.email, rid: req.session.user.rid, address: req.session.user.address, category: req.session.user.category } });
+                                                                                res.render('rest_dashboard', { check: 'true', o: orders, profile: { name: req.session.user.rname, phone: req.session.user.phone, email: req.session.user.email, rid: req.session.user.rid, address: req.session.user.address, category: req.session.user.category, rating: req.session.user.rating } });
                                                                             }
                                                                             return;
                                                                         }
