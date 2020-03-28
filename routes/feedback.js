@@ -15,7 +15,7 @@ router.get("/", (req, res) => { //GET request to get details of all past and cur
                 (err, rows) => {
                     if (err)
                         res.status(500).send(err); //internal server error
-                    else if (!rows)
+                    else if (!rows.length)
                         res.status(200).send("no orders yet");
                     else {
                         var o = {}; //temp orders object for every order ID
@@ -48,6 +48,8 @@ router.get("/", (req, res) => { //GET request to get details of all past and cur
                                             orders[0].items[r[0]["dname"]] = e.qty; //set dish name in o.items object
                                             amount += r[0]["price"] * e.qty; //calculate amount as price * quantity
                                             orders[0].amount = amount;
+                                            if (rows.length == 1)
+                                                res.render('past_order', { o: orders });
                                         }
                                     }
                                 );
@@ -189,38 +191,48 @@ router.post("/:oid", (req, res) => { //POST request to submit feedback and ratin
                                         res.status(500).send(e);
                                     else {
                                         mySqlConnection.query(
-                                            `select avg(rating) as rating from orders where rid = ${req.session.user.rid}`,
+                                            `select rid from orders where oid = ${Number(req.params.oid)}`,
                                             [],
-                                            (err, r) => {
-                                                var rating = 0;
-                                                if (err)
-                                                    res.status(500).send(err);
+                                            (e1, r1) => {
+                                                if (e1)
+                                                    res.status(500).send(e1);
                                                 else {
-                                                    if (!r)
-                                                        rating = 0;
-                                                    else {
-                                                        rating = r[0].rating;
-                                                        mySqlConnection.query(
-                                                            `update restaurants set rating = ${rating} where rid = ${req.session.user.rid}`,
-                                                            [],
-                                                            (err) => {
-                                                                if (err)
-                                                                    res.status(500).send(err)
-                                                                else
-                                                                    res.status(200).send("feedback submitted successfully");
+                                                    mySqlConnection.query(
+                                                        `select avg(rating) as rating from orders where rid = ${r1[0].rid}`,
+                                                        [],
+                                                        (err, r) => {
+                                                            var rating = 0;
+                                                            if (err)
+                                                                res.status(500).send(err);
+                                                            else {
+                                                                if (!r)
+                                                                    rating = 0;
+                                                                else {
+                                                                    rating = r[0].rating;
+                                                                    mySqlConnection.query(
+                                                                        `update restaurants set rating = ${rating} where rid = ${r1[0].rid}`,
+                                                                        [],
+                                                                        (err) => {
+                                                                            if (err)
+                                                                                res.status(500).send(err)
+                                                                            else
+                                                                                res.status(200).send("feedback submitted successfully");
+                                                                        }
+                                                                    );
+                                                                }
                                                             }
-                                                        )
-                                                    }
+                                                        }
+                                                    );
                                                 }
                                             }
-                                        )
+                                        );
                                     }
                                 }
                             );
                         }
                     }
                 }
-            )
+            );
         }
         else {
             res.status(401).send("Login as user to submit feedback"); //unauthorised user

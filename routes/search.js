@@ -61,6 +61,11 @@ router.get('/', (req, res) => {
                                             }
                                         )
                                     })
+                                    if(i == rows.length - 1)
+                                    {
+                                        if(!results.length)
+                                            res.render('search', { profile: { name: req.session.user.uname, email: req.session.user.email, phone: req.session.user.phone }, check: 'true', searchresults: [], alert: 'false', msg: '' })
+                                    }
                                 })
                             }
                         }

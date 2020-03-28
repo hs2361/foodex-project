@@ -6,6 +6,7 @@ const nodemailer = require('nodemailer');
 const multer = require("multer");
 const fs = require("fs");
 const path = require("path");
+const passData = require("../passwords.json");
 var r = 0;
 
 const imgUploader = multer({
@@ -235,7 +236,7 @@ router.post('/signup', imgUploader.single(`rest_image`), (req, res) => //POST re
                                                                                                         port: 465,
                                                                                                         auth: {
                                                                                                             user: 'foodex_server@outlook.com', //replace with your own credentials
-                                                                                                            pass: 'xedooF_ghost<3'
+                                                                                                            pass: passData.emailPass
                                                                                                         }
                                                                                                     });
 

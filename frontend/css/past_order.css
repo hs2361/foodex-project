@@ -48,6 +48,7 @@ textarea{
 }
 textarea{
     padding: 4px;
+    resize: none;
 }
 .add__dishes__popup .image{
     background-image: url("../images/pizaalert.jpg");

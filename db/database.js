@@ -1,9 +1,10 @@
+const passData = require("../passwords.json");
 const mysql = require("mysql"); //import module
 
 const mySqlConnection = mysql.createConnection({ //database credentials
     host: "localhost",
     user: "webkriti_server",
-    password: "CPimfa!2306",
+    password: passData.dbPass,
     database: "webkriti"
 });
 

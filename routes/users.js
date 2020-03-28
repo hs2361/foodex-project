@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const mySqlConnection = require("../db/database"); //importing database connection
 const bcrypt = require("bcrypt");
+const passData = require("../passwords.json");
 const nodemailer = require("nodemailer"); //importing modules
 
 //get request handling /restaurants. redirects to profile if logged in, else to login page
@@ -183,7 +184,7 @@ router.post('/signup', (req, res) => //POST request at /signup endpoint
                                                         port: 465,
                                                         auth: {
                                                             user: 'foodex_server@outlook.com', //replace with your own credentials
-                                                            pass: 'xedooF_ghost<3'
+                                                            pass: passData.emailPass
                                                         }
                                                     });
 
