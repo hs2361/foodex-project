@@ -192,7 +192,7 @@ router.post('/signup', (req, res) => //POST request at /signup endpoint
                                                         from: 'foodex_server@outlook.com',
                                                         to: email,
                                                         subject: 'Verify your email',
-                                                        html: `<a href=localhost:5000/restaurants/verify/${email}/${verificationCode}><button>Verify</button></a>`
+                                                        html: `<a href=localhost:5000/users/verify/${email}/${verificationCode}><button>Verify</button></a>`
                                                     };
 
                                                     transporter.sendMail(mailOptions, function (error, info) { //send mail
@@ -263,7 +263,7 @@ router.post('/login', (req, res) => { //POST request at /login endpoint
                                         from: 'foodes_server@oulook.com',
                                         to: email,
                                         subject: 'Verify your email',
-                                        html: `<a href=localhost:5000/restaurants/verify/${email}/${verificationCode}><button>Verify</button></a>`
+                                        html: `<a href=localhost:5000/users/verify/${email}/${verificationCode}><button>Verify</button></a>`
                                     };
 
                                     transporter.sendMail(mailOptions, function (error, info) { //send mail
