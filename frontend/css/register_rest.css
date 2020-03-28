@@ -221,6 +221,10 @@ a{
 @media(max-width: 500px){
     .heading{
         transform: translateX(-10px);
+        font-size: .5em;
+    }
+    .heading p{
+        font-size: 0.8em;
     }
 
 }

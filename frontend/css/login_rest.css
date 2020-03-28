@@ -158,11 +158,12 @@ a{
       filter: blur(10px);
   }
   .heading{
-      color: white;
+      color: grey;
+
       position: relative;
       max-width: 400px;
       margin: 0 auto;
-      filter: brightness(1.2);
+      filter: brightness(0.5);
        /* border: black solid 4px; */
   }
   .main__body .main__body__right{
@@ -189,11 +190,11 @@ a{
  }
  .orange{
      /* font-weight: 900; */
-     color: #fff;
+     color: orange;
      
  }
  .form__footer a{
-     color: #ffffff;
+     color: black;
      filter: brightness(1.5);
  }
  
