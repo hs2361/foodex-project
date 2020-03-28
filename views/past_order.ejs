@@ -210,12 +210,12 @@
                 </path>
             </svg>
             <div class="profile__tab__content_arng">
-                <div class="pro_tab profile__tab__name">Anirudh Gautam</div>
+                <div class="pro_tab profile__tab__name"><%= profile.uname %></div>
 
-                <div class="pro_tab profile__tab__email">anirudh1102gautam@gmail.com</div>
-                <div class="pro_tab profile__tab__mob"> 9988776655</div>
+                <div class="pro_tab profile__tab__email"><%= profile.email %></div>
+                <div class="pro_tab profile__tab__mob"><%= profile.phone %></div>
 
-                <div class="pro_tab profile__tab__pastOrder"><a href="#">Dashboard</a></div>
+                <div class="pro_tab profile__tab__pastOrder"><a href="/browse">Browse Restaurants</a></div>
             </div>
 
         </div>
@@ -223,12 +223,13 @@
     <div class="container">
 
         <nav>
+            <a href="/">
             <div class="brand">
                 <img width="35px" src="../frontend/images/brand-icon.png" alt="" srcset="">
-                <p>Food<span class="orange">Captain</span></p>
+                <p>Food<span class="orange">Ex</span></p>
 
             </div>
-
+            </a>
             <div class="nav__right">
                 <div class="home">
                 <svg width="30px" viewBox="0 0 423 336" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -253,7 +254,7 @@
                     </defs>
                 </svg>
 
-                    <a href="../">Home</a>
+                    <a href="/">Home</a>
                 </div>
                 <div class="profile">
                 
@@ -283,12 +284,14 @@
        <div class="main__body">
         <div class="main__body__feed">
            
-
-            
+        <% if(check == 'false') { %>
+            <b>You Don't have any orders</b>
+        <% } %>
+        <% if(check == 'false') { %>
             <% o.forEach(order => { %>
                 <div class="card">
                     <div class="card__left">
-                        <img src="../frontend/images/rest_card_1.jpg" width="280px" alt="">
+                        <img src="../frontend/images/rest_img_<%= order.rid %>.jpg" width="280px" alt="">
                     </div>
                     <div class="card__right">
                         <div class="rest__name">
@@ -314,7 +317,7 @@
                     </div>
                 </div>
             <% }); %>
-
+        <% } %>
             <!-- <div class="card">
                 <div class="card__left">
                     <img src="./images/rest_card_1.jpg" width="280px" alt="">

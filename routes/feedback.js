@@ -16,7 +16,7 @@ router.get("/", (req, res) => { //GET request to get details of all past and cur
                     if (err)
                         res.status(500).send(err); //internal server error
                     else if (!rows.length)
-                        res.status(200).send("no orders yet");
+                        res.render('past_order', { check: 'false', o:{}, profile: req.session.user });
                     else {
                         var o = {}; //temp orders object for every order ID
                         o.items = {};
@@ -49,7 +49,7 @@ router.get("/", (req, res) => { //GET request to get details of all past and cur
                                             amount += r[0]["price"] * e.qty; //calculate amount as price * quantity
                                             orders[0].amount = amount;
                                             if (rows.length == 1)
-                                                res.render('past_order', { o: orders });
+                                                res.render('past_order', { check: 'true', o: orders, profile: req.session.user });
                                         }
                                     }
                                 );
@@ -73,7 +73,7 @@ router.get("/", (req, res) => { //GET request to get details of all past and cur
                                                 if (i == rows.length - 1) //last row of orders
                                                 {
                                                     // res.send(orders); //send orders array to user
-                                                    res.render('past_order', { o: orders });
+                                                    res.render('past_order', { check: 'true', o: orders, profile: req.session.user });
                                                 }
                                                 return;
                                             }
@@ -108,7 +108,7 @@ router.get("/", (req, res) => { //GET request to get details of all past and cur
                                                 if (i == rows.length - 1) //last row of orders
                                                 {
                                                     // res.send(orders); //send orders array to user
-                                                    res.render('past_order', { o: orders }); //send orders array to user
+                                                    res.render('past_order', { check: 'true', o: orders, profile: req.session.user }); //send orders array to user
                                                 }
                                                 return;
                                             }
@@ -123,7 +123,7 @@ router.get("/", (req, res) => { //GET request to get details of all past and cur
 
         }
         else {
-            res.status(401).send("Login as user to submit feedback"); //unauthorised user
+            res.render('landing', { alert: 'true', msg: "Login as user to view feedback", user: req.session.user }); //unauthorised user
         }
     }
     else {
@@ -156,11 +156,11 @@ router.get("/:oid", (req, res) => {
             )
         }
         else {
-            res.status(401).send("login as user");
+            res.render('landing', { alert: 'true', msg: "Login as user to submit feedback", user: req.session.user }); //unauthorised user
         }
     }
     else {
-        res.status(400).redirect("/users/login");
+        res.redirect("/users/login");
     }
 });
 
@@ -177,7 +177,7 @@ router.post("/:oid", (req, res) => { //POST request to submit feedback and ratin
                     if (err)
                         res.status(500).send(err); //internal server error
                     else if (!rows)
-                    res.render("404"); //bad request, tried to submit feedback on non-exisitent order
+                        res.render("404"); //bad request, tried to submit feedback on non-exisitent order
                     else {
                         if (rows[0].rating || rows[0].feedback) {
                             res.render("feedback", { alert: false, msg: "", oid: req.params.oid, rated: true, feedback: rows[0].feedback, rating: rows[0].rating });
@@ -235,7 +235,7 @@ router.post("/:oid", (req, res) => { //POST request to submit feedback and ratin
             );
         }
         else {
-            res.status(401).send("Login as user to submit feedback"); //unauthorised user
+            res.render('landing', { alert: 'true', msg: "Login as user to submit feedback", user: req.session.user }); //unauthorised user
         }
     }
     else {
