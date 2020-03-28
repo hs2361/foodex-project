@@ -4,6 +4,7 @@
  padding:0; 
  box-sizing: border-box; 
  /* border: solid; */
+ font-family: 'Raleway',sans-serif ;
 }
 .add__dishes__popup{
     width: 400px;
