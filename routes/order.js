@@ -193,8 +193,8 @@ router.get("/checkout", (req, res) => {
                             var rid;
                             rows.forEach((e) => { //iterate over every item in the cart
                                 mySqlConnection.query(
-                                    "insert into orders (oid,rid,did,uid,delivered) values (?)", //insert into the orders table
-                                    [[order_id, e["rid"], e["did"], uid, 0]],
+                                    "insert into orders (oid,rid,did,uid,delivered,otime) values (?)", //insert into the orders table
+                                    [[order_id, e["rid"], e["did"], uid, 0, String(Date())]],
                                     (err) => {
                                         if (err)
                                             res.status(500).send(err); //internal server error
