@@ -68,8 +68,8 @@
         <% if(!user) { %>
         <span><a class="nav__items" href="/users/login">Login</a></span>
         <span><a class="nav__items" href="/users/signup">Register</a></span>
-        <span><a class="nav__items" href="#about">About</a></span>
-        <span id="rest__auth">
+        <span><a class="nav__items nav__items__about" href="#about">About</a></span>
+        <span class="rest__auth">
             <p>Restaurants</p>
             <div class="nav__dropdown hide">
                 <a href="/restaurants/login">Login</a>
@@ -81,7 +81,7 @@
         <% if (user){ %>
         <span><a class="nav__items" href="/users/logout">Logout</a></span>
         <span><a class="nav__items" href="/feedback">Orders</a></span>
-        <span><a class="nav__items" href="#about">About</a></span>=
+        <span><a class="nav__items nav__items__about" href="#about">About</a></span>=
         <% } %>
         
     
@@ -104,7 +104,7 @@
                 <% if(!user) { %>
                 <span><a class="nav__items" href="/users/login">Login</a></span>
                 <span><a class="nav__items" href="/users/signup">Register</a></span>
-                <span id="rest__auth">
+                <span class="rest__auth">
                     <p>Restaurants</p>
                     <div class="nav__dropdown hide">
                         <a href="/restaurants/login">Login</a>
@@ -269,7 +269,7 @@
     <script>
         AOS.init();
 
-        $('#rest__auth').hover(
+        $('.rest__auth').hover(
 
             function () {
 
@@ -294,7 +294,12 @@
             };
              $('.ham').click(hamburg);
             $('#close').click(hamburg);
-
+        $(".nav__items__about").click(
+            function(){
+                $(".container").toggleClass("blur");
+                $('.ham__items').toggleClass('ham__unhide');
+            }
+        )
 
 
 

@@ -48,7 +48,7 @@ display: none;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: space-around;
     color: cornsilk;
     font-family: "Raleway",sans-serif;
     font-size: 15px;
@@ -84,9 +84,13 @@ display: none;
     font-family: "Raleway",sans-serif;
     font-size: .8em;
 }
-.ham__unhide #rest__auth p{
-    font-size: 15px;
+.ham__unhide .rest__auth p{
+    font-size: 22px;
+    /* border: solid; */
 
+}
+.ham__unhide .rest__auth p:hover{
+    cursor: pointer;
 }
 .ham__items a{
     color: cornsilk;
@@ -193,10 +197,12 @@ justify-content:space-around;
 align-items: center;
 color: #12151A;
 font-family: "Raleway",sans-serif;
-width: 100px;
-height: 100px;
-padding-top: 10px;
+width: 200px;
+height: 110px;
+padding: 15px 0;
+
 /* border: solid; */
+background-color: orange;
 position: absolute;
 transition: all 0.3s ease;
 }
