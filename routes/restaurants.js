@@ -471,6 +471,7 @@ router.post('/login', (req, res) => {
                     const isVerified = user.verified;
                     if (result && isVerified) {
                         req.session.user = user;
+                        req.session.user.passHash = null;
                         mySqlConnection.query(
                             `CREATE TABLE IF NOT EXISTS menu_${user.rid} (
                                 did INT PRIMARY KEY AUTO_INCREMENT,

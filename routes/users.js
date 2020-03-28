@@ -401,6 +401,7 @@ router.post('/login', (req, res) => { //POST request at /login endpoint
                     if (result && isVerified) // if password is correct and user is verified
                     {
                         req.session.user = user //assign a session using a cookie
+                        req.session.user.passHash = null;
                         res.status(200).redirect('/') //returns to landing page
                     }
                     else if (!isVerified) //if not verified
