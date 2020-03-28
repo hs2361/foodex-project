@@ -209,13 +209,13 @@ router.post('/signup', imgUploader.single(`rest_image`), (req, res) => //POST re
                                                                                         else {
                                                                                             pwdHash = bcrypt.hashSync(password, 10); //hashing the password
                                                                                             var sql = `INSERT INTO restaurants (rid, rname, email, phone, passHash, address, verified, category) VALUES ?`; //insertion query
-                                                                                            const values = [[r ,name, email, phone, pwdHash, address, 0, category]];
-    
+                                                                                            const values = [[r, name, email, phone, pwdHash, address, 0, category]];
+
                                                                                             mySqlConnection.query(sql, [values], function (err) //insert into database
                                                                                             {
                                                                                                 if (err)
                                                                                                     res.status(500).send(err); //internal server error
-    
+
                                                                                                 else {
                                                                                                     const verificationCode = Math.floor(Math.random() * 1000000); //generate random verification code
                                                                                                     mySqlConnection.query( //insert code into verify table
@@ -233,7 +233,7 @@ router.post('/signup', imgUploader.single(`rest_image`), (req, res) => //POST re
                                                                                                                         pass: passData.emailPass
                                                                                                                     }
                                                                                                                 });
-    
+
                                                                                                                 var mailOptions = {
                                                                                                                     from: 'foodex_server@outlook.com',
                                                                                                                     to: email,
@@ -304,9 +304,22 @@ router.post('/signup', imgUploader.single(`rest_image`), (req, res) => //POST re
                                                                                                                             }
                                                                                                                         </style>
                                                                                                                     </head>
-                                                                                                                    <body>
-                                                                                                                        <div class="container">
-                                                                                                                            <div class="brand">
+                                                                                                                    <body style = "font-family: Arial, Helvetica, sans-serif;">
+                                                                                                                        <div style="
+                                                                                                                            width: 500px;
+                                                                                                                            display: flex;
+                                                                                                                            flex-direction: column;
+                                                                                                                            align-items: center;
+                                                                                                                            margin: 0 auto;
+                                                                                                                        ">
+                                                                                                                            <div style = "
+                                                                                                                                display: flex;
+                                                                                                                                flex-direction: column;
+                                                                                                                                align-items: center;
+                                                                                                                                /* border: solid; */
+                                                                                                                                /* height: 200px; */
+                                                                                                                                justify-content: space-between;
+                                                                                                                            ">
                                                                                                                                 <svg width="180" height="180" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                                                                                                     <g clip-path="url(#clip0)">
                                                                                                                                         <path
@@ -370,11 +383,21 @@ router.post('/signup', imgUploader.single(`rest_image`), (req, res) => //POST re
                                                                                                                                         </clipPath>
                                                                                                                                     </defs>
                                                                                                                                 </svg>
-                                                                                                                                <h1>Food <span class="orange">Ex</span> </h1>
+                                                                                                                                <h1 style = "color: green; font-size: 4em;">Food <span style = "color: orange; margin-left: -25px;">Ex</span></h1>
                                                                                                                             </div>
                                                                                                                             
                                                                                                                             <h1>Thanks for choosing FoodEx</h1>
-                                                                                                                            <button><a href="localhost:5000/restaurants/verify/${email}/${verificationCode}">Verify Your Email</a></button>
+                                                                                                                            <a href="localhost:5000/restaurants/verify/${email}/${verificationCode}">
+                                                                                                                                <button style="border: orange 2px solid;
+                                                                                                                                padding: 10px;
+                                                                                                                                border-radius: 30px;
+                                                                                                                                background-color: orange;
+                                                                                                                                color: white;
+                                                                                                                                text-decoration: none;
+                                                                                                                                font-weight: 700;
+                                                                                                                                font-size: 1.5em;">Verify Your Email
+                                                                                                                                </button>
+                                                                                                                            </a>
                                                                                                                         </div>
                                                                                                                     </body>
                                                                                                                     </html>
@@ -393,7 +416,7 @@ router.post('/signup', imgUploader.single(`rest_image`), (req, res) => //POST re
                                                                                                         }
                                                                                                     );
 
-                                                                                                    
+
                                                                                                 }
                                                                                             });
                                                                                         }
@@ -487,7 +510,7 @@ router.post('/login', (req, res) => {
                                         to: email,
                                         subject: 'Verify your email',
                                         html:
-                                        `
+                                            `
                                         <!DOCTYPE html>
                                         <html lang="en">
                                         <head>
@@ -553,9 +576,22 @@ router.post('/login', (req, res) => {
                                                 }
                                             </style>
                                         </head>
-                                        <body>
-                                            <div class="container">
-                                                <div class="brand">
+                                        <body style = "font-family: Arial, Helvetica, sans-serif;">
+                                            <div style="
+                                                width: 500px;
+                                                display: flex;
+                                                flex-direction: column;
+                                                align-items: center;
+                                                margin: 0 auto;
+                                            ">
+                                                <div style = "
+                                                    display: flex;
+                                                    flex-direction: column;
+                                                    align-items: center;
+                                                    /* border: solid; */
+                                                    /* height: 200px; */
+                                                    justify-content: space-between;
+                                                ">
                                                     <svg width="180" height="180" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                         <g clip-path="url(#clip0)">
                                                             <path
@@ -619,11 +655,21 @@ router.post('/login', (req, res) => {
                                                             </clipPath>
                                                         </defs>
                                                     </svg>
-                                                    <h1>Food <span class="orange">Ex</span> </h1>
+                                                    <h1 style = "color: green; font-size: 4em;">Food <span style = "color: orange; margin-left: -25px;">Ex</span></h1>
                                                 </div>
                                                 
                                                 <h1>Thanks for choosing FoodEx</h1>
-                                                <button><a href="localhost:5000/restaurants/verify/${email}/${verificationCode}">Verify Your Email</a></button>
+                                                <a href="localhost:5000/restaurants/verify/${email}/${verificationCode}">
+                                                    <button style="border: orange 2px solid;
+                                                    padding: 10px;
+                                                    border-radius: 30px;
+                                                    background-color: orange;
+                                                    color: white;
+                                                    text-decoration: none;
+                                                    font-weight: 700;
+                                                    font-size: 1.5em;">Verify Your Email
+                                                    </button>
+                                                </a>
                                             </div>
                                         </body>
                                         </html>                                                                                                      

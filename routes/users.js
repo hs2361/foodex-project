@@ -235,7 +235,7 @@ router.post('/signup', (req, res) => //POST request at /signup endpoint
                                                                     border-radius: 30px;
                                                                     background-color: orange;
                                                                     color: white;
-
+                
                                                                 }
                                                                 button:hover{
                                                                     cursor: pointer;
@@ -258,9 +258,22 @@ router.post('/signup', (req, res) => //POST request at /signup endpoint
                                                                 }
                                                             </style>
                                                         </head>
-                                                        <body>
-                                                            <div class="container">
-                                                                <div class="brand">
+                                                        <body style = "font-family: Arial, Helvetica, sans-serif;">
+                                                            <div style="
+                                                                width: 500px;
+                                                                display: flex;
+                                                                flex-direction: column;
+                                                                align-items: center;
+                                                                margin: 0 auto;
+                                                            ">
+                                                                <div style = "
+                                                                    display: flex;
+                                                                    flex-direction: column;
+                                                                    align-items: center;
+                                                                    /* border: solid; */
+                                                                    /* height: 200px; */
+                                                                    justify-content: space-between;
+                                                                ">
                                                                     <svg width="180" height="180" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                                         <g clip-path="url(#clip0)">
                                                                             <path
@@ -324,11 +337,21 @@ router.post('/signup', (req, res) => //POST request at /signup endpoint
                                                                             </clipPath>
                                                                         </defs>
                                                                     </svg>
-                                                                    <h1>Food <span class="orange">Ex</span> </h1>
+                                                                    <h1 style = "color: green; font-size: 4em;">Food <span style = "color: orange; margin-left: -25px;">Ex</span></h1>
                                                                 </div>
                                                                 
                                                                 <h1>Thanks for choosing FoodEx</h1>
-                                                                <button><a href="localhost:5000/restaurants/verify/${email}/${verificationCode}">Verify Your Email</a></button>
+                                                                <a href="localhost:5000/users/verify/${email}/${verificationCode}">
+                                                                    <button style="border: orange 2px solid;
+                                                                    padding: 10px;
+                                                                    border-radius: 30px;
+                                                                    background-color: orange;
+                                                                    color: white;
+                                                                    text-decoration: none;
+                                                                    font-weight: 700;
+                                                                    font-size: 1.5em;">Verify Your Email
+                                                                    </button>
+                                                                </a>
                                                             </div>
                                                         </body>
                                                         </html>
@@ -468,9 +491,22 @@ router.post('/login', (req, res) => { //POST request at /login endpoint
                                                 }
                                             </style>
                                         </head>
-                                        <body>
-                                            <div class="container">
-                                                <div class="brand">
+                                        <body style = "font-family: Arial, Helvetica, sans-serif;">
+                                            <div style="
+                                                width: 500px;
+                                                display: flex;
+                                                flex-direction: column;
+                                                align-items: center;
+                                                margin: 0 auto;
+                                            ">
+                                                <div style = "
+                                                    display: flex;
+                                                    flex-direction: column;
+                                                    align-items: center;
+                                                    /* border: solid; */
+                                                    /* height: 200px; */
+                                                    justify-content: space-between;
+                                                ">
                                                     <svg width="180" height="180" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                         <g clip-path="url(#clip0)">
                                                             <path
@@ -534,11 +570,21 @@ router.post('/login', (req, res) => { //POST request at /login endpoint
                                                             </clipPath>
                                                         </defs>
                                                     </svg>
-                                                    <h1>Food <span class="orange">Ex</span> </h1>
+                                                    <h1 style = "color: green; font-size: 4em;">Food <span style = "color: orange; margin-left: -25px;">Ex</span></h1>
                                                 </div>
                                                 
                                                 <h1>Thanks for choosing FoodEx</h1>
-                                                <button><a href="localhost:5000/restaurants/verify/${email}/${verificationCode}">Verify Your Email</a></button>
+                                                <a href="localhost:5000/users/verify/${email}/${verificationCode}">
+                                                    <button style="border: orange 2px solid;
+                                                    padding: 10px;
+                                                    border-radius: 30px;
+                                                    background-color: orange;
+                                                    color: white;
+                                                    text-decoration: none;
+                                                    font-weight: 700;
+                                                    font-size: 1.5em;">Verify Your Email
+                                                    </button>
+                                                </a>
                                             </div>
                                         </body>
                                         </html>
