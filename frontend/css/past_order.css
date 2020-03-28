@@ -356,7 +356,7 @@ display: none;
 }
 .main__body__feed{
     width: 100%;
-    border: solid;
+    /* border: solid; */
     
 }
 .main__body p{
