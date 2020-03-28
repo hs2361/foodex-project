@@ -1,6 +1,3 @@
-CREATE DATABASE IF NOT EXISTS webkriti;
-USE webkriti;
-
 CREATE TABLE IF NOT EXISTS users
 (
     uid      INT PRIMARY KEY AUTO_INCREMENT,
@@ -40,7 +37,7 @@ CREATE TABLE IF NOT EXISTS orders
     delivered BOOL,
     rating    INT,
     feedback  TEXT,
-    otime     DATETIME DEFAULT NOW()
+    otime     varchar(255)
 );
 
 CREATE TABLE IF NOT EXISTS menu_1

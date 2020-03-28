@@ -2,10 +2,10 @@ const passData = require("../passwords.json");
 const mysql = require("mysql"); //import module
 
 const mySqlConnection = mysql.createConnection({ //database credentials
-    host: "localhost",
-    user: "webkriti_server",
+    host: "sql12.freemysqlhosting.net",
+    user: "sql12329822",
     password: passData.dbPass,
-    database: "webkriti"
+    database: "sql12329822"
 });
 
 mySqlConnection.connect(err => { //connect to database
