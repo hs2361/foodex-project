@@ -23,6 +23,7 @@ Restaurants will be provided with a dashboard, where they can easily view their 
 * We do not store plain-text passwords anywhere in the code. More over, the password-hash is also not sent to the user when creating his session
 * Input validation is done directly on the front end. Backend verification is added to ensure that **SQL injections** or **Cross-site scripting** cannot be executed
 
+### Images:
 (https://photos.google.com/photo/AF1QipNAKQ9FHifGHS4dydJ4hTuw5SIPsgj0R4qqhy7Z)
 (https://photos.google.com/photo/AF1QipO67BcXAkfW1PcS_tu40uSqnTogAw5K2MXpKUcV)
 (https://photos.google.com/photo/AF1QipMfPTsKlBZ2d_VFYMToeX7wHtzx9yilsPrjymVl)
@@ -37,4 +38,5 @@ Restaurants will be provided with a dashboard, where they can easily view their 
 (https://drive.google.com/file/d/)
 (https://photos.google.com/photo/AF1QipNMa96z5cDkjrWIZNeq3Y6nECCXRHIbFEtfIyBS)
 
+### Video:
 (https://drive.google.com/file/d/14QB1bqDIm9MYHQ5MsbRnBQr_32A6SJ3A/view?usp=sharing)
