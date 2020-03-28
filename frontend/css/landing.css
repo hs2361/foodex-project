@@ -84,7 +84,7 @@ display: none;
     font-family: "Raleway",sans-serif;
     font-size: .8em;
 }
-.ham__unhide .rest__auth p{
+.ham__unhide  p{
     font-size: 22px;
     /* border: solid; */
 
@@ -197,10 +197,26 @@ justify-content:space-around;
 align-items: center;
 color: #12151A;
 font-family: "Raleway",sans-serif;
+/* width: 200px; */
+height: 110px;
+padding: 15px 0;
+width: 100px;
+/* border: solid; */
+/* background-color: orange; */
+position: absolute;
+transition: all 0.3s ease;
+}
+.nav__dropdown__unhide__ham{
+    display: flex;
+flex-direction: column;
+justify-content:space-around;
+align-items: center;
+color: #12151A;
+font-family: "Raleway",sans-serif;
 width: 200px;
 height: 110px;
 padding: 15px 0;
-
+/* width: 100px; */
 /* border: solid; */
 background-color: orange;
 position: absolute;

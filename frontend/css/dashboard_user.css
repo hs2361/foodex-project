@@ -32,17 +32,20 @@ a{
     padding: 8px;
 
 }
-.ham__items #close{
+.ham__unhide #close{
     position: absolute;
     right: 10px;
     top: 13px;
     fill: white;
    filter: brightness(2);
 }
-.ham__items #close:hover{
+.ham__unhide  #close:hover{
     cursor: pointer;
     transition: ease-in .2s;
     transform: scale(1.2);
+}
+.ham__items{
+    display: none;
 }
 .ham__items__btn{
     /* border: solid; */
@@ -58,12 +61,13 @@ a{
     font-family: "Raleway",sans-serif;
     font-size: .8em;
 }
-.ham__items a{
+.ham__unhide  a{
     color: cornsilk;
     font-size: 1.6em;
 
 }
-.ham__items .ham__search:hover{
+
+.ham__unhide  .ham__search:hover{
  transform: scale(1.05);   
 }
 .ham__profile{

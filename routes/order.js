@@ -75,7 +75,7 @@ router.get('/:rid/:did', (req, res) => {
                             res.status(500).send(e);
                         else {
                             if (r.length) {
-                                res.render('landing', { alert: 'true', msg: 'Cannot place new order before previous order is delivered', user: req.session.user });
+                                res.render('checkout', { details: { oid: (order_id - 1) }, alert: 'true', msg: 'Cannot place new order before previous order is delivered', user: req.session.user });
                             }
                             else {
                                 var mul = false;
@@ -232,7 +232,7 @@ router.get("/checkout", (req, res) => {
 router.get('/status', (req, res) => {
     if (req.session.user) {
         if (req.session.user.uid) {
-            res.render('checkout', { details: { oid: (order_id - 1) }, alert: 'false', msg: '' });
+            res.render('checkout', { details: { oid: (order_id - 1) }, alert: 'false', msg: '', profile: req.session.user });
         }
         else {
             res.render('landing', { alert: 'true', msg: 'Login as a user to order', user: req.session.user });
