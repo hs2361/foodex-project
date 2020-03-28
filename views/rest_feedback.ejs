@@ -116,7 +116,7 @@
                         d="M165.705 137H165.62C160.257 137 155.972 128.717 156 124.733L157.561 8.38862C157.618 4.40508 162.754 0.611231 167.379 0C172.743 0.0421538 177.056 2.69785 176.999 6.68138L175.41 125.176C175.354 129.159 171.04 137 165.705 137Z"
                         fill="white" />
                 </svg>
-                <span class="logout__button"><a href="#">Logout</a></span>
+                <span class="logout__button"><a href="/restaurants/logout">Logout</a></span>
             
             </div>
             <div class="ham__profile">
@@ -204,12 +204,13 @@
     <div class="container ">
 
         <nav>
+            <a href="/">
             <div class="brand">
                 <img width="35px" src="/images/brand-icon.png" alt="" srcset="">
-                <p>Food<span class="orange">Captain</span></p>
+                <p>Food<span class="orange">Ex</span></p>
 
             </div>
-
+            </a>
             <div class="nav__right">
                 <div class="logout">
                     <svg width="24" height="28" viewBox="0 0 333 237" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -220,7 +221,7 @@
                             d="M165.705 137H165.62C160.257 137 155.972 128.717 156 124.733L157.561 8.38862C157.618 4.40508 162.754 0.611231 167.379 0C172.743 0.0421538 177.056 2.69785 176.999 6.68138L175.41 125.176C175.354 129.159 171.04 137 165.705 137Z"
                             fill="white" />
                     </svg>
-                    <span class="logout__button"><a href="#">Logout</a></span>
+                    <span class="logout__button"><a href="/restaurants/logout">Logout</a></span>
                     
                 </div>
                 <div class="profile">
@@ -248,7 +249,7 @@
         <div class="rest__dis">
             <div class="rest__dis__image">
 
-                <img height="150px " width="230px" src="../frontend/images/rest_card_1.jpg" alt="" srcset="">
+                <img height="150px " width="230px" src="../frontend/images/rest_img_<%= profile.rid %>.jpg" alt="" srcset="">
             </div>
             <div class="rest__dis__content">
                 <div class="rest__dis__name"><%= profile.name %></div>
