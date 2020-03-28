@@ -36,3 +36,5 @@ Restaurants will be provided with a dashboard, where they can easily view their 
 ![User Giving Feedback](https://photos.google.com/photo/AF1QipPWrjQTZQp1-9oCxtSvqvAL-5HUkpJrVIpMWCdd)
 ![User Search](https://drive.google.com/file/d/)
 ![User Viewing Past Orders](https://photos.google.com/photo/AF1QipNMa96z5cDkjrWIZNeq3Y6nECCXRHIbFEtfIyBS)
+
+![Video](https://drive.google.com/file/d/14QB1bqDIm9MYHQ5MsbRnBQr_32A6SJ3A/view?usp=sharing)
