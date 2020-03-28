@@ -21,4 +21,4 @@ Restaurants will be provided with a dashboard, where they can easily view their 
 ### Security Features:
 * User account (both Restaurants and Customers) is verified on signup through an email verification system.
 * We do not store plain-text passwords anywhere in the code. More over, the password-hash is also not sent to the user when creating his session
-*Input validation is done directly on the front end. Backend verification is added to ensure that **SQL injections** or **Cross-site scripting** cannot be executed
+* Input validation is done directly on the front end. Backend verification is added to ensure that **SQL injections** or **Cross-site scripting** cannot be executed
