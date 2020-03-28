@@ -453,9 +453,27 @@
                         <% }; %>
                 </ul>
     
-                <div class="cart__checkout">
+                <div class="cart__checkout" onclick="confirmorder()">
                     <div class="cart__checkout__left">
                         CHECKOUT
+                        <script>
+                            function confirmorder() {
+                                swal({
+                                    title: "Are you sure you want to place order?",
+                                    text: "Order once placed, cannot be cancelled.",
+                                    icon: "warning",
+                                    buttons: ['Cancel', 'Confirm'],
+                                    dangerMode: true,
+                                })
+                                .then((placeOrder) => {
+                                    if (placeOrder) {
+                                        window.location = '/order/checkout';
+                                        var socket = io.connect();
+                                        socket.emit('new-order', '<%= rid %>');
+                                    }
+                                });   
+                            }
+                        </script>
                     </div>
                     <span class="totalPrice">
                         ₹<%= data.totalPrice %>
