@@ -9,7 +9,7 @@
 
 .add__dishes__popup{
     width: 400px;
-    height: 300px;
+    height: 450px;
     background-color: white;
     position: fixed;
     z-index: 100000;
@@ -46,6 +46,7 @@
 }
 textarea{
     padding: 4px;
+    resize: none;
 }
 .add__dishes__popup .image{
     background-image: url("../images/pizaalert.jpg");
