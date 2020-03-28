@@ -218,28 +218,14 @@ router.get('/rdashboard/menu', (req, res) => {
                         res.render('rest_menu', { 
                             check: 'false', 
                             menu: rows, 
-                            profile: {
-                                rname: req.session.user.rname,
-                                address: req.session.user.address,
-                                category: req.session.user.category,
-                                rating: req.session.user.rating,
-                                email: req.session.user.email,
-                                phone: req.session.user.phone
-                            }
+                            profile: req.session.user
                         });
                     }
                     else {
                         res.render('rest_menu', { 
                             check: 'true', 
                             menu: rows,
-                            profile: {
-                                rname: req.session.user.rname,
-                                address: req.session.user.address,
-                                category: req.session.user.category,
-                                rating: req.session.user.rating,
-                                email: req.session.user.email,
-                                phone: req.session.user.phone
-                            }
+                            profile: req.session.user
                         });
                     }
                 }
@@ -288,7 +274,7 @@ router.post('/rdashboard/menu', (req, res) => {
                                             if(e2)
                                                 res.status(500).send(e2);
                                             else
-                                                res.status(200).send('succesfully added to menu'); //redirect to menu /dashboard/menu
+                                                res.redirect('/rdashboard/menu');
                                         }
                                     )
                                 }
