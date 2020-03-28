@@ -16,10 +16,10 @@ const imgUploader = multer({
 router.get('/', (req, res) => {
     if (req.session.user) {
         if (req.session.user.rid) {
-            res.redirect('/restaurants/profile');
+            res.redirect('/rdashboard');
         }
         else {
-            res.status(401).render('login_rest', { alert: true, msg: "You must be logged in as a restaurant!" });
+            res.status(401).render('landing', { alert: true, msg: "Login as a restaurant for this" });
         }
     }
     else {
@@ -100,10 +100,10 @@ router.post('/profile/edit', (req, res) => {
 router.get('/signup', (req, res) => {
     if (req.session.user) {
         if (req.session.user.rid) {
-            res.status(400).redirect("landing", { alert: true, msg: "You are already logged in!" });
+            res.render("landing", { alert: true, msg: "You are already logged in!" });
         }
         else {
-            res.status(400).redirect("landing", { alert: true, msg: "You are already logged in as a user!" });
+            res.render("landing", { alert: true, msg: "You are already logged in as a user!" });
         }
     }
     else {
@@ -115,10 +115,10 @@ router.get('/signup', (req, res) => {
 router.get('/login', (req, res) => {
     if (req.session.user) {
         if (req.session.user.rid) {
-            res.status(400).send('Already logged in');
+            res.render("landing", { alert: true, msg: "You are already logged in!" });
         }
         else {
-            res.status(401).send('Not a restaurant');
+            res.render("landing", { alert: true, msg: "You are already logged in as a user!" });
         }
     }
     else {
@@ -132,22 +132,22 @@ router.post('/signup', imgUploader.single(`rest_image`), (req, res) => //POST re
     const { name, email, password, phone, address, category } = req.body; //destructuring req.body object received from form
     //if else statements checking for invalid charecters in input fields to prevent sql injections and cross-site scripting.
     if(name.includes('"') || name.includes("'") || name.includes(';') || name.includes('-') || name.includes('<') || name.includes('>') || name.includes('/')) {
-        res.render('register_rest', { alert: 'true', msg: 'Name cannot have any of the following characters: \n" \' ; - < > /' });
+        res.render('register_rest', { alert: 'true', msg: 'Name cannot have any of the following characters: \n" \' ; - &lt; &gt; /' });
     }
     else if(password.includes('"') || password.includes("'") || password.includes(';') || password.includes('-') || password.includes('<') || password.includes('>') || password.includes('/')) {
-        res.render('register_rest', { alert: 'true', msg: 'Password cannot have any of the following characters: \n" \' ; - < > /' });
+        res.render('register_rest', { alert: 'true', msg: 'Password cannot have any of the following characters: \n" \' ; - &lt; &gt; /' });
     }
     else if(password2.includes('"') || password2.includes("'") || password2.includes(';') || password2.includes('-') || password2.includes('<') || password2.includes('>') || password2.includes('/')) {
-        res.render('register_rest', { alert: 'true', msg: 'Password cannot have any of the following characters: \n" \' ; - < > /' });
+        res.render('register_rest', { alert: 'true', msg: 'Password cannot have any of the following characters: \n" \' ; - &lt; &gt; /' });
     }
     else if(address.includes('"') || address.includes("'") || address.includes(';') || address.includes('-') || address.includes('<') || address.includes('>') || address.includes('/')) {
-        res.render('register_rest', { alert: 'true', msg: 'Address cannot have any of the following characters: \n" \' ; - < > /' });
+        res.render('register_rest', { alert: 'true', msg: 'Address cannot have any of the following characters: \n" \' ; - &lt; &gt; /' });
     }
     else if(email.includes('"') || email.includes("'") || email.includes(';') || email.includes('-') || email.includes('<') || email.includes('>') || email.includes('/')) {
-        res.render('register_rest', { alert: 'true', msg: 'Email ID cannot have any of the following characters: \n" \' ; - < > /' });
+        res.render('register_rest', { alert: 'true', msg: 'Email ID cannot have any of the following characters: \n" \' ; - &lt; &gt; /' });
     }
     else if(phone.includes('"') || phone.includes("'") || phone.includes(';') || phone.includes('-') || phone.includes('<') || phone.includes('>') || phone.includes('/')) {
-        res.render('register_rest', { alert: 'true', msg: 'Phone number cannot have any of the following characters: \n" \' ; - < > /' });
+        res.render('register_rest', { alert: 'true', msg: 'Phone number cannot have any of the following characters: \n" \' ; - &lt; &gt; /' });
     }
     else {
         let errors = []; //errors array
@@ -274,10 +274,10 @@ router.post('/signup', imgUploader.single(`rest_image`), (req, res) => //POST re
 router.post('/login', (req, res) => {
     const { email, password } = req.body;
     if(email.includes('"') || email.includes("'") || email.includes(';') || email.includes('-') || email.includes('<') || email.includes('>') || email.includes('/')) {
-        res.render('login_rest', { alert: 'true', msg: 'Email ID cannot have any of the following characters: \n" \' ; - < > /' });
+        res.render('login_rest', { alert: 'true', msg: 'Email ID cannot have any of the following characters: \n" \' ; - &lt; &gt; /' });
     }
     else if(password.includes('"') || password.includes("'") || password.includes(';') || password.includes('-') || password.includes('<') || password.includes('>') || password.includes('/')) {
-        res.render('login_rest', { alert: 'true', msg: 'Password cannot have any of the following characters: \n" \' ; - < > /' });
+        res.render('login_rest', { alert: 'true', msg: 'Password cannot have any of the following characters: \n" \' ; - &lt; &gt; /' });
     }
     else {
         mySqlConnection.query(
@@ -319,15 +319,15 @@ router.post('/login', (req, res) => {
                                     res.status(500).send(err); //internal server error
                                 else {
                                     var transporter = nodemailer.createTransport({ //mail authentication
-                                        service: 'gmail',
+                                        service: 'hotmail',
                                         auth: {
-                                            user: 'sweetharsh236@gmail.com', //replace with your own credentials
-                                            pass: 'BBitbs!2306'
+                                            user: 'foodex_server@outlook.com', //replace with your own credentials
+                                            pass: 'xedooF_ghost<3'
                                         }
                                     });
 
                                     var mailOptions = {
-                                        from: 'sweetharsh236@gmail.com',
+                                        from: 'foodex_server@outlook.com',
                                         to: email,
                                         subject: 'Verify your email',
                                         text: `localhost:5000/restaurants/verify/${email}/${verificationCode}` //mail body
@@ -361,7 +361,6 @@ router.get('/logout', (req, res) => {
             res.redirect('/');
         });
     }
-
     else {
         res.render("landing", { alert: true, msg: "Not logged in!" });
     }
@@ -382,7 +381,7 @@ router.get('/verify/:email/:code', (req, res) => {
                 if (err)
                     res.status(500).send(err)
                 else if (!rows)
-                    res.status(400).send('account does not exist')
+                    res.render('register_rest', { alert: 'true', msg: 'Could not verify as there is no such account. Please register and try again' })
                 else {
                     if (rows[0].code == req.params.code) {
                         mySqlConnection.query(
@@ -408,7 +407,7 @@ router.get('/verify/:email/:code', (req, res) => {
 
                     }
                     else {
-                        res.render("register_rest", { alert: true, msg: "Couldn't verify your email!" });
+                        res.render('verification', { alert: 'true', msg: 'Incorrect verification code. Try again' })
                     }
                 }
             }

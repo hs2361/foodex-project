@@ -195,7 +195,7 @@ router.get('/rdashboard', (req, res) => {
             );
         }
         else {
-            res.status(401).send('login as restaurant for this');
+            res.render('landing', { alert: 'true', msg: 'Login as a restaurant to view dashboard', user: req.session.user });
         }
     }
     else {
@@ -246,7 +246,7 @@ router.get('/rdashboard/menu', (req, res) => {
             );
         }
         else {
-            res.status(401).render("landing", { alert: 'true', msg: 'login as restaurant for this', user: req.session.user });
+            res.render("landing", { alert: 'true', msg: 'login as restaurant to view menu', user: req.session.user });
         }
     }
     else {
@@ -299,7 +299,7 @@ router.post('/rdashboard/menu', (req, res) => {
             );
         }
         else {
-            res.status(401).render("landing", { alert: 'true', msg: 'login as restaurant for this', user: req.session.user });
+            res.render("landing", { alert: 'true', msg: 'login as restaurant for this', user: req.session.user });
         }
     }
     else {
@@ -520,7 +520,7 @@ router.get('/rdashboard/accept/:oid', (req, res) => {
             )
         }
         else {
-            res.status(401).send('Login as a restaurant for this');
+            res.render('landing', { alert: 'true', msg: 'Login as a restaurant for this', user: req.session.user });
         }
     }
     else {

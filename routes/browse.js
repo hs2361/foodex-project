@@ -16,7 +16,7 @@ router.get('/', (req, res) => {
     if (req.session.user) {
         if (req.session.user.rid) //check whether is restaurant
         {
-            res.status(400).send('you must be a user to order'); //bad request
+            res.render('landing', { alert: 'true', msg: 'Login as a user to browse', user: req.session.user });
         }
         else {
             const uid = req.session.user.uid;
@@ -36,10 +36,20 @@ router.get('/', (req, res) => {
                             (err, rows) => {
                                 if (err)
                                     res.status(500).send(err); // internal server error
-                                else if (!rows)
-                                    res.send('no restaurants to browse'); // no restaurants in catalogue
-                                else
-                                    res.status(200).render("browse", {
+                                else if (!rows) {
+                                    res.render('browse', {
+                                        check: 'false',
+                                        profile: {
+                                            name: req.session.user.uname,
+                                            phone: req.session.user.phone,
+                                            email: req.session.user.email
+                                        },
+                                        data: {}
+                                    }); // no restaurants in catalogue
+                                }
+                                else {
+                                    res.render("browse", {
+                                        check: 'true',
                                         profile: {
                                             name: req.session.user.uname,
                                             phone: req.session.user.phone,
@@ -47,6 +57,7 @@ router.get('/', (req, res) => {
                                         },
                                         data: { rows }
                                     }); // dynamically renders list of restaurants for user to browse
+                                }
                             }
                         );
                     }
@@ -69,7 +80,15 @@ router.get('/:rid', (req, res) => {
                         res.status(500).send(err);
                     }
                     else if (!rows) {
-                        res.status(400).send('Restaurant not found');
+                        res.render('restaurant', {
+                            check: 'false',
+                            profile: {
+                                name: req.session.user.uname,
+                                phone: req.session.user.phone,
+                                email: req.session.user.email
+                            },
+                            data: {}
+                        });
                     }
                     else {
                         mySqlConnection.query(
@@ -102,7 +121,7 @@ router.get('/:rid', (req, res) => {
                                                                     dishes[r3[0].dname] = [el.qty, r3[0].price * el.qty, el.did];
                                                                     totalPrice += r3[0].price * el.qty;
                                                                     if (i == r2.length - 1) {
-                                                                        res.status(200).render("restaurant", {
+                                                                        res.render("restaurant", {
                                                                             profile: {
                                                                                 name: req.session.user.uname,
                                                                                 phone: req.session.user.phone,
@@ -117,7 +136,6 @@ router.get('/:rid', (req, res) => {
                                                         );
                                                     })
                                                 }
-
                                                 else {
                                                     res.status(200).render("restaurant", {
                                                         profile: {
@@ -141,7 +159,7 @@ router.get('/:rid', (req, res) => {
         }
 
         else {
-            res.status(401).send("not a user");
+            res.render("landing", { alert: 'true', msg: 'Login as user to view restaurants' });
         }
     }
 
