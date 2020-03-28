@@ -275,7 +275,7 @@ router.post('/rdashboard/menu', (req, res) => {
                     else
                     {
                         mySqlConnection.query(
-                            "select (max(rid) +1) as ghostRid from restaurants",
+                            "select (max(rid)) as ghostRid from restaurants",
                             [],
                             (e1, r1) => {
                                 if (e1)
