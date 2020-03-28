@@ -286,13 +286,22 @@
        function hamburg()
        { $('.container').toggleClass('blur');
         $('.ham__items').toggleClass('ham__unhide');
+        $('.ham__unhide').toggleClass("ham__items");
         // $('.ham__items').toggleClass('.ham__items');
 
         };
+        function hamburg2() {
+                $('.container').removeClass('blur');
+                 $('.ham__unhide').toggleClass("ham__items");
+                $('.ham__items').toggleClass('ham__unhide');
+               
+                // $('.ham__items').toggleClass('.ham__items');
+
+            };
 
         $('#profile__tab__close').click(function(){
             $('.profile__tab').toggleClass('hide');
-            $('.container').toggleClass('blur');
+            $('.container').removeClass('blur');
 
         })
         $('.profile ').click(function () {
@@ -309,7 +318,7 @@
             })
         
       $('.ham').click(hamburg);
-      $('#close').click(hamburg);
+      $('#close').click(hamburg2);
    </script>
 </body>
 </html>

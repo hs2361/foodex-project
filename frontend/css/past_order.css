@@ -23,16 +23,14 @@ textarea{
     
 
 }
-.add__dishes__popup #add__dishes__popup__close{
+.add__dishes__popup .add__dishes__popup__close{
     position: absolute;
     z-index: 10;
     right: 14px;
     top:4px;
     fill: white;
-    
-
-}
-.add__dishes__popup #add__dishes__popup__close:hover{
+    }
+.add__dishes__popup .add__dishes__popup__close:hover{
     transform: scale(1.1);
     cursor: pointer;
     transition: ease-in-out 0.3s;
@@ -73,12 +71,14 @@ textarea{
 
 }
 .add__dishes__popup button{
+
     background-color: chartreuse;
     color: white;
     font-weight: 800;
     font-size: larger;
     border: solid 1px green;
     transition: ease-in-out 0.3s;
+
 }
 .add__dishes__popup button:hover{
     cursor: pointer;
