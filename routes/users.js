@@ -630,7 +630,7 @@ router.get('/logout', (req, res) => { //GET request at /logout endpoint
 })
 
 router.get('/verify', (req, res) => { //GET request at /verify endpoint without params
-    res.render('verification');
+    res.render('verification', { alert: 'false', msg: '' });
 })
 
 // router.post('/verify', (req,res) => { //POST request at /verify endpoint with email and code
