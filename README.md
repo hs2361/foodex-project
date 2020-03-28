@@ -4,21 +4,35 @@
 ### Overview:
 Food Ordering + Rating Web App for Webkriti. Our Website allows two types of users: Customers and Restaurants.
 
-Customers can browse and search through a catalogue of restaurants and order their favorite dishes. The customer will be shown his cart of items which he can checkout. He/She will be presented a screen that shows him/her the order status. A prepared order will be 'successfully delivered' after a short time duration. Moreover, the Customer can view his past orders. He can also provide or view rating and feedback for the same.
+Customers can browse and search through a catalogue of restaurants and order their favorite dishes. The customer will be shown his cart of items which he can checkout. He/She will be Presented a screen that shows him the order status. A prepared order will be 'successfully delivered' after a short time duration. Moreover, the Customer can view his past orders, and provide/view rating and feedback for the same.
 
-Restaurants will be provided with a dashboard, where they can easily view their Running Orders. When the Restaurant prepares the order, he can click the 'Finish' button for the order, and the updated order status will be reflected on the Customer's order status screen. The restaurant can use their profile tab to view their Menu Page, where they can view and add new dishes to their dish menu. Further, the restaurant can visit a feedback page, where they will be shown the feedback on the orders they have completed in the past.
+Restaurants will be provided with a dashboard, where they can easily view their Running Orders. When the Restaurat prepares the order, he can 'Finish' the order, and the change will be reflected on the Customer's order status screen. The restaurant can use his profile tab to view his Menu Page, where they can view and add to their dish menu. Lastly the restaurant can visit a feedback page, where thay will be shown the feedback on the orders they have completed in the past.
 
 ### Usage Features:
-* The website has been made responsive for easy browsing for the user
+* The website has been made responsive for ease of use for the user (some minor issues for now)
 
-* Customers can search by various types, like Restaurant Name, or Category.
-* Customers' session is stored and hence the login is retained on a browser
+* Customers can search by various types, like Restaurant Name, or Category
+* Customers' session is stored and hence can retain his login on a browser
 * Customers can see the average rating of a restaurant
 
-* Restaurant can see a dynamic list of running orders that refreshes automatically when a user places an order
+* Restaurant can see a dynamic list of running orders that refreshes automatically when a user makes an order
 * Restaurant can view individual feedback for every order
 
 ### Security Features:
-* User account (both Restaurants and Customers) is verified on Sign Up through an email verification system.
-* We do not store plain-text passwords anywhere in the code. More over, the password hash is also not sent to the user when creating his session
+* User account (both Restaurants and Customers) is verified on signup through an email verification system.
+* We do not store plain-text passwords anywhere in the code. More over, the password-hash is also not sent to the user when creating his session
 * Input validation is done directly on the front end. Backend verification is added to ensure that **SQL injections** or **Cross-site scripting** cannot be executed
+
+![Landing Page](https://drive.google.com/uc?export=view&id=1sCDjCHYDcdzcn79PkVnVH3YYMXP8kZuE)
+![Login Page](https://drive.google.com/file/d/1z6tkovMuV4nbOPziqYN5YCMAPebWOjAG)
+![Restaurant Register Page](https://drive.google.com/file/d/1y9qqbr-4h163asZBmBJqfIWxPqdnU7Ux)
+![Restaurant Dashboard](https://drive.google.com/file/d/11z-OEr7-awMvD28uBrsCEEgUcirt8TxY)
+![Restaurant Menu](https://drive.google.com/file/d/1emA2XubH88NQ3GARfPw0-a4b1eu2kgrQ)
+![Restaurant Feedback](https://drive.google.com/file/d/1LLevIm7nZiwFZtg52k2e9YklCNEd0hSx)
+![User Browse](https://drive.google.com/file/d/1fIxHn0Cl3JsyRDMBv9MdTNVGxQciR_5y)
+![User View Restaurant](https://drive.google.com/file/d/1IDm1Gh1lYKydROM5Jdg0Bzg4Z1CL6dsq)
+![User Add To Cart](https://drive.google.com/file/d/10ZN8uS29uUSfu7PNm9HjO_TbpNIvA2p9)
+![User Order Delivered](https://drive.google.com/file/d/1FMH3AE2hTYn_pjXurdfILTu0L_yM41G9)
+![User Giving Feedback](https://drive.google.com/file/d/18xcdmTZwdlzchwM8f5vpB0OZBXS-BMpI)
+![User Search](https://drive.google.com/file/d/)
+![User Viewing Past Orders](https://drive.google.com/file/d/10qDYixyieba2avepb7tMguLLJVknhDd5)
