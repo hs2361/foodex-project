@@ -69,9 +69,9 @@
         <span><a class="nav__items" href="/users/login">Login</a></span>
         <span><a class="nav__items" href="/users/signup">Register</a></span>
         <span><a class="nav__items nav__items__about" href="#about">About</a></span>
-        <span class="rest__auth">
+        <span class="rest__auth__ham">
             <p>Restaurants</p>
-            <div class="nav__dropdown hide">
+            <div class="nav__dropdown nav__dropdown__ham hide">
                 <a href="/restaurants/login">Login</a>
                 <a href="/restaurants/signup">Register</a>
             </div>
@@ -285,6 +285,22 @@
                 $('.nav__dropdown').removeClass('nav__dropdown__unhide');
             }
         )
+        $('.rest__auth__ham').hover(
+
+                function () {
+
+
+                    $('.nav__dropdown').addClass('nav__dropdown__unhide__ham');
+
+                },
+                function () {
+                    console.log("out");
+
+
+
+                    $('.nav__dropdown').removeClass('nav__dropdown__unhide__ham');
+                }
+            )
 
          function hamburg() {
                 $('.container').toggleClass('blur');
