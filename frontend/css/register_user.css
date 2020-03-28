@@ -12,6 +12,7 @@ body{
 }
 a{
     text-decoration: none;
+    color: orange;
 
 }
 .orange{
@@ -71,7 +72,7 @@ a{
 .main__body__right .form{
     font-family: "Raleway",sans-serif;
     position: absolute;
-    top: 18%;
+    top: 22%;
     left: 16%;
     height: 400px;
     padding-top: 10px;
@@ -127,7 +128,7 @@ a{
     padding: 19px;
 }
 .form__footer a{
-    color: #DD7017;
+    color: black;
 }
 
 @media only screen and (max-width:1000px){
@@ -204,7 +205,7 @@ a{
      
  }
  .form__footer a{
-     color: white;
+     color: black;
      filter: brightness(1.5);
  }
  
