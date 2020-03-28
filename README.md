@@ -1,5 +1,6 @@
 # Webkriti Project
 ## *Foodex: The Food Ordering and Rating Web App*
+foodex-webkriti.herokuapp.com
 
 ### Overview:
 Food Ordering + Rating Web App for Webkriti. Our Website allows two types of users: Customers and Restaurants.
