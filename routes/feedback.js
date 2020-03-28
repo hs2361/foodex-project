@@ -142,14 +142,14 @@ router.get("/:oid", (req, res) => {
                         res.status(500).send(err);
                     }
                     else if (!rows) {
-                        res.send("no such order");
+                        res.render("404");
                     }
                     else {
-                        if (rows[0].feedback) {
-                            res.send(rows[0].feedback);
+                        if (rows[0].feedback || rows[0].rating) {
+                            res.render("feedback", { alert: false, msg: "", oid: req.params.oid, rated: true, feedback: rows[0].feedback, rating: rows[0].rating });
                         }
                         else {
-                            res.send("feedback form");
+                            res.render("feedback", { alert: false, msg: "", oid: req.params.oid, rated: false, feedback: "", rating: 0 });
                         }
                     }
                 }
@@ -177,10 +177,10 @@ router.post("/:oid", (req, res) => { //POST request to submit feedback and ratin
                     if (err)
                         res.status(500).send(err); //internal server error
                     else if (!rows)
-                        res.status(400).send("no such order"); //bad request, tried to submit feedback on non-exisitent order
+                    res.render("404"); //bad request, tried to submit feedback on non-exisitent order
                     else {
                         if (rows[0].rating || rows[0].feedback) {
-                            res.status(400).send('you have already submitted feedback for this order') //bad request
+                            res.render("feedback", { alert: false, msg: "", oid: req.params.oid, rated: true, feedback: rows[0].feedback, rating: rows[0].rating });
                         }
                         else {
                             mySqlConnection.query(
@@ -216,7 +216,7 @@ router.post("/:oid", (req, res) => { //POST request to submit feedback and ratin
                                                                             if (err)
                                                                                 res.status(500).send(err)
                                                                             else
-                                                                                res.status(200).send("feedback submitted successfully");
+                                                                                res.status(200).redirect("/feedback");
                                                                         }
                                                                     );
                                                                 }

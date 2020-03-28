@@ -286,64 +286,6 @@
 
             
             <% o.forEach(order => { %>
-                <div class=" hide add__dishes__popup">
-                    <svg id="add__dishes__popup__close" version="1.1" width="22px" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
-                        xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512.001 512.001"
-                        style="enable-background:new 0 0 512.001 512.001;" xml:space="preserve">
-                        <g>
-                            <g>
-                                <path d="M284.286,256.002L506.143,34.144c7.811-7.811,7.811-20.475,0-28.285c-7.811-7.81-20.475-7.811-28.285,0L256,227.717
-                                                L34.143,5.859c-7.811-7.811-20.475-7.811-28.285,0c-7.81,7.811-7.811,20.475,0,28.285l221.857,221.857L5.858,477.859
-                                                c-7.811,7.811-7.811,20.475,0,28.285c3.905,3.905,9.024,5.857,14.143,5.857c5.119,0,10.237-1.952,14.143-5.857L256,284.287
-                                                l221.857,221.857c3.905,3.905,9.024,5.857,14.143,5.857s10.237-1.952,14.143-5.857c7.811-7.811,7.811-20.475,0-28.285
-                                                L284.286,256.002z" />
-                            </g>
-                        </g>
-                        <g>
-                        </g>
-                        <g>
-                        </g>
-                        <g>
-                        </g>
-                        <g>
-                        </g>
-                        <g>
-                        </g>
-                        <g>
-                        </g>
-                        <g>
-                        </g>
-                        <g>
-                        </g>
-                        <g>
-                        </g>
-                        <g>
-                        </g>
-                        <g>
-                        </g>
-                        <g>
-                        </g>
-                        <g>
-                        </g>
-                        <g>
-                        </g>
-                        <g>
-                        </g>
-                    </svg>
-                    <div class="image"></div>
-                    <form action="/feedback/<%= order.oid %>" method="POST">
-                        <textarea name="feedback" id="" required placeholder="Your Feedback helps us improve our Services" cols="25"
-                            rows="7"></textarea>
-                        <div class=" rest__rating__tab">
-                            <input class="star1" type="radio" name="rating" id="star1-1" value="5"> <label class="star1" for="star1-1"></label>
-                            <input class="star1" type="radio" name="rating" id="star1-2" value="4"> <label class="star1" for="star1-2"></label>
-                            <input class="star1" type="radio" name="rating" id="star1-3" value="3"> <label class="star1" for="star1-3"></label>
-                            <input class="star1" type="radio" name="rating" id="star1-4" value="2"> <label class="star1" for="star1-4"></label>
-                            <input class="star1" type="radio" name="rating" id="star1-5" value="1"> <label class="star1" for="star1-5"></label>
-                        </div>
-                        <button type="submit">Submit Feedback</button>
-                    </form>
-                </div>
                 <div class="card">
                     <div class="card__left">
                         <img src="../frontend/images/rest_card_1.jpg" width="280px" alt="">
@@ -368,14 +310,7 @@
                             <span class="total__price__label">Total</span>
                             <div class="total__price">₹<%= order.amount %></div>
                         </div>
-                        <!-- <div class=" rest__rating__tab">
-                            <input class="rating_btn star1" type="radio" name="" id="star1-1"> <label class="star1" for="star1-1"></label>
-                            <input class="rating_btn star1" type="radio" name="" id="star1-2"> <label class="star1" for="star1-2"></label>
-                            <input class="rating_btn star1" type="radio" name="" id="star1-3"> <label class="star1" for="star1-3"></label>
-                            <input class="rating_btn star1" type="radio" name="" id="star1-4"> <label class="star1" for="star1-4"></label>
-                            <input class="rating_btn star1" type="radio" name="" id="star1-5"> <label class="star1" for="star1-5"></label>
-                        </div> -->
-                        <button class=" rest__rating__tab rating_btn star1">Feedback</button>
+                        <a href="/feedback/<%= order.oid %>"><button class=" rest__rating__tab rating_btn">Feedback</button></a>
                     </div>
                 </div>
             <% }); %>
@@ -498,29 +433,29 @@
             $('.ham__items').toggleClass('ham__unhide');
 
         })
-        $('.rating_btn').click(function(){
-            var classname = $(this).attr('class');
-            classname = classname.slice(11,16);
+        // $('.rating_btn').click(function(){
+        //     var classname = $(this).attr('class');
+        //     classname = classname.slice(11,16);
           
             
-        })
+        // })
 
         $('.ham').click(hamburg);
         $('#close').click(hamburg);
-          $('.rating_btn').click(function () {
-                var classname = $(this).attr('class');
-                classname = classname.slice(11, 16);
-                // $("." + classname).attr('disabled', 'disabled');
-                console.log(classname);
-                $('.add__dishes__popup').toggleClass('hide');
-                // $('.container').toggleClass("blur");
-            })
-            $("#add__dishes__popup__close").click(
-                function () {
-                    // $(".container").toggleClass("blur");
-                    $(".add__dishes__popup").toggleClass("hide");
-                }
-            )
+        //   $('.rating_btn').click(function () {
+        //         var classname = $(this).attr('class');
+        //         classname = classname.slice(11, 16);
+        //         // $("." + classname).attr('disabled', 'disabled');
+        //         console.log(classname);
+        //         $('.add__dishes__popup').toggleClass('hide');
+        //         // $('.container').toggleClass("blur");
+        //     })
+            // $("#add__dishes__popup__close").click(
+            //     function () {
+            //         // $(".container").toggleClass("blur");
+            //         $(".add__dishes__popup").toggleClass("hide");
+            //     }
+            // )
     </script>
 </body>
 

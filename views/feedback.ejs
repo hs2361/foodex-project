@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback</title>
+    <link rel="stylesheet" href="../frontend/css/login_user.css">
+    <link rel="stylesheet" href="../frontend/css/past_order.css">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        if('<%= alert %>' == 'true') {
+            swal('<%= msg %>');
+        }
+    </script>
+    <style>
+        .heading{
+            font-size: 2em;
+        }
+    </style>
+</head>
+<body>
+    <a href="../">
+        <div class="home">
+            <?xml version="1.0" encoding="UTF-8"?>
+            <svg version="1.1" viewBox="0 0 301.55 310.33" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <filter id="a" color-interpolation-filters="sRGB">
+                        <feGaussianBlur stdDeviation="17.075079" />
+                    </filter>
+                </defs>
+                <g transform="translate(.49848 -17.892)">
+                    <g>
+                        <path transform="matrix(.5369 0 0 .5369 6.1744 10.907)"
+                            d="m358.83 53.99-21.094 0.09375 2.0625 65.281-68.625-45.875 1.2188 36.344 220.06 146.03 15.781-23.844-146.91-98.219-2.5-79.812zm-94.125 19.062-236.16 159.41 15.781 23.812 220.94-146-0.5625-37.219zm-158.34 152.59-26.562 20.25v261.19h25.656l0.90625-281.44zm324.06 0 0.875 281.44h25.688v-261.19l-26.562-20.25zm-365.22 286.31v13.281h406.38v-13.281h-406.38zm126.16 24.781v13.281h154.06v-13.281h-154.06z"
+                            filter="url(#a)" opacity=".83333" />
+                        <path
+                            d="m198.82 39.882-11.312 0.0625 1.0938 35.062-36.844-24.656 0.65625 19.531 118.16 78.375 8.4688-12.781-78.875-52.75-1.3438-42.844zm-50.531 10.25-126.78 85.594 8.4688 12.781 118.63-78.406-0.3125-19.969zm-85.031 81.906-14.25 10.906v140.22h13.781l0.46875-151.12zm174 0 0.46875 151.12h13.781v-140.22l-14.25-10.906zm-196.09 153.75v7.125h218.19v-7.125h-218.19zm67.75 13.312v7.125h82.719v-7.125h-82.719z" />
+                    </g>
+                </g>
+            </svg>
+        </div>
+    </a>
+    <div class="main__body">
+        
+            <div class="main__body__left">
+                <img src="../frontend/images/login_user.jpg" alt="" srcset="">
+            </div>
+        
+        <div class="main__body__right">
+                <div class="heading">
+                    <p>Your feedback helps us</p>
+                    <p>to<span class="orange"> improve</span></p>
+                </div>
+                
+                <% if (!rated) { %>
+                    <div class="form">
+                        <form action="/feedback/<%= oid %>" method="POST">
+                            <textarea name="feedback" id="" required placeholder="Your Feedback helps us improve our Services" cols="60"
+                                    rows="6"></textarea>
+                            <div class=" rest__rating__tab">
+                                <input class="star1" type="radio" name="rating" id="star1-1" value="5"> <label class="star1" for="star1-1"></label>
+                                <input class="star1" type="radio" name="rating" id="star1-2" value="4"> <label class="star1" for="star1-2"></label>
+                                <input class="star1" type="radio" name="rating" id="star1-3" value="3"> <label class="star1" for="star1-3"></label>
+                                <input class="star1" type="radio" name="rating" id="star1-4" value="2"> <label class="star1" for="star1-4"></label>
+                                <input class="star1" type="radio" name="rating" id="star1-5" value="1"> <label class="star1" for="star1-5"></label>
+                            </div>
+                            <button type="submit">Submit Feedback</button>
+                        </form>
+                    </div>
+                <% } %>
+                <% if (rated) { %>
+                    <div class="form">
+                        <textarea name="feedback" id="" required placeholder="Your Feedback helps us improve our Services" cols="60"
+                                    rows="6" readonly><%= feedback %></textarea>
+                        <div class="rest__rating">
+                            <svg width="15px" fill="white" id="Capa_1" enable-background="new 0 0 448.941 448.941"
+                                viewBox="0 0 448.941 448.941" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="m448.941 168.353h-161.338l-63.132-168.353-63.132 168.353h-161.339l121.478 106.293-65.36 174.295 168.353-84.176 168.353 84.176-65.361-174.296z" />
+                        </svg><%= rating %></div>
+                    </div>
+                <% } %>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script>
+       
+    </script>
+</body>
+</html>

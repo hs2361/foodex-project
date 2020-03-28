@@ -356,7 +356,7 @@ display: none;
 }
 .main__body__feed{
     width: 100%;
-    border: solid;
+    /* border: solid; */
     
 }
 .main__body p{
@@ -418,6 +418,18 @@ display: none;
 
 
 }
+.rest__rating{
+    background-color:#48C479 ;
+    width: 40px;
+    color: #fff;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 2px;
+    
+}
+
 .rest__rating__tab{
     direction: rtl;
 
