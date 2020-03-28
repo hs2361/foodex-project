@@ -62,7 +62,7 @@ router.get('/:rid/:did', (req, res) => {
     if (req.session.user) {
         if (req.session.user.rid) //check whether is restaurant
         {
-            res.status(400).send('you must be a user to order'); //bad request
+            res.render('landing', { alert: 'true', msg: 'Login as a user to order', user: req.session.user });
         }
         else {
             const uid = req.session.user.uid;
@@ -75,7 +75,7 @@ router.get('/:rid/:did', (req, res) => {
                             res.status(500).send(e);
                         else {
                             if (r.length) {
-                                res.status(400).send("You cannot order until your existing order has been delivered");
+                                res.render('landing', { alert: 'true', msg: 'Cannot place new order before previous order is delivered', user: req.session.user });
                             }
                             else {
                                 var mul = false;
@@ -88,7 +88,7 @@ router.get('/:rid/:did', (req, res) => {
                                         else {
                                             rows.some((e) => { //iterate over items in cart
                                                 if (e["rid"] != req.params.rid) {
-                                                    res.status(400).send("cannot order simultaneously from multiple restaurants") //bad request
+                                                    res.render('landing', { alert: 'true', msg: 'Cannot order from multiple restaurants', user: req.session.user })
                                                     mul = true;
                                                 }
                                                 return mul;
@@ -174,7 +174,7 @@ router.get("/checkout", (req, res) => {
     if (req.session.user) {
         if (req.session.user.rid) //check whether is restaurant
         {
-            res.status(400).send('you must be a user to order'); //bad request
+            res.render('landing', { alert: 'true', msg: 'Login as a user to order', user: req.session.user });
         }
 
         else {
@@ -187,7 +187,7 @@ router.get("/checkout", (req, res) => {
                         res.status(500).send(err); //internal server error
                     else {
                         if (!rows.length)
-                            res.status(400).send("empty cart") //bad request
+                        res.render('landing', { alert: 'true', msg: 'Your cart is empty', user: req.session.user });
 
                         else {
                             var rid;
@@ -216,7 +216,6 @@ router.get("/checkout", (req, res) => {
                             io.on('connection', function (socket) {
                                 socket.emit(`new-order`, rid);
                             });
-                            res.status(200).send("checked out");
                         }
                     }
                 }
@@ -236,7 +235,7 @@ router.get('/status', (req, res) => {
             res.render('checkout', { details: { oid: (order_id - 1) }, alert: 'false', msg: '' });
         }
         else {
-            res.redirect('/users/login');
+            res.render('landing', { alert: 'true', msg: 'Login as a user to order', user: req.session.user });
         }
     }
     else {

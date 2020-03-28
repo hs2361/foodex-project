@@ -8,10 +8,10 @@ const nodemailer = require("nodemailer"); //importing modules
 router.get('/', (req, res) => {
     if(req.session.user) {
         if(req.session.user.uid) {
-            res.redirect('/users/profile');
+            res.redirect('/');
         }
         else {
-            res.status(401).send('Login as user for this');
+            res.render('landing', { alert: 'true', msg: 'Login as a user for this' })
         }
     }
     else {
@@ -126,19 +126,19 @@ router.post('/signup', (req, res) => //POST request at /signup endpoint
         res.render('register_user', { alert: 'true', msg: `Name cannot have any of the following characters: \n" ' ; - &lt; &gt; /` });
     }
     else if(password.includes('"') || password.includes("'") || password.includes(';') || password.includes('-') || password.includes('<') || password.includes('>') || password.includes('/')) {
-        res.render('register_user', { alert: 'true', msg: `Password cannot have any of the following characters: \n" ' ; - < > /` });
+        res.render('register_user', { alert: 'true', msg: `Password cannot have any of the following characters: \n" ' ; - &lt; &gt; /` });
     }
     else if(password2.includes('"') || password2.includes("'") || password2.includes(';') || password2.includes('-') || password2.includes('<') || password2.includes('>') || password2.includes('/')) {
-        res.render('register_user', { alert: 'true', msg: `Password cannot have any of the following characters: \n" ' ; - < > /` });
+        res.render('register_user', { alert: 'true', msg: `Password cannot have any of the following characters: \n" ' ; - &lt; &gt; /` });
     }
     else if(address.includes('"') || address.includes("'") || address.includes(';') || address.includes('-') || address.includes('<') || address.includes('>') || address.includes('/')) {
-        res.render('register_user', { alert: 'true', msg: `Address cannot have any of the following characters: \n" ' ; - < > /` });
+        res.render('register_user', { alert: 'true', msg: `Address cannot have any of the following characters: \n" ' ; - &lt; &gt; /` });
     }
     else if(email.includes('"') || email.includes("'") || email.includes(';') || email.includes('-') || email.includes('<') || email.includes('>') || email.includes('/')) {
-        res.render('register_user', { alert: 'true', msg: `Email ID cannot have any of the following characters: \n" ' ; - < > /` });
+        res.render('register_user', { alert: 'true', msg: `Email ID cannot have any of the following characters: \n" ' ; - &lt; &gt; /` });
     }
     else if(phone.includes('"') || phone.includes("'") || phone.includes(';') || phone.includes('-') || phone.includes('<') || phone.includes('>') || phone.includes('/')) {
-        res.render('register_user', { alert: 'true', msg: `Phone number cannot have any of the following characters: \n" ' ; - < > /` });
+        res.render('register_user', { alert: 'true', msg: `Phone number cannot have any of the following characters: \n" ' ; - &lt; &gt; /` });
     }
     else{
         mySqlConnection.query(
@@ -179,15 +179,16 @@ router.post('/signup', (req, res) => //POST request at /signup endpoint
                                                     res.status(500).send(err); //internal server error
                                                 else {
                                                     var transporter = nodemailer.createTransport({ //mail authentication
-                                                        service: 'gmail',
+                                                        service: 'hotmail',
+                                                        port: 465,
                                                         auth: {
-                                                            user: 'sweetharsh236@gmail.com', //replace with your own credentials
-                                                            pass: 'BBitbs!2306'
+                                                            user: 'foodex_server@outlook.com', //replace with your own credentials
+                                                            pass: 'xedooF_ghost<3'
                                                         }
                                                     });
 
                                                     var mailOptions = {
-                                                        from: 'sweetharsh236@gmail.com',
+                                                        from: 'foodex_server@outlook.com',
                                                         to: email,
                                                         subject: 'Verify your email',
                                                         text: `localhost:5000/users/verify/${email}/${verificationCode}` //mail body
@@ -215,66 +216,74 @@ router.post('/signup', (req, res) => //POST request at /signup endpoint
 
 router.post('/login', (req, res) => { //POST request at /login endpoint
     const { email, password } = req.body //destructuring req.body object received from form
-    mySqlConnection.query(
-        "SELECT * FROM users WHERE email = ?", //check whether user exists
-        [email],
-        (err, rows) => {
-            if (err)
-                res.status(500).send(err) //internal server error
-            user = rows[0] //first row from response
-            if (user) {
-                const result = bcrypt.compareSync(password, user.passHash); //check password
-                const isVerified = user.verified; //check whether email is verified
+    if(email.includes('"') || email.includes("'") || email.includes(';') || email.includes('-') || email.includes('<') || email.includes('>') || email.includes('/')) {
+        res.render('login_user', { alert: 'true', msg: 'Email ID cannot have any of the following characters: \n" \' ; - &lt; &gt; /' });
+    }
+    else if(password.includes('"') || password.includes("'") || password.includes(';') || password.includes('-') || password.includes('<') || password.includes('>') || password.includes('/')) {
+        res.render('login_user', { alert: 'true', msg: 'Password cannot have any of the following characters: \n" \' ; - &lt; &gt; /' });
+    }
+    else {
+            mySqlConnection.query(
+            "SELECT * FROM users WHERE email = ?", //check whether user exists
+            [email],
+            (err, rows) => {
+                if (err)
+                    res.status(500).send(err) //internal server error
+                user = rows[0] //first row from response
+                if (user) {
+                    const result = bcrypt.compareSync(password, user.passHash); //check password
+                    const isVerified = user.verified; //check whether email is verified
 
-                if (result && isVerified) // if password is correct and user is verified
-                {
-                    req.session.user = user //assign a session using a cookie
-                    res.status(200).redirect('/') //returns to landing page
+                    if (result && isVerified) // if password is correct and user is verified
+                    {
+                        req.session.user = user //assign a session using a cookie
+                        res.status(200).redirect('/') //returns to landing page
+                    }
+                    else if (!isVerified) //if not verified
+                    {
+                        const verificationCode = Math.floor(Math.random() * 1000000); //generate random verification code
+                        mySqlConnection.query( //insert code into verify table
+                            'insert into verify values (?)',
+                            [[email, verificationCode]],
+                            (err) => {
+                                if (err)
+                                    res.status(500).send(err); //internal server error
+                                else {
+                                    var transporter = nodemailer.createTransport({ //mail authentication
+                                        service: 'hotmail',
+                                        auth: {
+                                            user: 'foodex_server@outlook.com', //replace with your own credentials
+                                            pass: 'xedooF_ghost<3'
+                                        }
+                                    });
+
+                                    var mailOptions = {
+                                        from: 'foodes_server@oulook.com',
+                                        to: email,
+                                        subject: 'Verify your email',
+                                        text: `localhost:5000/users/verify/${email}/${verificationCode}` //mail body
+                                    };
+
+                                    transporter.sendMail(mailOptions, function (error, info) { //send mail
+                                        if (error) {
+                                            res.status(500).send(error); //internal server error
+                                        }
+                                    });
+                                    res.redirect('/users/verify'); //redirect to verify page
+                                }
+                        });
+                    }
+                    else {
+                        res.render('login_user', {alert: 'true', msg: 'incorrect password'}) //wrong password
+                    }
                 }
-                else if (!isVerified) //if not verified
-                {
-                    const verificationCode = Math.floor(Math.random() * 1000000); //generate random verification code
-                    mySqlConnection.query( //insert code into verify table
-                        'insert into verify values (?)',
-                        [[email, verificationCode]],
-                        (err) => {
-                            if (err)
-                                res.status(500).send(err); //internal server error
-                            else {
-                                var transporter = nodemailer.createTransport({ //mail authentication
-                                    service: 'gmail',
-                                    auth: {
-                                        user: 'sweetharsh236@gmail.com', //replace with your own credentials
-                                        pass: 'BBitbs!2306'
-                                    }
-                                });
 
-                                var mailOptions = {
-                                    from: 'sweetharsh236@gmail.com',
-                                    to: email,
-                                    subject: 'Verify your email',
-                                    text: `localhost:5000/users/verify/${email}/${verificationCode}` //mail body
-                                };
-
-                                transporter.sendMail(mailOptions, function (error, info) { //send mail
-                                    if (error) {
-                                        res.status(500).send(error); //internal server error
-                                    }
-                                });
-                                res.redirect('/users/verify'); //redirect to verify page
-                            }
-                    });
-                }
                 else {
-                    res.render('login_user', {alert: 'true', msg: 'incorrect password'}) //wrong password
+                    res.render('login_user', {alert: 'true', msg: 'account with this email does not exist'}) //bad request
                 }
-            }
-
-            else {
-                res.render('login_user', {alert: 'true', msg: 'account with this email does not exist'}) //bad request
-            }
-        },
-    )
+            },
+        )
+    }
 })
 
 router.get('/logout', (req, res) => { //GET request at /logout endpoint
@@ -288,7 +297,7 @@ router.get('/logout', (req, res) => { //GET request at /logout endpoint
     }
 
     else {
-        res.status(400).send("Not logged in"); //bad request
+        res.render('landing', { alert: 'true', msg: 'Not logged in!' });
     }
 })
 
@@ -312,7 +321,7 @@ router.get('/verify/:email/:code', (req, res) => { //GET request at /verify endp
                 if (err)
                     res.status(500).send(err) //internal server error
                 else if (!rows)
-                    res.status(400).send('account does not exist') //bad request
+                    res.render('register_user', { alert: 'true', msg: 'Could not verify as there is no such account. Please register and try again' })
                 else {
                     if (rows[0].code == req.params.code) //check verification code
                     {
@@ -342,7 +351,7 @@ router.get('/verify/:email/:code', (req, res) => { //GET request at /verify endp
                     else {
                         console.log(req.params.code);
                         console.log(rows[0].code);
-                        res.status(400).send("couldn't verify your email") //wrong code
+                        res.render('verification', { alert: 'true', msg: 'Incorrect verification code. Try again' })
                     }
                 }
             }

@@ -67,7 +67,6 @@ router.get('/', (req, res) => {
                     )
                 }
                 else if (searchtype == 'cat') {
-                    console.log('cat');
                     words.forEach(kw => {
                         mySqlConnection.query(
                             `select * from restaurants where category like '%${kw}%' and verified`,
