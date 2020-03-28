@@ -8,6 +8,11 @@
     <link rel="stylesheet" href="../frontend/css/checkout.css">
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        if('<%= alert %>' == 'true') {
+            swal('<%= msg %>');
+        }
+    </script>
 </head>
 
 <body>
@@ -154,12 +159,12 @@
                 </path>
             </svg>
             <div class="profile__tab__content_arng">
-                <div class="pro_tab profile__tab__name">Anirudh Gautam</div>
+                <div class="pro_tab profile__tab__name"><%= profile.uname %></div>
 
-                <div class="pro_tab profile__tab__email">anirudh1102gautam@gmail.com</div>
-                <div class="pro_tab profile__tab__mob"> 9988776655</div>
+                <div class="pro_tab profile__tab__email"><%= profile.email %></div>
+                <div class="pro_tab profile__tab__mob"><%= profile.phone %></div>
 
-                <div class="pro_tab profile__tab__pastOrder">Past Orders</div>
+                <a href="/feedback"><div class="pro_tab profile__tab__pastOrder">Past Orders</div></a>
             </div>
 
         </div>
@@ -167,11 +172,11 @@
     <div class="container">
 
         <nav>
-            <div class="brand">
+            <a href="/"><div class="brand">
                 <img width="35px" src="../frontend/images/brand-icon.png" alt="" srcset="">
-                <p>Food<span class="orange">Captain</span></p>
+                <p>Food<span class="orange">Ex</span></p>
 
-            </div>
+            </div></a>
 
             <div class="nav__right">
                 <div class="home">
@@ -241,6 +246,9 @@
 </footer>
     <script src="../frontend/js/jquery.min.js"></script>
     <script>
+        $(window).bind('beforeunload', function(){
+            swal('Are you sure you want to leave?');
+        });
         $(document).ready(function() {
             var socket = io();
             socket.on('order-state-change', (oid) => {
