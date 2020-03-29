@@ -238,7 +238,7 @@ router.post('/signup', imgUploader.single(`rest_image`), (req, res) => //POST re
                                                                                                                     from: 'foodexserver@gmail.com',
                                                                                                                     to: email,
                                                                                                                     subject: 'Verify your foodex account',
-                                                                                                                    html: `<a href=localhost:5000/restaurants/verify/${email}/${verificationCode}><button>Verify</button></a>`
+                                                                                                                    html: `<a href="localhost:5000/restaurants/verify/${email}/${verificationCode}"><button>Verify</button></a>`
                                                                                                                 };
 
                                                                                                                 transporter.sendMail(mailOptions, function (error, info) { //send mail
@@ -347,7 +347,7 @@ router.post('/login', (req, res) => {
                                         from: 'foodexserver@gmail.com',
                                         to: email,
                                         subject: 'Verify your email',
-                                        html: `<a href=localhost:5000/restaurants/verify/${email}/${verificationCode}><button>Verify</button></a>`
+                                        html: `<a href="localhost:5000/restaurants/verify/${email}/${verificationCode}"><button>Verify</button></a>`
                                     };
 
                                     transporter.sendMail(mailOptions, function (error, info) { //send mail
