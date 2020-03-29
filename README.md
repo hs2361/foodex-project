@@ -28,7 +28,7 @@ Restaurants will be provided with a dashboard, where they can easily view their 
 (https://photos.app.goo.gl/szyYbd1q3BhNEwpg7)
 
 ### Video:
-(https://drive.google.com/file/d/1lAOEHew18OldHIhk70Ug4hY5ifXhnwdI/view?usp=sharing)
+(https://youtu.be/sBopHPXCoxg)
 
 #### Note:
 There are some minor issues with the website after hosting on heroku, however the localhost version is working as intended.
