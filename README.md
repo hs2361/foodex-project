@@ -7,7 +7,7 @@ Food Ordering + Rating Web App for Webkriti. Our Website allows two types of use
 
 Customers can browse and search through a catalogue of restaurants and order their favorite dishes. The customer will be shown his cart of items which he can checkout. He/She will be Presented a screen that shows him the order status. A prepared order will be 'successfully delivered' after a short time duration. Moreover, the Customer can view his past orders, and provide/view rating and feedback for the same.
 
-Restaurants will be provided with a dashboard, where they can easily view their Running Orders. When the Restaurat prepares the order, he can 'Finish' the order, and the change will be reflected on the Customer's order status screen. The restaurant can use his profile tab to view his Menu Page, where they can view and add to their dish menu. Lastly the restaurant can visit a feedback page, where thay will be shown the feedback on the orders they have completed in the past.
+Restaurants will be provided with a dashboard, where they can easily view their Running Orders. When the Restaurant prepares the order, he can 'Finish' the order, and the change will be reflected on the Customer's order status screen. The restaurant can use his profile tab to view his Menu Page, where they can view and add to their dish menu. Lastly the restaurant can visit a feedback page, where thay will be shown the feedback on the orders they have completed in the past.
 
 ### Usage Features:
 * The website has been made responsive for ease of use for the user (some minor issues for now)
