@@ -40,4 +40,4 @@ Restaurants will be provided with a dashboard, where they can easily view their 
 (https://photos.google.com/photo/AF1QipNMa96z5cDkjrWIZNeq3Y6nECCXRHIbFEtfIyBS)
 
 ### Video:
-(https://drive.google.com/file/d/14QB1bqDIm9MYHQ5MsbRnBQr_32A6SJ3A/view?usp=sharing)
+(https://drive.google.com/file/d/1lAOEHew18OldHIhk70Ug4hY5ifXhnwdI/view?usp=sharing)
