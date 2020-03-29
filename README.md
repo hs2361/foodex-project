@@ -1,6 +1,6 @@
 # Webkriti Project
 ## *Foodex: The Food Ordering and Rating Web App*
-foodex-webkriti.herokuapp.com
+(https://foodex-webkriti.herokuapp.com)
 
 ### Overview:
 Food Ordering + Rating Web App for Webkriti. Our Website allows two types of users: Customers and Restaurants.
@@ -25,19 +25,7 @@ Restaurants will be provided with a dashboard, where they can easily view their 
 * Input validation is done directly on the front end. Backend verification is added to ensure that **SQL injections** or **Cross-site scripting** cannot be executed
 
 ### Images:
-(https://photos.google.com/photo/AF1QipNAKQ9FHifGHS4dydJ4hTuw5SIPsgj0R4qqhy7Z)
-(https://photos.google.com/photo/AF1QipO67BcXAkfW1PcS_tu40uSqnTogAw5K2MXpKUcV)
-(https://photos.google.com/photo/AF1QipMfPTsKlBZ2d_VFYMToeX7wHtzx9yilsPrjymVl)
-(https://photos.google.com/photo/AF1QipOmc63d-Z4fTIN5EV6cPeAT4_6dHZpLlktv1gPO)
-(https://photos.google.com/photo/AF1QipOjpXaQcUusPy60i5bs0re2zGeDFeeLJ2Gro-gB)
-(https://photos.google.com/photo/AF1QipPuUEE1BFMaQ_11apxDVEEn2D6qTB8egq8d6TIX)
-(https://photos.google.com/photo/AF1QipPzj9_RQeAFdEBwPI5vhL9k6J8mtasjuEpWGPY0)
-(https://photos.google.com/photo/AF1QipPZKEEJ44P_IqVi-EvF6jYvdBfCvt9U7SPUY2ni)
-(https://photos.google.com/photo/AF1QipOEvmn0zGmaUcd-1Za17oKOypY4Ig1VYdIMmBIR)
-(https://photos.google.com/photo/AF1QipOLVvBGtMQbdoAgMF5_ZBnqCl1i1dm-q6hrDoGv)
-(https://photos.google.com/photo/AF1QipPWrjQTZQp1-9oCxtSvqvAL-5HUkpJrVIpMWCdd)
-(https://drive.google.com/file/d/)
-(https://photos.google.com/photo/AF1QipNMa96z5cDkjrWIZNeq3Y6nECCXRHIbFEtfIyBS)
+(https://photos.app.goo.gl/szyYbd1q3BhNEwpg7)
 
 ### Video:
 (https://drive.google.com/file/d/1lAOEHew18OldHIhk70Ug4hY5ifXhnwdI/view?usp=sharing)
