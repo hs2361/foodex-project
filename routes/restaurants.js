@@ -226,19 +226,19 @@ router.post('/signup', imgUploader.single(`rest_image`), (req, res) => //POST re
                                                                                                                 res.status(500).send(err); //internal server error
                                                                                                             else {
                                                                                                                 var transporter = nodemailer.createTransport({ //mail authentication
-                                                                                                                    service: 'hotmail',
+                                                                                                                    service: 'gmail',
                                                                                                                     port: 465,
                                                                                                                     auth: {
-                                                                                                                        user: 'foodex_server@outlook.com', //replace with your own credentials
+                                                                                                                        user: 'foodexserver@gmail.com', //replace with your own credentials
                                                                                                                         pass: passData.emailPass
                                                                                                                     }
                                                                                                                 });
 
                                                                                                                 var mailOptions = {
-                                                                                                                    from: 'foodex_server@outlook.com',
+                                                                                                                    from: 'foodexserver@gmail.com',
                                                                                                                     to: email,
                                                                                                                     subject: 'Verify your foodex account',
-                                                                                                                    html: `<a href=localhost:5000/restaurants/verify/${email}/${verificationCode}><button>Verify</button></a>`
+                                                                                                                    html: `<a href="localhost:5000/restaurants/verify/${email}/${verificationCode}"><button>Verify</button></a>`
                                                                                                                 };
 
                                                                                                                 transporter.sendMail(mailOptions, function (error, info) { //send mail
@@ -336,18 +336,18 @@ router.post('/login', (req, res) => {
                                     res.status(500).send(err); //internal server error
                                 else {
                                     var transporter = nodemailer.createTransport({ //mail authentication
-                                        service: 'hotmail',
+                                        service: 'gmail',
                                         auth: {
-                                            user: 'foodex_server@outlook.com', //replace with your own credentials
-                                            pass: 'xedooF_ghost<3'
+                                            user: 'foodexserver@gmail.com', //replace with your own credentials
+                                            pass: passData.emailPass
                                         }
                                     });
 
                                     var mailOptions = {
-                                        from: 'foodex_server@outlook.com',
+                                        from: 'foodexserver@gmail.com',
                                         to: email,
                                         subject: 'Verify your email',
-                                        html: `<a href=localhost:5000/restaurants/verify/${email}/${verificationCode}><button>Verify</button></a>`
+                                        html: `<a href="localhost:5000/restaurants/verify/${email}/${verificationCode}"><button>Verify</button></a>`
                                     };
 
                                     transporter.sendMail(mailOptions, function (error, info) { //send mail

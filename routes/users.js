@@ -180,27 +180,30 @@ router.post('/signup', (req, res) => //POST request at /signup endpoint
                                                     res.status(500).send(err); //internal server error
                                                 else {
                                                     var transporter = nodemailer.createTransport({ //mail authentication
-                                                        service: 'hotmail',
+                                                        service: 'gmail',
                                                         port: 465,
                                                         auth: {
-                                                            user: 'foodex_server@outlook.com', //replace with your own credentials
+                                                            user: 'foodexserver@gmail.com', //replace with your own credentials
                                                             pass: passData.emailPass
                                                         }
                                                     });
 
                                                     var mailOptions = {
-                                                        from: 'foodex_server@outlook.com',
+                                                        from: 'foodexserver@gmail.com',
                                                         to: email,
                                                         subject: 'Verify your email',
-                                                        html: `<a href=localhost:5000/users/verify/${email}/${verificationCode}><button>Verify</button></a>`
+                                                        html: `<a href="localhost:5000/users/verify/${email}/${verificationCode}"><button>Verify</button></a>`
                                                     };
 
                                                     transporter.sendMail(mailOptions, function (error, info) { //send mail
                                                         if (error) {
                                                             res.status(500).send(error); //internal server error
                                                         }
+                                                        else {
+                                                            res.redirect('/users/verify'); //redirect to verify page
+                                                        }
                                                     });
-                                                    res.redirect('/users/verify'); //redirect to verify page
+                                                    
                                                 }
                                             });
                                     }
@@ -252,18 +255,18 @@ router.post('/login', (req, res) => { //POST request at /login endpoint
                                     res.status(500).send(err); //internal server error
                                 else {
                                     var transporter = nodemailer.createTransport({ //mail authentication
-                                        service: 'hotmail',
+                                        service: 'gmail',
                                         auth: {
-                                            user: 'foodex_server@outlook.com', //replace with your own credentials
-                                            pass: 'xedooF_ghost<3'
+                                            user: 'foodexserver@gmail.com', //replace with your own credentials
+                                            pass: passData.emailPass
                                         }
                                     });
 
                                     var mailOptions = {
-                                        from: 'foodes_server@oulook.com',
+                                        from: 'foodexserver@gmail.com',
                                         to: email,
                                         subject: 'Verify your email',
-                                        html: `<a href=localhost:5000/users/verify/${email}/${verificationCode}><button>Verify</button></a>`
+                                        html: `<a href="localhost:5000/users/verify/${email}/${verificationCode}"><button>Verify</button></a>`
                                     };
 
                                     transporter.sendMail(mailOptions, function (error, info) { //send mail
